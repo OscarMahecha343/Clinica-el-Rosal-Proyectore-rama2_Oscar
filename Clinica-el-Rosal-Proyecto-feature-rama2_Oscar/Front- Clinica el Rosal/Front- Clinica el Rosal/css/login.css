@@ -1,0 +1,35 @@
+body{
+    border-radius: 50px;
+}
+
+.logo {
+    max-width: 50px;
+    height: auto;
+    margin-bottom: 20px;
+    margin-left: 500px;
+}
+
+.navbar-collapse{
+    color: #f8f9fa;
+}
+
+.row{
+    /*background-color: #5d73d4;*/
+    border-radius: 50px;
+    border-bottom: 1px;
+    text-decoration:underline;
+}
+
+.title-bordered {
+    color: #fff; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    }
+
+.text-bordered {
+    color: #fff; 
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); 
+    }
+
+.btn-primary {
+    margin-top: 1.5em;
+}

@@ -1,0 +1,11 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--secondary-color);
+}
+h1, h3 {
+    color: var(--primary-color);
+}
+
+.container{
+    margin: 3em;
+}

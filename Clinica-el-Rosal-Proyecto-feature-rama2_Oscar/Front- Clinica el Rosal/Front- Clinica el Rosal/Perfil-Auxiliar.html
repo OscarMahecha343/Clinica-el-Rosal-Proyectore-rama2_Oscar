@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Clinico</title>
+    <link rel="stylesheet" href="./css/Pmedico.css" media="screen">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-image: url('./assets/bg_1.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .container-hidden {
+            display: none;
+        }
+
+        #banner {
+            background-color: rgba(0, 0, 0, 0.125) !important;
+            border-radius: 100px;
+        }
+
+        footer {
+            background-color: white;
+            border-radius: 100px;
+        }
+
+        #Link-container {
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 10px 0 10px 0;
+        }
+
+        #navbarNav {
+            border-radius: 80px;
+            margin: 10px 0 10px 0;
+            background-color: rgba(0, 0, 0, 0.125) !important;
+        }
+
+        #Factura-card {
+            max-width: 80%;
+            margin: 0 auto;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container  mx-auto mt-2" id="Link-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light" id="banner">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/Logo.png" class="rounded" alt="Clinica el rosal" width="150" height="120">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="mision.html">Misión</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="vision.html">Visión</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="atencion.html">Atención</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container mx-auto mt-4">
+        <div class="card text-center mx-auto" style="max-width: 600px;">
+            <div class="card-header text-center">
+                <h4>Auxiliar_00001</h4>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button id="btnGestiondeAgendamiento" class="btn btn-outline-primary">Gestion de
+                            Agendamiento</button>
+                        <button id="btnFacturacion" class="btn btn-outline-primary">Facturacion</button>
+                        <button id="btnGestion de Examenes / Resultados" class="btn btn-outline-primary">Gestion de
+                            Examenes / Resultados</button>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-3">
+                    <a href="Login.html" class="btn btn-danger">Salir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="containerGestiondeAgendamiento" class="container-hidden mx-auto" style="max-width: 600px;">
+        <div class="card text-center  mx-auto" style="max-width: 700px;">
+            <div class="card-header text-center">
+                <h4>Auxiliar_0001</h4>
+                <p>Estado: <span class="badge bg-success">Activo</span></p>
+            </div>
+
+            <div class="card-header">
+                <h4>Gestion de Agendamiento</h4>
+            </div>
+            <br>
+
+            <div class="row-mb-3">
+                <div class="col-6 mx-auto text-center">
+                    <label for="medico" class="form-label">Medico</label>
+                    <select id="medico" class="form-select" required>
+                        <option selected disabled>Seleccionar Medico</option>
+                        <option value="1">Profesional: 0001</option>
+                        <option value="2">Profesional: 0002</option>
+                        <option value="3">Profesional: 0003</option>
+                        <option value="4">Profesional: 0004</option>
+                        <option value="5">Profesional: 0005</option>
+                    </select>
+                </div>
+                <br>
+
+                <div class="col-md-6 mx-auto text-center">
+                    <label for="especialidad" class="form-label">Especialidad</label>
+                    <select id="especialidad" class="form-select" required>
+                        <option selected disabled>Seleccionar Especialidad</option>
+                        <option value="1">Medicina General</option>
+                        <option value="2">Medicina Interna</option>
+                        <option value="3">Pediatria</option>
+                        <option value="4">Ortopedia y Traumatologia</option>
+                        <option value="5">Odontologia</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+
+            <div class="row-mb-3">
+                <div class="col-md-6 mx-auto text-center">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" id="fecha" class="form-control" required>
+                </div>
+                <br>
+
+                <div class="col-md-6 mx-auto text-center">
+                    <button id="consultarAgendamiento" class="btn btn-primary w-100" onclick="consultarAgendamiento()">Consultar Agendamiento</button>
+                </div>
+            </div>
+            <br>
+
+            <table id="tablaAgendamiento">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Motivo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- Las filas se generarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+
+            <div class="mb-3">
+                <button id="guardarCambios" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+                <button class="btn btn-secondary" onclick="cancelar()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div id="containerFacturacion" class="container-hidden">
+        <div class="card text-center mx-auto" style="max-width: 700px;">
+            <div class="card-header bg-primary text-white">
+                <h4>Gestion De Facturacion</h4>
+            </div>
+            <br>
+            
+            <form>
+                <div class="mb-3">
+                    <label for="IdPaciente" class="form-label">ID del Paciente</label>
+                    <input type="number" class="form-control" id="IdPaciente" placeholder="Ingresar ID del Paciente" required>
+                </div>
+                <br>
+
+                <div class="mb-3">
+                    <label for="Servicio" class="form-label">Tipo de Servicio</label>
+                    <select class="form-select" id="Servicio" required>
+                        <option value=""selected>Seleccionar el Tipo de Servicio</option>
+                        <option value="1">Pediatria</option>
+                        <option value="2">Medicina interna</option>
+                        <option value="3">Dietetica y nutricion</option>
+                        <option value="4">Fisioterapeuta</option>
+                        <option value="5">Psicologia</option>
+                        <option value="6">Ortopedia y Traumatologia</option>
+                        <option value="7">Odontologia</option>
+                        <option value="8">Medicina General</option>
+                        <option value="9">Oftamologia</option>
+                        <option value="10">Ginecologia</option>
+                        <option value="11">Radiografia</option>
+                        <option value="12">Hemograma</option>
+                        <option value="13">Tomografia computarizada (TC)</option>
+                        <option value="14">Radiografía periapical </option>
+                        <option value="15">Resonancia Magnetica (RMN)</option>
+                        <option value="16">Electrocardiograma</option>
+                        <option value="17">Insulina</option>
+                        <option value="18">Electromiografía (EMG)</option>
+                        <option value="19">Hemoglobina glicosilada</option>
+                        <option value="20">Ecografía musculoesquelética</option>
+                        <option value="21">Ecografía Abdominal</option>
+                        <option value="22">Evaluacion psicologica completa</option>
+                    </select>
+                </div>
+                <br>
+
+                <div class="mb-3">
+                    <label for="Monto" class="form-label">Ingresar el Monto</label>
+                    <input type="number" class="form-control" id="Monto" name="Monto" step="0.01" placeholder="Ingresar el Monto del Servicio por Prestar" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Fecha" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" id="Fecha" required>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="reset" class="btn btn-secondary me-2">Limpiar</button>
+                    <!--En el Boton de registrar factura tambien se le tiene que agregar el JavaScript para su funcionalidad correcta-->
+                    <button type="button" class="btn btn-primary" onclick="registrarFactura()">Registrar</button>
+                </div>
+            </form>
+        </div>
+
+        <!--Seccion que su funcion es para mostrar la Factura-->
+        <div class="container mt-4">
+            <div class="card shadow-lg w-100 mx-auto" id="Factura-card" style="display: none;">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Factura Generada</h4>
+                </div>
+
+                <div class="card-body">
+                    <div id="Factura-detalles">
+                        <!--Aqui se rellenaria los detalles de la Factura con la integracion de JavaScript-->
+                    </div>
+
+                    <!--A estos botones en particular tambien es necesario agregarles la integracion de JavaScript para que puedan funcionar -->
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-secondary me-2" onclick="location.reload()">Registrar Otra Factura</button>
+                        <button class="btn btn-success" onclick="window.print()">Imprimir Factura</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div id="containerGestion de Examenes / Resultados" class="container-hidden">
+        <div class="card mx-auto" style="max-width: 700px;">
+            <div class="card-header text-center">
+                <h4>Gestion de Examenes / Resultados</h4>
+            </div>
+
+            <form id="examenForm">
+                <label for="paciente" class="form-label">Buscar Paciente por ID</label>
+                <input type="text" class="form-control" id="paciente" placeholder="Ingrese el ID del paciente">
+                <br>
+                <button type="button" class="btn btn-primary btn-sm" onclick="buscarPaciente()">Buscar</button>
+
+                <div id="infoPaciente">
+                    <!-- Información del paciente se mostrará aquí -->
+                </div>
+                <br>
+
+                <div class="mb-3">
+                    <label for="tipoExamen" class="form-label">Tipo Examen</label>
+                    <select class="form-select" id="tipoExamen" required>
+                        <option selected>Selecciona el Tipo de Examen</option>
+                        <option value="1">Radiografia</option>
+                        <option value="2">Hemograma</option>
+                        <option value="3">Tomografia computarizada (TC)</option>
+                        <option value="4">Radiografía periapical</option>
+                        <option value="5">Resonancia Magnetica (RM)</option>
+                        <option value="6">Electrocardiograma</option>
+                        <option value="7">Insulina</option>
+                        <option value="8">Electromiografía (EMG)</option>
+                        <option value="9">Hemoglobina glicosilada</option>
+                        <option value="10">Ecografía musculoesquelética</option>
+                        <option value="11">Ecografía Abdominal</option>
+                        <option value="12">Evaluacion psicologica completa</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fechaExamen" class="form-label">Fecha del Examen</label>
+                    <input type="date" class="form-control" id="fechaExamen" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="archivoExamen" class="form-label">Archivo del Examen</label>
+                    <input type="file" class="form-control" id="archivoExamen" accept=".pdf,.jpg,.png,.docx" required>
+                </div>
+
+                <button type="button" class="btn btn-primary" onclick="subirExamen()">Subir Examen</button>
+                <button type="button" class="btn-secondary" onclick="cancelar()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer bg-light bg-opacity-50">
+        <div class="container text-center" id="footer2">
+            <h5>Clínica El Rosal</h5>
+            <p>Dirección: Calle 95 #18-53, Bogotá, Colombia</p>
+            <p>Email: <a href="mailto:contacto@clinicaelrosal.com" class="footer-link">contacto@clinicaelrosal.com</a>
+            </p>
+            <p> &copy; 2024 Clínica El Rosal. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="JS/Perfil-Auxiliar.js"></script>
+</body>
+
+</html>

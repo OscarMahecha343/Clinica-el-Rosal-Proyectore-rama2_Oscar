@@ -1,0 +1,68 @@
+/* Tipografía principal */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333; /* Texto oscuro para mejor legibilidad */
+    background-color: #f9f9f9; /* Color de fondo claro */
+    margin: 0;
+    padding: 0;
+}
+
+/* Colores primarios */
+:root {
+    --primary-color: #0066cc;       /* Azul principal */
+    --secondary-color: #333333;     /* Texto general */
+    --light-bg: #ffffff;            /* Fondo claro para tarjetas */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+h1, h3 {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Contenedor principal */
+#container {
+    background-color: var(--light-bg); /* Fondo blanco */
+    border-radius: 20px;
+    box-shadow: 0 4px 20px var(--shadow-color); /* Sombra suave */
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* Encabezado de la tarjeta */
+.card-header {
+    background-color: transparent;
+    padding-bottom: 10px;
+}
+
+/* Botones de redes sociales */
+.btn {
+    border-radius: 25px;
+    font-weight: 500;
+    padding: 8px 20px;
+}
+
+/* Enlaces de redes con espacio uniforme */
+.btn + .btn {
+    margin-left: 10px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--light-bg);
+    border-radius: 40px 40px 0 0;
+    box-shadow: 0 -4px 15px var(--shadow-color);
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
