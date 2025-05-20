@@ -8,6 +8,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.HistoriaEntity;
 
 @Repository
 public interface HistoriaRepository extends 
-JpaRepository<HistoriaEntity, Long>,
-JpaSpecificationExecutor<HistoriaEntity> { 
+    JpaRepository<HistoriaEntity, Long>, 
+    JpaSpecificationExecutor<HistoriaEntity> {
 }

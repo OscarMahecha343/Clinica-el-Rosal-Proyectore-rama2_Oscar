@@ -12,34 +12,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "farmaceutico")
+@Table(name = "farmaceutico") // Mapeo a la tabla 'farmaceutico' en la base de datos
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+public class FarmaceuticoEntity {
 
-public class FarmaceuticoEntity { 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id") // Clave primaria autoincremental
     private Long id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre") // Nombre del farmacéutico
     private String nombreFarmaceuta;
 
-    @Column(name = "apellido")
+    @Column(name = "apellido") // Apellido del farmacéutico
     private String apellidoFarmaceuta;
 
-    @Column(name = "numerp_licencia")
-    private Double numeroLicencia;
+    @Column(name = "numero_licencia") // Número de licencia profesional
+    private String numeroLicencia;
 
-    @Column(name = "telefono")
-    private Double telefonoFarmaceuta;
+    @Column(name = "telefono") // Teléfono de contacto
+    private String telefonoFarmaceuta;
 
-    @Column(name = "correo")
+    @Column(name = "correo") // Correo electrónico
     private String correoFarmaceuta;
 
-    @Column(name = "dirreccion")
-    private String dirreccionFarmaceuta;
-
+    @Column(name = "direccion") // Dirección del farmacéutico
+    private String direccionFarmaceuta;
 }

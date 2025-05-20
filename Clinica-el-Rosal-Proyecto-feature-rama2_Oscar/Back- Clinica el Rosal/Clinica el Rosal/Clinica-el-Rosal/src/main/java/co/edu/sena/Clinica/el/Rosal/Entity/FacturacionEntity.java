@@ -21,20 +21,25 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FacturacionEntity {
 
+    /** Clave primaria autoincremental */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // Clave primaria
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "id_paciente") // Relación con entidad Paciente
+    /** ID del paciente asociado a esta facturación */
+    @Column(name = "id_paciente", nullable = false)
     private Long idPaciente;
 
-    @Column(name = "id_servicio") // Relación con entidad Servicio
+    /** ID del servicio facturado */
+    @Column(name = "id_servicio", nullable = false)
     private Long idServicio;
 
-    @Column(name = "monto") // Monto facturado
+    /** Monto total de la facturación */
+    @Column(name = "monto", nullable = false)
     private Double monto;
 
-    @Column(name = "fecha") // Fecha de facturación
+    /** Fecha en la que se emitió la factura */
+    @Column(name = "fecha", nullable = false)
     private Date fecha;
 }

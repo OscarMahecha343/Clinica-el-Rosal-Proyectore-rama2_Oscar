@@ -11,16 +11,16 @@ import co.edu.sena.Clinica.el.Rosal.Repository.EstadoAfiliacionRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.EstadoAfiliacionDTO;
 
 @Service
-public class EstadoAfiliacionService { 
+public class EstadoAfiliacionService {
 
     @Autowired
     private EstadoAfiliacionRepository repository;
 
-    // Crear o actualizar
+    // Guardar nuevo registro o actualizar existente
     public void save(EstadoAfiliacionDTO dto) {
         EstadoAfiliacionEntity entity = EstadoAfiliacionEntity.builder()
                 .id(dto.getId())
-                .idAfilicion(dto.getIdAfilicion())
+                .idAfiliacion(dto.getIdAfiliacion()) // 🔧 corregido
                 .estadoAfiliacion(dto.getEstadoAfiliacion())
                 .fechaActivacion(dto.getFechaActivacion())
                 .fechaCertificado(dto.getFechaCertificado())
@@ -30,12 +30,12 @@ public class EstadoAfiliacionService {
         repository.save(entity);
     }
 
-    // Listar todos los registros
+    // Obtener todos los registros
     public List<EstadoAfiliacionDTO> getAll() {
         return repository.findAll().stream().map(entity ->
             EstadoAfiliacionDTO.builder()
                 .id(entity.getId())
-                .idAfilicion(entity.getIdAfilicion())
+                .idAfiliacion(entity.getIdAfiliacion()) // 🔧 corregido
                 .estadoAfiliacion(entity.getEstadoAfiliacion())
                 .fechaActivacion(entity.getFechaActivacion())
                 .fechaCertificado(entity.getFechaCertificado())
@@ -44,12 +44,12 @@ public class EstadoAfiliacionService {
         ).collect(Collectors.toList());
     }
 
-    // Buscar por ID
+    // Obtener registro por ID
     public EstadoAfiliacionDTO getById(Long id) {
         return repository.findById(id).map(entity ->
             EstadoAfiliacionDTO.builder()
                 .id(entity.getId())
-                .idAfilicion(entity.getIdAfilicion())
+                .idAfiliacion(entity.getIdAfiliacion()) // 🔧 corregido
                 .estadoAfiliacion(entity.getEstadoAfiliacion())
                 .fechaActivacion(entity.getFechaActivacion())
                 .fechaCertificado(entity.getFechaCertificado())
@@ -63,3 +63,4 @@ public class EstadoAfiliacionService {
         repository.deleteById(id);
     }
 }
+

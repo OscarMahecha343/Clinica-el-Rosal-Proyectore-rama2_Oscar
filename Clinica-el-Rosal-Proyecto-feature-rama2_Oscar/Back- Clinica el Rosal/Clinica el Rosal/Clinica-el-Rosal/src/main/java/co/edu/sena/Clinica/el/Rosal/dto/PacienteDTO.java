@@ -12,34 +12,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class PacienteDTO { 
+public class PacienteDTO {
     private Long id;
-
     private String nombrePaci;
-
     private String apellidoPaci;
-
     private String genero;
-
     private Date fechaNacimiento;
-
-    private Double tipoIdentificacion;
-
-    private Double identificacion;
-
+    private String tipoIdentificacion;
+    private String identificacion;
     private Long idSeguro;
-
-    private Double telefono;
-
+    private String telefono;
     private String correo;
-
     private String direccion;
-
-    private String grupo_sangineo;
-
+    private String grupoSangineo;
     private String alergias;
-
-    private String TipoAlergia;
-
+    private String tipoAlergia;
     private Long idMunicipio;
 }

@@ -12,12 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class MunicipioDTO {
-    
+
     private Long id;
-
     private String nombreMunicipio;
-
     private Long idDepartamento;
-
-    private String estado; 
+    private String estado;
 }

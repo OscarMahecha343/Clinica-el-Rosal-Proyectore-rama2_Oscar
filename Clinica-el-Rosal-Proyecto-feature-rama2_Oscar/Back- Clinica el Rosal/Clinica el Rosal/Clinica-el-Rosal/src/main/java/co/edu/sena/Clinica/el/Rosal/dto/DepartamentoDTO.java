@@ -1,19 +1,12 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DepartamentoDTO { 
-    
+public class DepartamentoDTO {
     private Long id;
-    
-    private String nombre;
-
-    
+    private String nombreDepartamento; // Nombre que el frontend enviará
 }

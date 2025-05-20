@@ -50,7 +50,7 @@ public class AgendamientoEntity {
     private String motivoConsulta;
 
     @Column(name =  "id_usuario_creador")
-    private String id_Usuario_creador;
+    private String idUsuarioCreador;
 
     @Column(name = "tipo_creador")
     private String tipoCreador;

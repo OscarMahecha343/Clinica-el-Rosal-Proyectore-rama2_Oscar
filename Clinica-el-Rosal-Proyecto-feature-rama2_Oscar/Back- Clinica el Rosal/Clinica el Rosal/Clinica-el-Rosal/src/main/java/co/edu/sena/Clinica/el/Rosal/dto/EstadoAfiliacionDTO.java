@@ -11,12 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EstadoAfiliacionDTO { 
+public class EstadoAfiliacionDTO {
 
     private Long id;
-    private String idAfilicion;
+
+    private String idAfiliacion; 
+
     private String estadoAfiliacion;
+
     private Date fechaActivacion;
+
     private Date fechaCertificado;
+
     private String observaciones;
 }

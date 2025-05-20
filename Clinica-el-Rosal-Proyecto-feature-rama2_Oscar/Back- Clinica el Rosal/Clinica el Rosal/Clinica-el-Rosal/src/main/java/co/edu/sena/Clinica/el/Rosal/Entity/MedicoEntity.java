@@ -17,36 +17,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MedicoEntity { 
+public class MedicoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id")  // Clave primaria
     private Long id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombreMedico;
 
-    @Column(name = "apellidos")
+    @Column(name = "apellidos", nullable = false)
     private String apellidosMedicos;
 
-    @Column(name = "telefono")
-    private Double telefonoDoc;
+    @Column(name = "telefono", nullable = false)
+    private String telefonoDoc; // ← CAMBIADO A String para evitar errores con números grandes
 
-    @Column(name = "licencia_medica")
-    private Double licenciaMedica;
+    @Column(name = "licencia_medica", nullable = false)
+    private String licenciaMedica; // ← CAMBIADO A String ya que no se recomienda Double para códigos
 
-    @Column(name = "id_especialidad")
-    private String idEspecialidad;
+    @Column(name = "id_especialidad", nullable = false)
+    private Long idEspecialidad;
 
-    @Column(name = "correo")
+    @Column(name = "correo", nullable = false)
     private String correo;
 
     @Column(name = "direccion")
-    private Long direccion;
+    private String direccion;
 
-    @Column(name = "id_consultorio")
+    @Column(name = "id_consultorio", nullable = false)
     private Long consultorio;
-
-
 }

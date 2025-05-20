@@ -1,7 +1,5 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +30,7 @@ public class AgendamientoDTO {
 
     private String motivoConsulta;
 
-    private String id_Usuario_creador;
+    private String idUsuarioCreador;
 
     private String tipoCreador;
 

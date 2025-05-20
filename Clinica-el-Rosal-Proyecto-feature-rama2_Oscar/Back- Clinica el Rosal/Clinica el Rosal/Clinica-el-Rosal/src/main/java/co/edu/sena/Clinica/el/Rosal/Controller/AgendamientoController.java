@@ -11,7 +11,7 @@ import co.edu.sena.Clinica.el.Rosal.dto.AgendamientoDTO;
 import co.edu.sena.Clinica.el.Rosal.dto.ServerResponseDataDto;
 
 @RestController
-@RequestMapping("/api/agendamientos")
+@RequestMapping("/agendamiento")
 @CrossOrigin(origins = "*")
 public class AgendamientoController {
 

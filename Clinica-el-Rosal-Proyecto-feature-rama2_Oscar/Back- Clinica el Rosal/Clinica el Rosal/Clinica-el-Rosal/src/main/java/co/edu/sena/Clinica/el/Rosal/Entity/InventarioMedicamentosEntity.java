@@ -1,8 +1,9 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
 
-import java.time.LocalDate;
+import java.sql.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,35 +18,38 @@ public class InventarioMedicamentosEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-   
+    @Column(name = "id")
     private Long id;
 
-    
+    @Column(name = "nombre")
     private String nombre;
 
-   
+    @Column(name = "cantidad")  
     private Integer cantidad;
 
-    
+    @Column(name = "descripcion")  
     private String descripcion;
 
+    @Column(name = "categoria")
     private String categoria;
 
-    
+    @Column(name = "unidad_medida")
     private String unidadMedida;
 
-   
-    private Double precioUnitario;
+    @Column(name = "precio_unitario")
+    private int precioUnitario;
 
-   
-    private LocalDate fechaVencimiento;
+    @Column(name = "fecha_vencimiento")
+    private Date fechaVencimiento;
 
- 
+    @Column(name = "proveedor")
     private String proveedor;
 
-    
-    private LocalDate fechaActualizacion;
+    @Column(name = "fecha_actualizacion")
+    private Date fechaActualizacion;
 
+    @Column(name = "estado")
     private String estado;
 }
+
+

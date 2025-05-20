@@ -10,7 +10,8 @@ import co.edu.sena.Clinica.el.Rosal.dto.CitaMedicaDTO;
 
 @RestController
 @RequestMapping("/cita")
-public class CitaMedicaController { 
+@CrossOrigin(origins = "*") // Habilita peticiones desde cualquier origen (ideal para frontend)
+public class CitaMedicaController {
 
     @Autowired
     private CitaMedicaService service;
@@ -21,13 +22,13 @@ public class CitaMedicaController {
         return service.getAll();
     }
 
-    // Guardar nueva cita médica
+    // Guardar una nueva cita médica
     @PostMapping
     public void save(@RequestBody CitaMedicaDTO dto) {
         service.save(dto);
     }
 
-    // Eliminar cita médica por ID
+    // Eliminar una cita médica por su ID
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

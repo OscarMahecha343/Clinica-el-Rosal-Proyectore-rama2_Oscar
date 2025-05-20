@@ -3,6 +3,7 @@ package co.edu.sena.Clinica.el.Rosal.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,8 @@ import co.edu.sena.Clinica.el.Rosal.Service.UsuarioService;
 import co.edu.sena.Clinica.el.Rosal.dto.UsuarioDTO;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
+@CrossOrigin(origins = "*") // Permitir acceso desde cualquier origen (útil para frontend local)
 public class UsuarioController {
 
     @Autowired

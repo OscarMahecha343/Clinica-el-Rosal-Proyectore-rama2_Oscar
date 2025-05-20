@@ -8,6 +8,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.InventarioMedicamentosEntity;
 
 @Repository
 public interface InventarioMedicamentosRepository extends 
-JpaRepository<InventarioMedicamentosEntity, Long>,
-JpaSpecificationExecutor<InventarioMedicamentosEntity> {
+    JpaRepository<InventarioMedicamentosEntity, Long>,
+    JpaSpecificationExecutor<InventarioMedicamentosEntity> {
 }

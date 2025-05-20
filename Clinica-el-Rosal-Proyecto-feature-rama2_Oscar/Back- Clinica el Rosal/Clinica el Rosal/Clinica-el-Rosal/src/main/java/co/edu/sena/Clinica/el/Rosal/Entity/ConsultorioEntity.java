@@ -1,44 +1,36 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "consultorio") // Mapeamos la clase con la tabla 'consultorio'
+@Table(name = "consultorio") // Mapea esta clase con la tabla "consultorio"
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ConsultorioEntity { 
+public class ConsultorioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremental
     @Column(name = "id")
     private Long id;
 
     @Column(name = "nombre") // Nombre del consultorio
     private String nombreConsultorio;
-    
-    @Column(name = "ubicacion") // ID o código de ubicación
-    private Long ubicacion;
 
-    @Column(name = "capacidad") // Número de personas que puede atender
+    @Column(name = "ubicacion") // Ubicación del consultorio (puede ser ID de sede o código)
+    private String ubicacion;
+
+    @Column(name = "capacidad") // Capacidad del consultorio (cuántas personas puede atender)
     private String capacidad;
 
-    @Column(name = "telefono") // Teléfono del consultorio
+    @Column(name = "telefono") // Teléfono de contacto del consultorio
     private String telefono;
 
-    @Column(name = "especialidad") // Especialidad médica que se atiende
+    @Column(name = "especialidad") // Especialidad médica que se atiende en el consultorio
     private String especialidad;
 
-    @Column(name = "estado") // Estado del consultorio (activo/inactivo)
+    @Column(name = "estado") // Estado del consultorio: Activo/Inactivo
     private String estado;
 }

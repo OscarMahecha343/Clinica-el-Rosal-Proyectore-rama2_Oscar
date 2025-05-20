@@ -1,55 +1,46 @@
 package co.edu.sena.Clinica.el.Rosal.Controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import co.edu.sena.Clinica.el.Rosal.Service.EstadoAfiliacionService;
 import co.edu.sena.Clinica.el.Rosal.dto.EstadoAfiliacionDTO;
 
 @RestController
-@RequestMapping("/estado-afiliacion")
-@CrossOrigin(origins = "*") // Permite acceso desde frontend (ej. HTML o JS)
+@RequestMapping("/estado_afiliacion")
+@CrossOrigin(origins = "*") // Permite solicitudes desde cualquier origen (Frontend)
 public class EstadoAfiliacionController {
 
     @Autowired
     private EstadoAfiliacionService service;
 
-    // GET: Listar todos los estados
+    // GET: Listar todos los estados de afiliación
     @GetMapping
     public List<EstadoAfiliacionDTO> getAll() {
         return service.getAll();
     }
 
-    // GET: Obtener un estado por su ID
+    // GET: Obtener un estado de afiliación por su ID
     @GetMapping("/{id}")
     public EstadoAfiliacionDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-    // POST: Crear nuevo estado
+    // POST: Crear un nuevo estado de afiliación
     @PostMapping
     public void save(@RequestBody EstadoAfiliacionDTO dto) {
         service.save(dto);
     }
 
-    // PUT: Actualizar estado existente
+    // PUT: Actualizar estado de afiliación existente
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody EstadoAfiliacionDTO dto) {
-        dto.setId(id); // Asegura que el ID del path se use en la actualización
+        dto.setId(id); // Asegura que el ID usado es el de la ruta
         service.save(dto);
     }
 
-    // DELETE: Eliminar por ID
+    // DELETE: Eliminar estado de afiliación por ID
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

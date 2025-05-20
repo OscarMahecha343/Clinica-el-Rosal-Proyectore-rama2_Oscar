@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import co.edu.sena.Clinica.el.Rosal.Entity.FarmaceuticoEntity;
+
 @Repository
 public interface FarmaceuticoRepository extends 
-JpaRepository<FarmaceuticoEntity, Long>,
-JpaSpecificationExecutor<FarmaceuticoEntity> { 
+        JpaRepository<FarmaceuticoEntity, Long>,
+        JpaSpecificationExecutor<FarmaceuticoEntity> {
+    // Métodos CRUD ya vienen incluidos por JpaRepository
 }

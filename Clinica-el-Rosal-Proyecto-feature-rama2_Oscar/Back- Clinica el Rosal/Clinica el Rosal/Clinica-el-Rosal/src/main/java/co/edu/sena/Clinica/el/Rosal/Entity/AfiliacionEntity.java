@@ -2,22 +2,28 @@ package co.edu.sena.Clinica.el.Rosal.Entity;
 
 import java.sql.Date;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "afiliacion")
-public class AfiliacionEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AfiliacionEntity { 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombres")
     private String nombre;
 
-    @Column(name = "apellido")
+    @Column(name = "apellidos")
     private String apellido;
 
     @Column(name = "tipo_identificacion")

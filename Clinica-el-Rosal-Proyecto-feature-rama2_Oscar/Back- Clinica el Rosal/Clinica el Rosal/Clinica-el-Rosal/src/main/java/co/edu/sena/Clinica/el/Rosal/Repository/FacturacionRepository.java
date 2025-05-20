@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import co.edu.sena.Clinica.el.Rosal.Entity.FacturacionEntity;
 
+/**
+ * Repositorio JPA para operaciones CRUD sobre la entidad Facturacion.
+ */
 @Repository
 public interface FacturacionRepository extends 
         JpaRepository<FacturacionEntity, Long>, 
         JpaSpecificationExecutor<FacturacionEntity> {
-    // Métodos CRUD ya implementados por JpaRepository
+    // No se necesita código adicional por ahora.
 }

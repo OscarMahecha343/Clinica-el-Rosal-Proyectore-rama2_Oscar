@@ -14,20 +14,37 @@ import co.edu.sena.Clinica.el.Rosal.dto.InventarioMedicamentosDTO;
 public class InventarioMedicamentosController {
 
     @Autowired
-    private InventarioMedicamentosService inventarioMedicamentosService;
+    private InventarioMedicamentosService service;
 
-    @PostMapping
-    public void save(@RequestBody InventarioMedicamentosDTO inventarioMedicamentosDTO) {
-        inventarioMedicamentosService.save(inventarioMedicamentosDTO);
-    }
-
+    /**
+     * Obtener todos los medicamentos.
+     */
     @GetMapping
     public List<InventarioMedicamentosDTO> getAll() {
-        return inventarioMedicamentosService.getAll();
+        return service.getAll();
     }
 
+    /**
+     * Guardar un nuevo medicamento.
+     */
+    @PostMapping
+    public void save(@RequestBody InventarioMedicamentosDTO dto) {
+        service.save(dto);
+    }
+
+    /**
+     * Actualizar un medicamento existente por ID.
+     */
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody InventarioMedicamentosDTO dto) {
+        service.update(id, dto);
+    }
+
+    /**
+     * Eliminar un medicamento por ID.
+     */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        inventarioMedicamentosService.delete(id);
+        service.delete(id);
     }
 }

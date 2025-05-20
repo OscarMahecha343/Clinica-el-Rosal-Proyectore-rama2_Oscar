@@ -12,22 +12,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "servicio")
 @Data
+@Table(name = "tipo_examen")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ServicioEntity {
+public class TipoExamenEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "descripcion_servicio", nullable = false)
-    private String descripcionServicio;
-
-    @Column(name = "tipo_servicio", nullable = false)
-    private String tipoServicio;
+    @Column(name = "nombre", nullable = false) // El nombre no debe ser nulo
+    private String nombre;
 }
-

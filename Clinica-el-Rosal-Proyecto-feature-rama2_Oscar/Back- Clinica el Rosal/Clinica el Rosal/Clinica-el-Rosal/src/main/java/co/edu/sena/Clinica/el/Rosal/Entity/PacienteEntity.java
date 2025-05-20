@@ -32,17 +32,18 @@ public class PacienteEntity {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
+    // CAMPO TIPO DE IDENTIFICACIÓN — debería ser String si es tipo 'CC', 'TI', etc.
     @Column(name = "tipo_identificacion")
-    private Double tipoIdentificacion;
+    private String tipoIdentificacion;
 
     @Column(name = "identificacion")
-    private Double identificacion;
+    private String identificacion;
 
     @Column(name = "id_seguro")
     private Long idSeguro;
 
     @Column(name = "telefono")
-    private Double telefono;
+    private String telefono; // Mejor como String para formatos internacionales
 
     @Column(name = "correo")
     private String correo;
@@ -51,13 +52,13 @@ public class PacienteEntity {
     private String direccion;
 
     @Column(name = "grupo_sangineo")
-    private String grupo_sangineo;
+    private String grupoSangineo;
 
     @Column(name = "alergias")
     private String alergias;
 
-    @Column(name = "Tipo_de_Alergia")
-    private String TipoAlergia;
+    @Column(name = "tipo_de_alergia")
+    private String tipoAlergia;
 
     @Column(name = "id_municipio")
     private Long idMunicipio;

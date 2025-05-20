@@ -10,22 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class MedicoDTO { 
+public class MedicoDTO {
     private Long id;
-
     private String nombreMedico;
-
     private String apellidosMedicos;
-
-    private Double telefonoDoc;
-
-    private Double licenciaMedica;
-
-    private String idEspecialidad;
-
+    private String telefonoDoc;
+    private String licenciaMedica;
+    private Long idEspecialidad;
     private String correo;
-
-    private Long direccion;
-
+    private String direccion;
     private Long consultorio;
 }

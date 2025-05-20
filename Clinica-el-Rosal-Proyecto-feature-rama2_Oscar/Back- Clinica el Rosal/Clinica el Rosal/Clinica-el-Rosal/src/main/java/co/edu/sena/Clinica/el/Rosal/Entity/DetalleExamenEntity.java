@@ -1,18 +1,11 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+// Marca esta clase como entidad de JPA
 @Entity
-@Table(name = "detalle_examenes") // Nombre de la tabla en la BD
+@Table(name = "detalle_examenes") // Tabla en la base de datos
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,22 +18,22 @@ public class DetalleExamenEntity {
     private Long id;
 
     @Column(name = "id_tipo_examen")
-    private String idTipoExamen;
+    private Long idTipoExamen; // ID de tipo de examen (clave foránea si aplica)
 
     @Column(name = "fecha_examen")
-    private String fechaExamen;
+    private String fechaExamen; // Fecha en que se realizó el examen
 
     @Column(name = "archivo_examen")
-    private String archivoExamen;
+    private String archivoExamen; // Ruta o nombre del archivo PDF o imagen
 
     @Column(name = "id_paciente")
-    private String idPaciente;
+    private Long idPaciente; // ID del paciente (clave foránea si aplica)
 
     @Column(name = "id_auxiliar")
-    private String idAuxiliar;
+    private Long idAuxiliar; // ID del auxiliar que subió el examen
 
     @Column(name = "created_at")
-    private String createdAt;
+    private String createdAt; // Fecha y hora de creación del registro
 }
 
 

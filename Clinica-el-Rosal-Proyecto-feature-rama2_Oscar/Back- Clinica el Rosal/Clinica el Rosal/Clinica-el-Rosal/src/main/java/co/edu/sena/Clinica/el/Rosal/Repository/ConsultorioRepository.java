@@ -8,7 +8,7 @@ import co.edu.sena.Clinica.el.Rosal.Entity.ConsultorioEntity;
 
 @Repository
 public interface ConsultorioRepository extends 
-    JpaRepository<ConsultorioEntity, Long>, 
-    JpaSpecificationExecutor<ConsultorioEntity> { 
-    // JpaRepository incluye métodos como save(), findAll(), deleteById(), etc.
+        JpaRepository<ConsultorioEntity, Long>,
+        JpaSpecificationExecutor<ConsultorioEntity> {
+    // Permite operaciones CRUD y filtrado avanzado
 }

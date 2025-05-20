@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FacturacionDTO { 
+public class FacturacionDTO {
 
     private Long id;
     private Long idPaciente;

@@ -8,6 +8,8 @@ import co.edu.sena.Clinica.el.Rosal.Entity.MunicipioEntity;
 
 @Repository
 public interface MunicipioRepository extends 
-JpaRepository<MunicipioEntity, Long>,
-JpaSpecificationExecutor<MunicipioEntity> { 
+        JpaRepository<MunicipioEntity, Long>, 
+        JpaSpecificationExecutor<MunicipioEntity> {
+    // JpaRepository → CRUD básico
+    // JpaSpecificationExecutor → consultas avanzadas si SE necesita
 }

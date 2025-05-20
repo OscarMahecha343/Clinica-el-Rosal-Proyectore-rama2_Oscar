@@ -11,8 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Esta clase representa la tabla "especialidad" en la base de datos.
 @Entity
-@Table(name = "especialidad") // Nombre de la tabla en la base de datos
+@Table(name = "especialidad")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,10 +21,11 @@ import lombok.NoArgsConstructor;
 public class EspecialidadEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // Llave primaria autogenerada
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre_especialidad") // Nombre de la especialidad médica
+    @Column(name = "nombre_especialidad", nullable = false, length = 100) // Nombre de la especialidad médica
     private String nombreEspecialidad;
 }
+

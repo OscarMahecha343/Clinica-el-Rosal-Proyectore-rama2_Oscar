@@ -17,7 +17,7 @@ import co.edu.sena.Clinica.el.Rosal.Service.PacienteService;
 import co.edu.sena.Clinica.el.Rosal.dto.PacienteDTO;
 
 @RestController
-@RequestMapping("/pacientes")
+@RequestMapping("/paciente")
 @CrossOrigin(origins = "*") // Permitir acceso desde cualquier origen (útil para frontend local)
 public class PacienteController {
 
@@ -30,19 +30,19 @@ public class PacienteController {
         return service.getAll();
     }
 
-    // POST: Guardar un nuevo paciente
+    // POST: Crear nuevo paciente
     @PostMapping
     public void save(@RequestBody PacienteDTO dto) {
         service.save(dto);
     }
 
-    // PUT: Actualizar un paciente existente
+    // PUT: Actualizar paciente por ID
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody PacienteDTO dto) {
         service.update(id, dto);
     }
 
-    // DELETE: Eliminar un paciente por ID
+    // DELETE: Eliminar paciente por ID
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

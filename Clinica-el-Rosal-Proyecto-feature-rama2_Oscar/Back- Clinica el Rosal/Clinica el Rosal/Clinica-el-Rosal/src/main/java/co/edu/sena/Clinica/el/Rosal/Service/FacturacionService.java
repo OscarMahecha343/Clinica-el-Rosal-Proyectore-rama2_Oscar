@@ -2,7 +2,6 @@ package co.edu.sena.Clinica.el.Rosal.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +9,22 @@ import co.edu.sena.Clinica.el.Rosal.Entity.FacturacionEntity;
 import co.edu.sena.Clinica.el.Rosal.Repository.FacturacionRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.FacturacionDTO;
 
+/**
+ * Servicio que maneja la lógica de negocio para la entidad Facturacion.
+ */
 @Service
 public class FacturacionService {
 
     @Autowired
     private FacturacionRepository repository;
 
-    // Guardar nueva facturación o actualizar existente
+    /**
+     * Guarda una nueva facturación o actualiza una existente.
+     * @param dto Datos de facturación.
+     */
     public void save(FacturacionDTO dto) {
         FacturacionEntity entity = FacturacionEntity.builder()
-                .id(dto.getId()) // permite usar este método para crear o actualizar
+                .id(dto.getId()) // Si el ID es null, crea. Si no, actualiza.
                 .idPaciente(dto.getIdPaciente())
                 .idServicio(dto.getIdServicio())
                 .monto(dto.getMonto())
@@ -29,7 +34,9 @@ public class FacturacionService {
         repository.save(entity);
     }
 
-    // Listar todas las facturaciones
+    /**
+     * Retorna todas las facturaciones.
+     */
     public List<FacturacionDTO> getAll() {
         return repository.findAll().stream().map(entity ->
             FacturacionDTO.builder()
@@ -42,7 +49,9 @@ public class FacturacionService {
         ).collect(Collectors.toList());
     }
 
-    // Buscar por ID
+    /**
+     * Busca una facturación por su ID.
+     */
     public FacturacionDTO getById(Long id) {
         return repository.findById(id).map(entity ->
             FacturacionDTO.builder()
@@ -55,7 +64,9 @@ public class FacturacionService {
         ).orElse(null);
     }
 
-    // Eliminar por ID
+    /**
+     * Elimina una facturación por su ID.
+     */
     public void delete(Long id) {
         repository.deleteById(id);
     }

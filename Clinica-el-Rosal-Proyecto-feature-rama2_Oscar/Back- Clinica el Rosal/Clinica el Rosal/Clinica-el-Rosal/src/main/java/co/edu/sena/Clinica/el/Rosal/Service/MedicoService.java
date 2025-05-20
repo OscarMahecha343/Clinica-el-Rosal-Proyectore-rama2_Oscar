@@ -17,24 +17,25 @@ public class MedicoService {
     @Autowired
     private MedicoRepository repository;
 
-    // Crear nuevo médico (POST)
+    // Crear nuevo médico
     public void save(MedicoDTO dto) {
-        MedicoEntity entity = new MedicoEntity();
-        entity.setNombreMedico(dto.getNombreMedico());
-        entity.setApellidosMedicos(dto.getApellidosMedicos());
-        entity.setTelefonoDoc(dto.getTelefonoDoc());
-        entity.setLicenciaMedica(dto.getLicenciaMedica());
-        entity.setIdEspecialidad(dto.getIdEspecialidad());
-        entity.setCorreo(dto.getCorreo());
-        entity.setDireccion(dto.getDireccion());
-        entity.setConsultorio(dto.getConsultorio());
-        repository.save(entity); // guarda en la BD
+        MedicoEntity entity = MedicoEntity.builder()
+            .nombreMedico(dto.getNombreMedico())
+            .apellidosMedicos(dto.getApellidosMedicos())
+            .telefonoDoc(dto.getTelefonoDoc())
+            .licenciaMedica(dto.getLicenciaMedica())
+            .idEspecialidad(dto.getIdEspecialidad())
+            .correo(dto.getCorreo())
+            .direccion(dto.getDireccion())
+            .consultorio(dto.getConsultorio())
+            .build();
+        repository.save(entity);
     }
 
-    // Obtener todos los médicos (GET)
+    // Obtener todos los médicos
     public List<MedicoDTO> getAll() {
-        List<MedicoEntity> entities = repository.findAll();
-        return entities.stream().map(entity -> MedicoDTO.builder()
+        return repository.findAll().stream()
+            .map(entity -> MedicoDTO.builder()
                 .id(entity.getId())
                 .nombreMedico(entity.getNombreMedico())
                 .apellidosMedicos(entity.getApellidosMedicos())
@@ -44,10 +45,11 @@ public class MedicoService {
                 .correo(entity.getCorreo())
                 .direccion(entity.getDireccion())
                 .consultorio(entity.getConsultorio())
-                .build()).collect(Collectors.toList());
+                .build())
+            .collect(Collectors.toList());
     }
 
-    // Actualizar médico existente (PUT)
+    // Actualizar médico
     public void update(Long id, MedicoDTO dto) {
         Optional<MedicoEntity> optional = repository.findById(id);
         if (optional.isPresent()) {
@@ -60,11 +62,11 @@ public class MedicoService {
             entity.setCorreo(dto.getCorreo());
             entity.setDireccion(dto.getDireccion());
             entity.setConsultorio(dto.getConsultorio());
-            repository.save(entity); // actualiza en la BD
+            repository.save(entity);
         }
     }
 
-    // Eliminar médico por ID (DELETE)
+    // Eliminar médico
     public void delete(Long id) {
         repository.deleteById(id);
     }

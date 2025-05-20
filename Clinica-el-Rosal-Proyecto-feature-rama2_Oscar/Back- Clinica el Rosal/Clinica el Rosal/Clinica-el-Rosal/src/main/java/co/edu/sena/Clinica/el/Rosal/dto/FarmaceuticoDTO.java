@@ -11,17 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class FarmaceuticoDTO {
+
     private Long id;
-
     private String nombreFarmaceuta;
-
     private String apellidoFarmaceuta;
-
-    private Double numeroLicencia;
-
-    private Double telefonoFarmaceuta;
-
+    private String numeroLicencia;
+    private String telefonoFarmaceuta;
     private String correoFarmaceuta;
-
-    private String dirreccionFarmaceuta;
+    private String direccionFarmaceuta;
 }

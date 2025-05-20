@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import co.edu.sena.Clinica.el.Rosal.Entity.PacienteEntity;
 
 @Repository
-public interface PacienteRepository extends 
-JpaRepository<PacienteEntity, Long>,
-JpaSpecificationExecutor<PacienteEntity> { 
+public interface PacienteRepository extends JpaRepository<PacienteEntity, Long>, 
+JpaSpecificationExecutor<PacienteEntity> {
 }

@@ -31,7 +31,7 @@ public class MunicipioController {
         return service.getAll();
     }
 
-    // POST: Crear un nuevo municipio
+    // POST: Crear nuevo municipio
     @PostMapping
     public void save(@RequestBody MunicipioDTO dto) {
         service.save(dto);

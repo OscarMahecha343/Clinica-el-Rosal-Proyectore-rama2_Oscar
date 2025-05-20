@@ -17,22 +17,27 @@ public class AfiliacionService {
     @Autowired
     private AfiliacionRepository repository;
 
-    public void save(AfiliacionDTO dto) {
-        AfiliacionEntity entity = new AfiliacionEntity();
-        entity.setNombre(dto.getNombre());
-        entity.setApellido(dto.getApellido());
-        entity.setTipoIdentificacion(dto.getTipoIdentificacion());
-        entity.setIdentificacion(dto.getIdentificacion());
-        entity.setFechaNacimiento(dto.getFechaNacimiento());
-        entity.setTelefono(dto.getTelefono());
-        entity.setCorreo(dto.getCorreo());
-        entity.setDireccion(dto.getDireccion());
-        entity.setIdMunicipio(dto.getIdMunicipio());
-        entity.setTipoAfiliacion(dto.getTipoAfiliacion());
-        entity.setIdSeguro(dto.getIdSeguro());
+   public void save(AfiliacionDTO dto) {
+    AfiliacionEntity entity = new AfiliacionEntity();
 
-        repository.save(entity);
+    if (dto.getId() != null) {
+        entity.setId(dto.getId()); // Si viene ID, es actualización
     }
+
+    entity.setNombre(dto.getNombre());
+    entity.setApellido(dto.getApellido());
+    entity.setTipoIdentificacion(dto.getTipoIdentificacion());
+    entity.setIdentificacion(dto.getIdentificacion());
+    entity.setFechaNacimiento(dto.getFechaNacimiento());
+    entity.setTelefono(dto.getTelefono());
+    entity.setCorreo(dto.getCorreo());
+    entity.setDireccion(dto.getDireccion());
+    entity.setIdMunicipio(dto.getIdMunicipio());
+    entity.setTipoAfiliacion(dto.getTipoAfiliacion());
+    entity.setIdSeguro(dto.getIdSeguro());
+
+    repository.save(entity);
+}
 
     public List<AfiliacionDTO> findAll() {
         return repository.findAll().stream().map(entity -> AfiliacionDTO.builder()
@@ -71,7 +76,11 @@ public class AfiliacionService {
     }
 
     public void delete(Long id) {
+    if (repository.existsById(id)) {
         repository.deleteById(id);
+    } else {
+        throw new RuntimeException("Afiliación con ID " + id + " no existe.");
     }
+    } 
 }
 

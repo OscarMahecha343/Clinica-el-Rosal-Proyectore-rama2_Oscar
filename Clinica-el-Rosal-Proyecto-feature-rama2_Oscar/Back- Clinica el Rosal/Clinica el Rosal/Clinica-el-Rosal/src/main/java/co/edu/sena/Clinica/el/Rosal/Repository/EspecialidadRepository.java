@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import co.edu.sena.Clinica.el.Rosal.Entity.EspecialidadEntity;
 
 @Repository
-public interface EspecialidadRepository extends 
-        JpaRepository<EspecialidadEntity, Long>, // Provee CRUD completo
+public interface EspecialidadRepository extends
+        JpaRepository<EspecialidadEntity, Long>, // Métodos CRUD listos
         JpaSpecificationExecutor<EspecialidadEntity> {
 }

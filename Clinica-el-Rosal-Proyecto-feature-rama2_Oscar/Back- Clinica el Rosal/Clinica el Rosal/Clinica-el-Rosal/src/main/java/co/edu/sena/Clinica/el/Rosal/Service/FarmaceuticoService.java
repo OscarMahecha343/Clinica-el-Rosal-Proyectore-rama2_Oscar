@@ -17,24 +17,24 @@ public class FarmaceuticoService {
     @Autowired
     private FarmaceuticoRepository repository;
 
-    // Guardar o actualizar un farmaceuta
+    // Crear o actualizar un farmacéutico
     public FarmaceuticoDTO save(FarmaceuticoDTO dto) {
         FarmaceuticoEntity entity = FarmaceuticoEntity.builder()
-                .id(dto.getId()) // se puede usar null para nuevo o ID para actualizar
+                .id(dto.getId())
                 .nombreFarmaceuta(dto.getNombreFarmaceuta())
                 .apellidoFarmaceuta(dto.getApellidoFarmaceuta())
                 .numeroLicencia(dto.getNumeroLicencia())
                 .telefonoFarmaceuta(dto.getTelefonoFarmaceuta())
                 .correoFarmaceuta(dto.getCorreoFarmaceuta())
-                .dirreccionFarmaceuta(dto.getDirreccionFarmaceuta())
+                .direccionFarmaceuta(dto.getDireccionFarmaceuta())
                 .build();
 
-        entity = repository.save(entity); // guarda en la base de datos
-        dto.setId(entity.getId()); // asigna el ID generado
+        entity = repository.save(entity); // Guardar o actualizar en DB
+        dto.setId(entity.getId()); // Actualizar ID generado (si es nuevo)
         return dto;
     }
 
-    // Obtener todos los farmaceuticos
+    // Obtener lista de todos los farmacéuticos
     public List<FarmaceuticoDTO> getAll() {
         return repository.findAll().stream().map(entity ->
             FarmaceuticoDTO.builder()
@@ -44,17 +44,12 @@ public class FarmaceuticoService {
                 .numeroLicencia(entity.getNumeroLicencia())
                 .telefonoFarmaceuta(entity.getTelefonoFarmaceuta())
                 .correoFarmaceuta(entity.getCorreoFarmaceuta())
-                .dirreccionFarmaceuta(entity.getDirreccionFarmaceuta())
+                .direccionFarmaceuta(entity.getDireccionFarmaceuta())
                 .build()
         ).collect(Collectors.toList());
     }
 
-    // Eliminar por ID
-    public void delete(Long id) {
-        repository.deleteById(id);
-    }
-
-    // Buscar por ID
+    // Obtener un farmacéutico por su ID
     public FarmaceuticoDTO getById(Long id) {
         Optional<FarmaceuticoEntity> optional = repository.findById(id);
         if (optional.isPresent()) {
@@ -66,10 +61,16 @@ public class FarmaceuticoService {
                     .numeroLicencia(entity.getNumeroLicencia())
                     .telefonoFarmaceuta(entity.getTelefonoFarmaceuta())
                     .correoFarmaceuta(entity.getCorreoFarmaceuta())
-                    .dirreccionFarmaceuta(entity.getDirreccionFarmaceuta())
+                    .direccionFarmaceuta(entity.getDireccionFarmaceuta())
                     .build();
         } else {
-            throw new RuntimeException("Farmaceutico no encontrado con ID: " + id);
+            throw new RuntimeException("Farmacéutico no encontrado con ID: " + id);
         }
     }
+
+    // Eliminar un farmacéutico por ID
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
 }
+

@@ -17,32 +17,39 @@ import co.edu.sena.Clinica.el.Rosal.Service.HistoriaService;
 import co.edu.sena.Clinica.el.Rosal.dto.HistoriaDTO;
 
 @RestController
-@RequestMapping("/historias")
-@CrossOrigin(origins = "*")  // <- Agregado para que el frontend pueda acceder sin problemas CORS
+@RequestMapping("/historia")
+@CrossOrigin(origins = "*") // Permitir acceso desde cualquier origen (frontend)
 public class HistoriaController {
 
     @Autowired
     private HistoriaService service;
 
-    // Obtener todas las historias clínicas
+    // Obtener todas las historias
     @GetMapping
     public List<HistoriaDTO> getAll() {
         return service.getAll();
     }
 
-    // Crear una nueva historia
+    // Obtener una historia por ID
+    @GetMapping("/{id}")
+    public HistoriaDTO getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    // Crear nueva historia
     @PostMapping
-    public void save(@RequestBody HistoriaDTO dto) {
-        service.save(dto);
+    public HistoriaDTO save(@RequestBody HistoriaDTO dto) {
+        return service.save(dto);
     }
 
     // Actualizar historia existente
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody HistoriaDTO dto) {
-        service.update(id, dto);
+    public HistoriaDTO update(@PathVariable Long id, @RequestBody HistoriaDTO dto) {
+        dto.setId(id);
+        return service.save(dto); // reutiliza método save
     }
 
-    // Eliminar historia por ID
+    // Eliminar historia
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

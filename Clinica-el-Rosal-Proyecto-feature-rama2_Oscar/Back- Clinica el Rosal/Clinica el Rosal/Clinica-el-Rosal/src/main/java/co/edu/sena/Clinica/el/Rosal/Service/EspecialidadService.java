@@ -16,16 +16,16 @@ public class EspecialidadService {
     @Autowired
     private EspecialidadRepository repository;
 
-    // Guardar o actualizar especialidad
+    // Guardar nueva especialidad o actualizar existente
     public void save(EspecialidadDTO dto) {
         EspecialidadEntity entity = EspecialidadEntity.builder()
-                .id(dto.getId()) // Necesario para actualizar
+                .id(dto.getId()) // Si es null, se crea; si tiene ID, se actualiza
                 .nombreEspecialidad(dto.getNombreEspecialidad())
                 .build();
         repository.save(entity);
     }
 
-    // Obtener todas las especialidades
+    // Obtener lista de todas las especialidades
     public List<EspecialidadDTO> getAll() {
         return repository.findAll().stream().map(entity ->
             EspecialidadDTO.builder()
@@ -35,7 +35,7 @@ public class EspecialidadService {
         ).collect(Collectors.toList());
     }
 
-    // Obtener una especialidad por ID
+    // Obtener especialidad por ID
     public EspecialidadDTO getById(Long id) {
         return repository.findById(id).map(entity ->
             EspecialidadDTO.builder()

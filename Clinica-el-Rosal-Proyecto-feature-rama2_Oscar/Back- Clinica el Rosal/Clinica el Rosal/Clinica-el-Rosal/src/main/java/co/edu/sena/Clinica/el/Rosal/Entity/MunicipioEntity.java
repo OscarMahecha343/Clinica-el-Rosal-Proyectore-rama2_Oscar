@@ -11,20 +11,19 @@ import lombok.Data;
 @Entity
 @Table(name = "municipio")
 @Data
-public class MunicipioEntity { 
+public class MunicipioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id")  // Clave primaria autoincremental
     private Long id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre")  // Nombre del municipio
     private String nombreMunicipio;
 
-    @Column(name = "id_departamento")
+    @Column(name = "id_departamento")  // ID del departamento relacionado
     private Long idDepartamento;
 
-    @Column(name = "estado")
+    @Column(name = "estado")  // Estado del municipio (activo, inactivo, etc.)
     private String estado;
 }
-	

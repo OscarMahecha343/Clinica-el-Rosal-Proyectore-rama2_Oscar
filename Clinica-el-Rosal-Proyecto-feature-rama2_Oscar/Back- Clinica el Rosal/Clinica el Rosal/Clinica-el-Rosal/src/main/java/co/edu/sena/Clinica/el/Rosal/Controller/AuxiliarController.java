@@ -9,7 +9,7 @@ import co.edu.sena.Clinica.el.Rosal.Service.AuxiliarService;
 import co.edu.sena.Clinica.el.Rosal.dto.AuxiliarDTO;
 
 @RestController
-@RequestMapping("/api/auxiliar") // Ruta base de la API
+@RequestMapping("/auxiliar") // Ruta base de la API
 @CrossOrigin(origins = "*") // Permite acceso desde cualquier origen (frontend o Postman)
 public class AuxiliarController {
 

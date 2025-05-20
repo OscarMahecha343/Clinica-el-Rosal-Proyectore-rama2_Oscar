@@ -23,19 +23,20 @@ public class MunicipioService {
         entity.setNombreMunicipio(dto.getNombreMunicipio());
         entity.setIdDepartamento(dto.getIdDepartamento());
         entity.setEstado(dto.getEstado());
-        repository.save(entity); // Inserta en la base de datos
+        repository.save(entity);
     }
 
     // Obtener todos los municipios (GET)
     public List<MunicipioDTO> getAll() {
         List<MunicipioEntity> entities = repository.findAll();
-        // Convertimos cada entity a DTO para devolverlo al frontend
-        return entities.stream().map(entity -> MunicipioDTO.builder()
-                .id(entity.getId())
-                .nombreMunicipio(entity.getNombreMunicipio())
-                .idDepartamento(entity.getIdDepartamento())
-                .estado(entity.getEstado())
-                .build()).collect(Collectors.toList());
+        return entities.stream()
+                .map(entity -> MunicipioDTO.builder()
+                        .id(entity.getId())
+                        .nombreMunicipio(entity.getNombreMunicipio())
+                        .idDepartamento(entity.getIdDepartamento())
+                        .estado(entity.getEstado())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     // Actualizar municipio por ID (PUT)
@@ -46,12 +47,13 @@ public class MunicipioService {
             entity.setNombreMunicipio(dto.getNombreMunicipio());
             entity.setIdDepartamento(dto.getIdDepartamento());
             entity.setEstado(dto.getEstado());
-            repository.save(entity); // Actualiza el registro
+            repository.save(entity);
         }
+        // ⚠️ Puedes agregar una excepción personalizada si no se encuentra el ID
     }
 
     // Eliminar municipio por ID (DELETE)
     public void delete(Long id) {
-        repository.deleteById(id); // Elimina el municipio con ese ID
+        repository.deleteById(id);
     }
 }
