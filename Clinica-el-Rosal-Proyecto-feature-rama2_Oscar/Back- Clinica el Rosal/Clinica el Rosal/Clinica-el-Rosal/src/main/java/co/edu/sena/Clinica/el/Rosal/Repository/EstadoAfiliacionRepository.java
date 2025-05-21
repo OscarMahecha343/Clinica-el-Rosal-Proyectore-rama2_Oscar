@@ -7,6 +7,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.EstadoAfiliacionEntity;
 
 @Repository
 public interface EstadoAfiliacionRepository extends 
-        JpaRepository<EstadoAfiliacionEntity, Long>, // Provee todos los métodos CRUD básicos
+        JpaRepository<EstadoAfiliacionEntity, Long>, 
         JpaSpecificationExecutor<EstadoAfiliacionEntity> { // Permite agregar filtros si es necesario
 }

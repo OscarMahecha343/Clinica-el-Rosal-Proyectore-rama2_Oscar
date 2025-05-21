@@ -27,11 +27,10 @@ public class HistoriaEntity {
     @Column(name = "id")
     private Long id;
 
-    // FK hacia paciente (por ahora como Long)
+    
     @Column(name = "id_paciente")
     private Long idPaciente;
 
-    // FK hacia médico (por ahora como Long)
     @Column(name = "id_medico")
     private Long idMedico;
 
@@ -41,7 +40,7 @@ public class HistoriaEntity {
     @Column(name = "motivo_consulta")
     private String motivoConsulta;
 
-    @Column(name = "historial_clinico") // Corregido nombre para consistencia snake_case
+    @Column(name = "historial_clinico") 
     private String historialClinico;
 
     @Column(name = "diagnostico")

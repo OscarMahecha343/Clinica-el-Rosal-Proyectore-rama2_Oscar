@@ -8,6 +8,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.EspecialidadEntity;
 
 @Repository
 public interface EspecialidadRepository extends
-        JpaRepository<EspecialidadEntity, Long>, // Métodos CRUD listos
+        JpaRepository<EspecialidadEntity, Long>, 
         JpaSpecificationExecutor<EspecialidadEntity> {
 }

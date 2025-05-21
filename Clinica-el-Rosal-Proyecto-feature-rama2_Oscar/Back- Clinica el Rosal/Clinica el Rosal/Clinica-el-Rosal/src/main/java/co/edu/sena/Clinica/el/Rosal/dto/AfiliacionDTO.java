@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AfiliacionDTO {
 
+    // Objeto para la transferencia de datos entre backend y frontend
     private Long id;
     private String nombre;
     private String apellido;

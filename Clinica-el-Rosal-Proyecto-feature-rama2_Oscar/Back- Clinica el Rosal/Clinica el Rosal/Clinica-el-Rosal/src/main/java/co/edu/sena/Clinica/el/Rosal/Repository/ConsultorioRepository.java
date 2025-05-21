@@ -10,5 +10,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.ConsultorioEntity;
 public interface ConsultorioRepository extends 
         JpaRepository<ConsultorioEntity, Long>,
         JpaSpecificationExecutor<ConsultorioEntity> {
-    // Permite operaciones CRUD y filtrado avanzado
+   
 }

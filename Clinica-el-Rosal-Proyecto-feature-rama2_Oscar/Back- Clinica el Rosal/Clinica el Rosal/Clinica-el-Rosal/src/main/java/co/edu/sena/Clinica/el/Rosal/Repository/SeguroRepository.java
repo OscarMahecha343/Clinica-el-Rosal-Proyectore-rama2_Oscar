@@ -7,5 +7,4 @@ import co.edu.sena.Clinica.el.Rosal.Entity.SeguroEntity;
 
 @Repository
 public interface SeguroRepository extends JpaRepository<SeguroEntity, Long> {
-    // Aquí puedes agregar métodos personalizados si se necesitan
 }

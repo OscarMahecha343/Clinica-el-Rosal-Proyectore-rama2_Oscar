@@ -20,10 +20,10 @@ import lombok.NoArgsConstructor;
 public class RolEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre", nullable = false, unique = true) // Buenas prácticas: no nulo y único
+    @Column(name = "nombre", nullable = false, unique = true) 
     private String nombre;
 }

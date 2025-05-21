@@ -18,8 +18,7 @@ import co.edu.sena.Clinica.el.Rosal.dto.MedicoDTO;
 
 @RestController
 @RequestMapping("/medico")
-@CrossOrigin(origins = "*")  // <- Agregado para que el frontend pueda acceder sin problemas CORS
-
+@CrossOrigin(origins = "*")  
 public class MedicoController {
 
     @Autowired

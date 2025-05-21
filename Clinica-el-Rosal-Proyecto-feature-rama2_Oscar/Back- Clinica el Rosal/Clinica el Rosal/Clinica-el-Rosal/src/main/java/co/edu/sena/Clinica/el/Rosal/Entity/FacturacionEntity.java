@@ -14,14 +14,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "facturacion") // Tabla en la base de datos
+@Table(name = "facturacion") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class FacturacionEntity {
 
-    /** Clave primaria autoincremental */
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

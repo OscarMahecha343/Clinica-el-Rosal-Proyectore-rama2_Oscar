@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Esta clase representa la tabla "especialidad" en la base de datos.
 @Entity
 @Table(name = "especialidad")
 @Data

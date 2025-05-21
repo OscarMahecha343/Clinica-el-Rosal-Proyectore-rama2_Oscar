@@ -18,7 +18,7 @@ import co.edu.sena.Clinica.el.Rosal.dto.ServicioDTO;
 
 @RestController
 @RequestMapping("/servicio")
-@CrossOrigin(origins = "*") // Permite acceso desde frontend externo (si aplica)
+@CrossOrigin(origins = "*") 
 public class ServicioController {
 
     @Autowired

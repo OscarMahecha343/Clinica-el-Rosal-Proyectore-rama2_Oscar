@@ -13,5 +13,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.FacturacionEntity;
 public interface FacturacionRepository extends 
         JpaRepository<FacturacionEntity, Long>, 
         JpaSpecificationExecutor<FacturacionEntity> {
-    // No se necesita código adicional por ahora.
+    
 }

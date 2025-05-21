@@ -8,5 +8,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.DepartamentoEntity;
 public interface DepartamentoRepository extends 
         JpaRepository<DepartamentoEntity, Long>, 
         JpaSpecificationExecutor<DepartamentoEntity> {
-    // Hereda métodos como save(), findById(), findAll(), deleteById(), etc.
+    
 }

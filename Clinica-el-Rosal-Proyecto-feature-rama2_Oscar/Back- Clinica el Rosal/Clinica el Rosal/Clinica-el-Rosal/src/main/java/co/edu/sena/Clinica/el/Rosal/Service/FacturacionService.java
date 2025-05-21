@@ -9,19 +9,14 @@ import co.edu.sena.Clinica.el.Rosal.Entity.FacturacionEntity;
 import co.edu.sena.Clinica.el.Rosal.Repository.FacturacionRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.FacturacionDTO;
 
-/**
- * Servicio que maneja la lógica de negocio para la entidad Facturacion.
- */
+
 @Service
 public class FacturacionService {
 
     @Autowired
     private FacturacionRepository repository;
 
-    /**
-     * Guarda una nueva facturación o actualiza una existente.
-     * @param dto Datos de facturación.
-     */
+    
     public void save(FacturacionDTO dto) {
         FacturacionEntity entity = FacturacionEntity.builder()
                 .id(dto.getId()) // Si el ID es null, crea. Si no, actualiza.
@@ -34,9 +29,7 @@ public class FacturacionService {
         repository.save(entity);
     }
 
-    /**
-     * Retorna todas las facturaciones.
-     */
+ 
     public List<FacturacionDTO> getAll() {
         return repository.findAll().stream().map(entity ->
             FacturacionDTO.builder()

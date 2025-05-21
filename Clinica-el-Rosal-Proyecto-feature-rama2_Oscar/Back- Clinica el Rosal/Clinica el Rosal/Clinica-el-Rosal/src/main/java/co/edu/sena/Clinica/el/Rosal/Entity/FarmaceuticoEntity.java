@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "farmaceutico") // Mapeo a la tabla 'farmaceutico' en la base de datos
+@Table(name = "farmaceutico") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class FarmaceuticoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // Clave primaria autoincremental
+    @Column(name = "id") 
     private Long id;
 
     @Column(name = "nombre") // Nombre del farmacéutico

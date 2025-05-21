@@ -18,7 +18,7 @@ import co.edu.sena.Clinica.el.Rosal.dto.MunicipioDTO;
 
 @RestController
 @RequestMapping("/municipio")
-@CrossOrigin(origins = "*")  // <- Agregado para que el frontend pueda acceder sin problemas CORS
+@CrossOrigin(origins = "*")  
 
 public class MunicipioController {
 

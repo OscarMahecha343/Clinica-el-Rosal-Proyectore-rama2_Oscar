@@ -20,10 +20,10 @@ import lombok.NoArgsConstructor;
 public class TipoExamenEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre", nullable = false) // El nombre no debe ser nulo
+    @Column(name = "nombre", nullable = false) 
     private String nombre;
 }

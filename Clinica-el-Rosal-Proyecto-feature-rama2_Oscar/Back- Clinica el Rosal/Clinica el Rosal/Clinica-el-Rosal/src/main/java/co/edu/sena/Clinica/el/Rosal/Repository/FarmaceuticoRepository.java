@@ -10,5 +10,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.FarmaceuticoEntity;
 public interface FarmaceuticoRepository extends 
         JpaRepository<FarmaceuticoEntity, Long>,
         JpaSpecificationExecutor<FarmaceuticoEntity> {
-    // Métodos CRUD ya vienen incluidos por JpaRepository
+    
 }

@@ -27,7 +27,7 @@ public class AgendamientoService {
             .sede(dto.getSede())
             .estadoDisponibilidad(dto.getEstadoDisponibilidad())
             .motivoConsulta(dto.getMotivoConsulta())
-            .idUsuarioCreador(dto.getIdUsuarioCreador())  // Corregido
+            .idUsuarioCreador(dto.getIdUsuarioCreador())  
             .tipoCreador(dto.getTipoCreador())
             .build();
     repository.save(entity);
@@ -45,7 +45,7 @@ public List<AgendamientoDTO> getAll() {
                     .sede(entity.getSede())
                     .estadoDisponibilidad(entity.getEstadoDisponibilidad())
                     .motivoConsulta(entity.getMotivoConsulta())
-                    .idUsuarioCreador(entity.getIdUsuarioCreador())  // Corregido
+                    .idUsuarioCreador(entity.getIdUsuarioCreador())  
                     .tipoCreador(entity.getTipoCreador())
                     .build())
             .collect(Collectors.toList());

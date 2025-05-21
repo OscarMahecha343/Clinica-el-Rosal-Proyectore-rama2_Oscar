@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class ServicioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
     private Long id;
 

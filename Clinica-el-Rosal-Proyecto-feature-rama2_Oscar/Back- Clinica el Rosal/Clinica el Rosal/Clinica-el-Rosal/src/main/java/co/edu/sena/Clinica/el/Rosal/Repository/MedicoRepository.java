@@ -9,5 +9,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.MedicoEntity;
 @Repository
 public interface MedicoRepository extends JpaRepository<MedicoEntity, Long>, 
 JpaSpecificationExecutor<MedicoEntity> {
-    // Métodos CRUD básicos ya provistos por JpaRepository
+   
 }

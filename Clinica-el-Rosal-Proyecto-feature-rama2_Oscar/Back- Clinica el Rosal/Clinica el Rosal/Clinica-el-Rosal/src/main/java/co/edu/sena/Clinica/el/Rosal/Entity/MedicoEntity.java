@@ -34,7 +34,7 @@ public class MedicoEntity {
     private String telefonoDoc; // ← CAMBIADO A String para evitar errores con números grandes
 
     @Column(name = "licencia_medica", nullable = false)
-    private String licenciaMedica; // ← CAMBIADO A String ya que no se recomienda Double para códigos
+    private String licenciaMedica; 
 
     @Column(name = "id_especialidad", nullable = false)
     private Long idEspecialidad;

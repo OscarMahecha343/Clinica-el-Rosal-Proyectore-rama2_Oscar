@@ -49,7 +49,7 @@ public class MunicipioService {
             entity.setEstado(dto.getEstado());
             repository.save(entity);
         }
-        // ⚠️ Puedes agregar una excepción personalizada si no se encuentra el ID
+
     }
 
     // Eliminar municipio por ID (DELETE)

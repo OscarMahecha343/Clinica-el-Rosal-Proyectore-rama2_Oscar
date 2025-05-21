@@ -24,6 +24,6 @@ public class SeguroEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre", nullable = false, unique = true) // El nombre no puede ser nulo y es único
+    @Column(name = "nombre", nullable = false, unique = true) 
     private String nombre;
 }

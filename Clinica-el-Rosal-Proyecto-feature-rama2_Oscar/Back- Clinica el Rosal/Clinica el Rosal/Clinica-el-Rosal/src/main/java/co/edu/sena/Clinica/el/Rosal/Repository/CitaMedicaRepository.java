@@ -8,5 +8,5 @@ import co.edu.sena.Clinica.el.Rosal.Entity.CitaMedicaEntity;
 @Repository
 public interface CitaMedicaRepository extends 
         JpaRepository<CitaMedicaEntity, Long>,
-        JpaSpecificationExecutor<CitaMedicaEntity> {
+        JpaSpecificationExecutor<CitaMedicaEntity> { 
 }

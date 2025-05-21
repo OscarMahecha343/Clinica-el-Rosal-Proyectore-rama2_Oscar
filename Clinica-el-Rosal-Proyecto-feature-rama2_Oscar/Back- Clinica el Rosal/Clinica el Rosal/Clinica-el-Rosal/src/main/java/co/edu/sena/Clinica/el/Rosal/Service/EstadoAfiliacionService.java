@@ -20,7 +20,7 @@ public class EstadoAfiliacionService {
     public void save(EstadoAfiliacionDTO dto) {
         EstadoAfiliacionEntity entity = EstadoAfiliacionEntity.builder()
                 .id(dto.getId())
-                .idAfiliacion(dto.getIdAfiliacion()) // 🔧 corregido
+                .idAfiliacion(dto.getIdAfiliacion()) 
                 .estadoAfiliacion(dto.getEstadoAfiliacion())
                 .fechaActivacion(dto.getFechaActivacion())
                 .fechaCertificado(dto.getFechaCertificado())
@@ -35,7 +35,7 @@ public class EstadoAfiliacionService {
         return repository.findAll().stream().map(entity ->
             EstadoAfiliacionDTO.builder()
                 .id(entity.getId())
-                .idAfiliacion(entity.getIdAfiliacion()) // 🔧 corregido
+                .idAfiliacion(entity.getIdAfiliacion()) 
                 .estadoAfiliacion(entity.getEstadoAfiliacion())
                 .fechaActivacion(entity.getFechaActivacion())
                 .fechaCertificado(entity.getFechaCertificado())

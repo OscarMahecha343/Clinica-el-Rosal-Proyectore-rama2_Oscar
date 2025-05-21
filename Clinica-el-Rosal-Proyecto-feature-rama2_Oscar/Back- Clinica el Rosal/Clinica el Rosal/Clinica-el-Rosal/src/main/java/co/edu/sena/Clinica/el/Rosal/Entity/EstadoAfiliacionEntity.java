@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "estado_afiliacion") // Tabla asociada en la base de datos
+@Table(name = "estado_afiliacion") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

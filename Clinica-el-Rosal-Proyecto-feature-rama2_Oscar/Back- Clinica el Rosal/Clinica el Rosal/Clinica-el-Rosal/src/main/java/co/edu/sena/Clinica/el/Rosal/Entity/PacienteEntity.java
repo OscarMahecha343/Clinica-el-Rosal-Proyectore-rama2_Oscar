@@ -32,7 +32,7 @@ public class PacienteEntity {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
-    // CAMPO TIPO DE IDENTIFICACIÓN — debería ser String si es tipo 'CC', 'TI', etc.
+    
     @Column(name = "tipo_identificacion")
     private String tipoIdentificacion;
 
@@ -43,7 +43,7 @@ public class PacienteEntity {
     private Long idSeguro;
 
     @Column(name = "telefono")
-    private String telefono; // Mejor como String para formatos internacionales
+    private String telefono; 
 
     @Column(name = "correo")
     private String correo;
