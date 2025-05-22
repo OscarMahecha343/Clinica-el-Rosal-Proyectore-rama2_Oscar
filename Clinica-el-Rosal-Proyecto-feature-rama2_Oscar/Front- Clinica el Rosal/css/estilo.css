@@ -8,105 +8,131 @@ body {
     
 }
 
-/* Logo */
-.logo {
-    max-width: 80px;
-    height: auto;
-    margin-bottom: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Navbar */
-.navbar {
-    background-color: rgba(255, 255, 255, 0.8) !important;
+/* Glass Navbar */
+.glass-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 20px;
-    padding: 10px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.navbar .nav-link {
-    color: #333 !important;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.navbar .nav-link:hover {
-    color: #007bff !important;
-}
-
-/* Contenedor principal */
-#Afiliacion-container {
-    padding: 50px 20px;
-    border-radius: 25px;
-    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px 30px;
     margin: 20px auto;
-    max-width: 1000px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 1100px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: #fff;
+} 
+
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
-/* Títulos */
-.title-bordered {
-    color: #0d6efd;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+.navbar-logo {
+    height: 80px;
+    width: auto;
 }
 
-.text-bordered {
-    color: #555;
-    font-size: 1.1em;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
 }
 
-/* Botón Login */
-.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #084298;
-}
-
-/* Footer */
-footer {
-    background-color: #ffffff;
-    border-radius: 0 0 25px 25px;
-    padding: 20px;
-    margin-top: 40px;
-    text-align: center;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
-}
-
-footer a.footer-link {
-    color: #0d6efd;
+.nav-links li a {
     text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
 }
 
-footer a.footer-link:hover {
+.nav-links li a:hover {
+    color: #0dcaf0;
+    transform: scale(1.05);
+}
+
+.login-btn {
+    background-color: #0d6efd;
+    padding: 8px 15px;
+    border-radius: 10px;
+    color: white !important;
+}
+
+.login-btn:hover {
+    background-color: #084298;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        right: 30px;
+        top: 100px;
+        padding: 20px;
+        border-radius: 15px;
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .glass-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+#Afiliacion-container {
+    color: white !important;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 40px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.footer {
+    background: #0d6efd;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    margin-top: 50px;
+}
+
+.footer-link {
+    color: #ffffff;
     text-decoration: underline;
 }
 
-/* Responsive ajustes */
-@media (max-width: 768px) {
-    .navbar {
-        text-align: center;
-    }
-
-    .title-bordered {
-        font-size: 1.75rem;
-    }
-
-    .text-bordered {
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        width: 100%;
-    }
+.footer-link:hover {
+    color: #ffd700;
+    text-decoration: none;
 }
+
+.footer .social-icons a img {
+    filter: brightness(0) invert(1); /* iconos en blanco */
+    transition: transform 0.3s ease;
+}
+
+.footer .social-icons a:hover img {
+    transform: scale(1.1);
+}
+
+.carousel-img {
+        width: 800px;
+        height: 400px;
+        object-fit: cover;
+        }
