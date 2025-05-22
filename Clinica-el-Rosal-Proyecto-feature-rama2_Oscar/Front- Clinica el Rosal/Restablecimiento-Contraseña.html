@@ -6,11 +6,12 @@
     <title>Software Clinico</title>
     <link rel="stylesheet" href="./css/login.css" media="screen">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-      
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
 
         body {
-            background-image: url('./assets/bg_1.png');
+            background-image: url('./assets/bg_1.jpg');
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed
@@ -53,133 +54,122 @@
         
 <body>  
     <div class="container mx-auto mt-5" id="Link-container">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-light" id="banner">
-            <a class="navbar-brand" href="index.html">
-                <img src="assets/Logo.png" class="rounded" alt="Clinica el rosal" width="150" height="120">
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-                
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Inicio</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="mision.html">Misión</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="vision.html">Visión</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="atencion.html">Atención</a>
-                    </li>
-                </ul>
+        <nav class="glass-navbar">
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="assets/Logo.JPG" alt="Clínica Santa Fe Integral" class="navbar-logo">
+                </a>
             </div>
+            <ul class="nav-links" >
+                <li><a href="index.html"><i class="bi bi-house-door"></i> Inicio</a></li>
+                <li><a href="mision.html"><i class="bi bi-bullseye"></i> Misión</a></li>
+                <li><a href="vision.html"><i class="bi bi-eye"></i> Visión</a></li>
+                <li><a href="atencion.html"><i class="bi bi-person-lines-fill"></i> Atención</a></li>
+            </ul>
         </nav>
+    </div>
 
-        <div class="containerReset mx-auto mt-5">
-            <div class="container">
-             <!-- Sección 1: Restablecimiento de contraseña -->
-                <div id="section-1" class="card">
-                    <div class="card-header text-center">
-                        <h4>Restablecimiento de Contraseña</h4>
-                    </div>
+    <div class="containerReset mx-auto mt-5" style="max-width: 500px;">
+    <div class="container bg-white shadow rounded-4 p-4">
 
-                    <div class="card-body">
-                        <p class="text-center">Introduce tu correo electrónico</p>
-                        <form>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="email" placeholder="Ejemplo@correo.com">
-                            </div>
+    <div id="section-1" class="step-section">
+        <div class="text-center mb-4">
+            <h3 class="text-primary">Restablecer Contraseña</h3>
+            <p class="text-muted">Introduce tu correo electrónico registrado</p>
+        </div>
 
-                            <button type="button" class="btn btn-primary w-100" onclick="nextSection(2)">Enviar</button>
-                        </form>
-                    </div>
-                </div>
-                    
-             <!-- Sección 2: Restablecer código -->
-                <div id="section-2" class="card hidden">
-                    <div class="card-header text-center">
-                        <h4>Restablecer Código</h4>
-                    </div>
+        <form>
+            <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+            </div>
+            <button type="button" class="btn btn-primary w-100" onclick="nextSection(2)">Enviar Código</button>
+        </form>
+    </div>
 
-                    <div class="card-body">
-                        <p class="text-center">Introduce el código que se envió a tu correo</p>
-                        <form>
-                            <div class="mb-3">
-                                <label for="code" class="form-label">Código</label>
-                                <input type="text" class="form-control" id="code" placeholder="Ingresa el código aquí">
-                            </div>
+    <div id="section-2" class="step-section d-none">
+        <div class="text-center mb-4">
+            <h3 class="text-primary">Código de Verificación</h3>
+            <p class="text-muted">Revisa tu correo e ingresa el código</p>
+        </div>
 
-                            <button type="button" class="btn btn-primary w-100" onclick="nextSection(3)">Confirmar</button>
-                        </form>
-                    </div>
-                </div>
-                    
-             <!-- Sección 3: Restablecer contraseña -->
-                <div id="section-3" class="card hidden">
-                    <div class="card-header text-center">
-                        <h4>Restablecer Contraseña</h4>
-                    </div>
-                    
-                    <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="new-password" class="form-label">Nueva Contraseña</label>
-                                <input type="password" class="form-control" id="new-password" placeholder="Nueva contraseña">
-                            </div>
+        <form>
+            <div class="mb-3">
+            <label for="code" class="form-label">Código</label>
+            <input type="text" class="form-control" id="code" placeholder="123456" required>
+            </div>
+            <button type="button" class="btn btn-primary w-100" onclick="nextSection(3)">Validar Código</button>
+        </form>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="confirm-password" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar contraseña">
-                            </div>
+    <div id="section-3" class="step-section d-none">
+        <div class="text-center mb-4">
+            <h3 class="text-primary">Nueva Contraseña</h3>
+            <p class="text-muted">Establece tu nueva contraseña</p>
+        </div>
 
-                            <button type="button" class="btn btn-success w-100" onclick="nextSection(4)">Cambiar Contraseña</button>
-                        </form>
-                    </div>
-                </div>
-                    
-             <!-- Sección 4: Contraseña restablecida -->
-                <div id="section-4" class="card hidden">
-                    <div class="card-header text-center">
-                        <h4>¡Contraseña Restablecida!</h4>
-                    </div>
+        <form>
+            <div class="mb-3">
+            <label for="new-password" class="form-label">Nueva Contraseña</label>
+            <input type="password" class="form-control" id="new-password" placeholder="••••••••" required>
+            </div>
+            <div class="mb-3">
+            <label for="confirm-password" class="form-label">Confirmar Contraseña</label>
+            <input type="password" class="form-control" id="confirm-password" placeholder="••••••••" required>
+            </div>
+            <button type="button" class="btn btn-success w-100" onclick="nextSection(4)">Cambiar Contraseña</button>
+        </form>
+    </div>
 
-                    <div class="card-body text-center">
-                        <p>Tu contraseña ha sido restablecida exitosamente.</p>
+    <div id="section-4" class="step-section d-none text-center">
+    <div class="mb-4">
+            <h3 class="text-success">¡Contraseña Restablecida!</h3>
+            <p class="text-muted">Tu contraseña se actualizó exitosamente</p>
+        </div>
+        <button type="button" class="btn btn-primary w-100" onclick="redirectToLogin()">Ir al Login</button>
+    </div>
 
-                        <button type="button" class="btn btn-primary w-100" onclick="redirectToLogin()">Ir al Login</button>
-                    </div>
+  </div>
+</div>
+
+
+    <footer class="footer text-white">
+    <div class="container py-4">
+        <div class="row text-center text-md-start align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <h5 class="fw-bold">Clínica Santa Fe Integral</h5>
+                <p class="mb-1">Calle 95 #18-53, Bogotá, Colombia</p>
+                <p class="mb-0">Email: <a href="mailto:contacto@clinicasantafeintegral.com" class="footer-link">contacto@clinicasantafeintegral.com</a></p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">&copy; 2024 Clínica Santa Fe Integral. Todos los derechos reservados.</p>
+                <div class="social-icons mt-2">
                 </div>
             </div>
         </div>
     </div>
-
-    <footer class="footer bg-light bg-opacity-50">
-        <div class="container text-center" id="footer2">
-            <h5>Clínica El Rosal</h5>
-            <p>Dirección: Calle 95 #18-53, Bogotá, Colombia</p>
-            <p>Email: <a href="mailto:contacto@clinicaelrosal.com" class="footer-link">contacto@clinicaelrosal.com</a></p>
-            <p> &copy; 2024 Clínica El Rosal. Todos los derechos reservados.</p>
-        </div>
-        <div class="social-icons mt-1">
-            <a href="#" class="footer-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="footer-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="footer-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="footer-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </footer>
+</footer>
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="JS/Restablecimiento-Contraseña.js"></script>
+    <script>
+        function nextSection(number) {
+            for (let i = 1; i <= 4; i++) {
+            const section = document.getElementById(`section-${i}`);
+            if (i === number) {
+                section.classList.remove("d-none");
+            } else {
+                section.classList.add("d-none");
+            }
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = "login.html"; // Cambia a tu ruta real de login
+        }
+    </script>
+
 </body>
 </html>
