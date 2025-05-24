@@ -1,46 +1,73 @@
-function validarCorreo(correo) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-    return regex.test(correo);
-}
+$("#loginForm").submit(function (event) { 
+        event.preventDefault(); // Evita el envío del formulario
 
+        let isValidForm = true;
 
-const botonIngresar = document.querySelector(".btn-primary");
-const perfilSelect = document.getElementById("perfil");
-const correoInput = document.getElementById("correo");
-const passwordInput = document.getElementById("password");
+        const idRol = $("#idRol").val();
+        const login = $("#login").val().trim();
+        const password = $("#password").val().trim();
 
-botonIngresar.addEventListener("click", (event) => {
-    event.preventDefault(); 
+        // Limpiar clases de errores anteriores
+        $("#idRol, #login, #password").removeClass("is-invalid");
 
-    const perfil = perfilSelect.value;
-    const correo = correoInput.value.trim();
-    const password = passwordInput.value.trim();
+        // Validar idRol
+        if (!idRol || idRol === "") {
+            $("#idRol").addClass("is-invalid");
+            isValidForm = false;
+        }
 
-   if (perfil === "Seleccione" || !correo || !password) {
-        alert("Por favor, complete todos los campos.");
-        return;
-    }
+        // Validar login
+        if (login === "") {
+            $("#login").addClass("is-invalid");
+            isValidForm = false;
+        }
 
-    if (!validarCorreo(correo)) {
-        alert("Ingrese un correo válido.");
-        return;
-    }
+        // Validar password
+        if (password === "") {
+            $("#password").addClass("is-invalid");
+            isValidForm = false;
+        }
 
-    switch (perfil) {
-    case "1": // Usuario
-        window.location.href = "perfil-usuario.html";
-        break;
-    case "2": // Médico
-        window.location.href = "perfil-medico.html";
-        break;
-    case "3": // Auxiliar
-        window.location.href = "perfil-auxiliar.html";
-        break;
-    case "4": // Farmacéutico
-        window.location.href = "perfil-farmaceutico.html";
-        break;
-    default:
-        alert("Rol no reconocido.");
-}
+        if (!isValidForm) {
 
+            var request = {
+
+                login : $("#login").val(),
+                password : $("#password").val(),
+                idRol :  $("#idRol").val()
+            };
+
+            console.log("Login::request" + JSON.stringify(Request));
+
+            alert("Por favor, complete todos los campos correctamente.");
+            return;
+        } else {
+            alert("No envia info")
+        }
+
+        // Validar correo electrónico válido
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexCorreo.test(login)) {
+            $("#login").addClass("is-invalid");
+            alert("Ingrese un correo válido.");
+            isValidForm = false;
+        }
+
+        // Redirección según el perfil seleccionado
+        switch (idRol) {
+            case "1": // Usuario
+                window.location.href = "perfil-usuario.html";
+                break;
+            case "2": // Médico
+                window.location.href = "perfil-medico.html";
+                break;
+            case "3": // Auxiliar
+                window.location.href = "perfil-auxiliar.html";
+                break;
+            case "4": // Farmacéutico
+                window.location.href = "perfil-farmaceutico.html";
+                break;
+            default:
+                alert("Rol no reconocido.");
+        }
 });

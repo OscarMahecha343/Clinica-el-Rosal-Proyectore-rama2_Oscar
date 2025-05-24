@@ -15,7 +15,7 @@ public class UsuarioDTO {
     private Long id;
     private String login;
     private String password;
-    private String idPaciente;
+    private Long idPaciente;
     private Long idMedico;
     private Long idAuxiliar;
     private Long idFarmaceutico;
@@ -23,5 +23,5 @@ public class UsuarioDTO {
     private String codigoRestablecimiento;
     private Date expiracionCodigo;
     private Date ultimaSolicitud;
-    private Integer intentosFallidos;
+    private int intentosFallidos;
 }

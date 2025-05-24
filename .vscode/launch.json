@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ClinicaElRosalApplication<Clinica-el-Rosal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "co.edu.sena.Clinica.el.Rosal.ClinicaElRosalApplication",
+            "projectName": "Clinica-el-Rosal",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

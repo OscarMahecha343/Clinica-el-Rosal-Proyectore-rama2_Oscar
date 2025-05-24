@@ -34,7 +34,7 @@ public class UsuarioEntity {
 
     // Relación con distintos perfiles (pueden ser null dependiendo del rol)
     @Column(name = "id_paciente", nullable = true)
-    private String idPaciente;
+    private Long idPaciente;
 
     @Column(name = "id_medico")
     private Long idMedico;
@@ -58,7 +58,7 @@ public class UsuarioEntity {
     private Date ultimaSolicitud;
 
     @Column(name = "intentos_fallidos")
-    private Integer intentosFallidos;
+    private int intentosFallidos;
 }
 
 
