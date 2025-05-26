@@ -9,28 +9,29 @@ import co.edu.sena.Clinica.el.Rosal.dto.LoginResponseDTO;
 import co.edu.sena.Clinica.el.Rosal.dto.ServerResponseDataDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
     private UsuarioService service;
 
     @PostMapping()
-    public ServerResponseDataDto login(@RequestBody LoginRequesDTO request){
+    public ServerResponseDataDto<LoginResponseDTO> login(@RequestBody LoginRequesDTO request) {
+    LoginResponseDTO responseDTO = this.service.login(request);
 
-        LoginResponseDTO responseDTO = this.service.login(request);
-
-        return ServerResponseDataDto.builder()
-                .message("Succes")
-                .data(responseDTO)
-                .status(200)
-                .build();
-    }
+    return ServerResponseDataDto.<LoginResponseDTO>builder()
+            .message("Success")
+            .data(responseDTO)
+            .status(200)
+            .build();
+}
     
     
     

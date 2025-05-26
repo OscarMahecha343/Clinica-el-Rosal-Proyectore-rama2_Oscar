@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class ServerResponseDataDto<T> {
+public class ServerResponseDataDto<T>{
 
     private String message;  // Mensaje al cliente
     private int status;      // Código de estado HTTP

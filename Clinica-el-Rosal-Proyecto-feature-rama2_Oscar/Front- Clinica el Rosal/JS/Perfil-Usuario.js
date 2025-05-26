@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
                 
     const citasBtn = document.querySelector('a[href="#"]:nth-child(1)');
     const diagnosticoBtn = document.querySelector('a[href="#"]:nth-child(2)');
@@ -20,4 +20,4 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         window.location.href = "estado-afiliacion.html";
     });
-});
+});*/
