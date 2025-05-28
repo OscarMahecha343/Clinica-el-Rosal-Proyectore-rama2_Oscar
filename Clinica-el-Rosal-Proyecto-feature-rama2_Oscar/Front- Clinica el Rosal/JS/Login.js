@@ -47,17 +47,24 @@ $("#loginForm").submit(function (event) {
 
     console.log("Login::request" + JSON.stringify(request));
 
-    const url = "http://localhost:8080/auth";
-    const method = "POST";
-
-    const ifSuccessLogin = function(data){
-        console.log("Login::response" + JSON.stringify(data));
+    var url = "http://localhost:8080/auth";
+    var method = "POST";
+    var ifSuccessLogin = function(apiResponse){
+        console.log("Login::response" + JSON.stringify(apiResponse));
+        if(apiResponse.data.active){
+            addAlert("usuario logeado con exito", "success", 3);
+        } else{
+            addAlert("usuario no encontrado", "warning", 8);
+        }
+        closeLoader();
     };
 
     const ifErrorLogin = function(data){
-        alert("Al hacer login se generó un error");
+        addAlert("Se genero un error en el servidor", "danger", 8);
+        closeLoader();
     };
-
+    
+    openLoader();
     callApi(url, method, request, ifSuccessLogin, ifErrorLogin);
 
     // Redirección según el perfil
@@ -73,15 +80,23 @@ $("#loginForm").submit(function (event) {
 const validMethods = ["GET", "POST", "PUT", "DELETE"];
 
 function callApi(url, method, data, cbSuccess, cbError) {
+    
     console.log("callApi :: " + method + " :: " + url);
 
-    const isPresent = validMethods.includes(method);
-    if (!isPresent) {
-        alert("Método " + method + " no permitido");
+   isPresent = validMethods.find(function(item){
+    return item === method; 
+   });
+
+   if(isPresent ==="") {
+        alert("Metodo" + method + "No permitodo"); 
         return;
+   }
+
+    var jsonData = "";
+    if(method === "POST" || method === "PUT") {
+        jsonData = JSON.stringify(data);
     }
 
-    const jsonData = (method === "POST" || method === "PUT") ? JSON.stringify(data) : null;
 
     $.ajax({
         url: url,
@@ -109,4 +124,39 @@ function callApi(url, method, data, cbSuccess, cbError) {
             }
         }
     });
+}
+
+function openLoader() {
+    $("#loader-mask").addClass("show");
+}
+
+function closeLoader() {
+    $("#loader-mask").removeClass("show");
+}
+
+function addAlert(msg, type, time = null){
+
+    var id = "alert_" + getRandomInt(1000, 99999);
+
+    var html = '<div id="'+id+'" class="alert alert-'+type+'" role="alert" style="display:none">';
+    html += msg;
+    html += "</div>"
+
+    
+
+    $("#Alerts").prepend($(html));
+    $("#"+id).show('fast');
+
+    time = time===null ? 2000 : time * 1000;
+
+
+    window.setTimeout(function(){
+        $("#"+id).hide('fast');
+    }, time);
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max-min+1)) + min;
 }

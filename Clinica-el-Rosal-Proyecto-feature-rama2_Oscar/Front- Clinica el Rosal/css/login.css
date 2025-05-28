@@ -135,3 +135,52 @@ body {
 .footer .social-icons a:hover img {
     transform: scale(1.1);
 }
+
+#loader-mask{
+    top:0px;
+    left: 0px;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -10000;
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 1s;
+    
+}
+
+#loader-mask.show {
+    opacity: 1;
+    z-index: 10000;
+    display: block;
+}
+
+#loader-mask .content {
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8%;
+    padding: 60px 90px;
+    max-width: 200px;
+    max-height: 150px;
+    
+    transition-property: top;
+    transition-duration: 2s;
+}
+
+#loader-mask.show  .content{
+    top: 50%;
+}
+
+#Alerts{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 10000;
+    width: 450px;
+    margin: 30px;
+}

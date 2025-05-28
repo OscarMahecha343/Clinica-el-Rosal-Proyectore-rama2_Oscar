@@ -45,6 +45,15 @@
 </head>
 
 <body>
+<div id="loader-mask"> 
+    <vid class="content">
+        <div class="spinner-grow text-light" role="status">
+            <span class="sr-only"><br>Loading...</span>
+        </div>
+    </vid>
+</div>
+</vid>
+    </div>
     <div class="container  mx-auto mt-2" id="Login-container">
         <nav class="glass-navbar">
             <div class="logo-container">
@@ -71,7 +80,7 @@
             <label for="idRol" class="form-label">Perfil</label>
             <select id="idRol" class="form-select" required>
             <option selected disabled value="">Seleccione su perfil</option>
-            <option value="1">Usuario</option>
+            <option value="1">Paciente</option>
             <option value="2">Médico</option>
             <option value="3">Auxiliar</option>
             <option value="4">Farmacéutico</option>
@@ -118,6 +127,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="JS/Login.js"></script>
+
+    <div id="Alerts">
+
+    </div>
 </body>
 
 </html>
