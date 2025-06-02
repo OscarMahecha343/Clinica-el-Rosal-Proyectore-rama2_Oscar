@@ -53,7 +53,13 @@ $("#loginForm").submit(function (event) {
         console.log("Login::response" + JSON.stringify(apiResponse));
         if(apiResponse.data.active){
             addAlert("usuario logeado con exito", "success", 3);
+            window.setTimeout(function(){ 
+                var dataUser = JSON.stringify(apiResponse.data);
+                localStorage.setItem("data-user", dataUser);
+                window.location.replace("Admin.html")
+        }, 2000);
         } else{
+            $('loginForm') [0].reset();
             addAlert("usuario no encontrado", "warning", 8);
         }
         closeLoader();
@@ -159,4 +165,19 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max-min+1)) + min;
+}
+
+function redirectByLoginUser(logged){
+
+    var dataUser = localStorage.getItem("data-user");
+
+    if((dataUser === null || dataUser === undefined || dataUser === "") && logged){
+        window.location.replace("index.html")
+        return;
+    }
+
+    if((dataUser !== null) && !logged){
+        window.location.replace("Admin.html")
+        return;
+    }
 }

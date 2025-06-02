@@ -19,7 +19,7 @@ public class UsuarioDTO {
     private Long idMedico;
     private Long idAuxiliar;
     private Long idFarmaceutico;
-    private Long idRol;
+    private Long idRol; 
     private String codigoRestablecimiento;
     private Date expiracionCodigo;
     private Date ultimaSolicitud;

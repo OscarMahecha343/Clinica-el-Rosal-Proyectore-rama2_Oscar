@@ -1,11 +1,12 @@
 package co.edu.sena.Clinica.el.Rosal.Repository;
 
-import java.util.Optional; 
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import co.edu.sena.Clinica.el.Rosal.Entity.RolEntity;
 import co.edu.sena.Clinica.el.Rosal.Entity.UsuarioEntity;
 
 
@@ -13,5 +14,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.UsuarioEntity;
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long>,
 JpaSpecificationExecutor<UsuarioEntity> {
 
-    Optional<UsuarioEntity> findByLoginAndPasswordAndIdRol(String login, String password, Long idRol);
+    Optional<UsuarioEntity> findByLoginAndPasswordAndIdRol(String login, String password, RolEntity idRol);
+
 }

@@ -1,0 +1,5 @@
+$(function(){
+
+redirectByLoginUser(true);
+
+});

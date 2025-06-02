@@ -2,11 +2,16 @@ package co.edu.sena.Clinica.el.Rosal.Entity;
 
 import java.sql.Date;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +24,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class UsuarioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "login", nullable = false)
@@ -32,21 +36,25 @@ public class UsuarioEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    // Relación con distintos perfiles (pueden ser null dependiendo del rol)
-    @Column(name = "id_paciente", nullable = true)
-    private Long idPaciente;
+    @OneToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "id_paciente")
+    private PacienteEntity idPaciente;
 
-    @Column(name = "id_medico")
-    private Long idMedico;
+    @OneToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "id_medico")
+    private MedicoEntity idMedico;
 
-    @Column(name = "id_auxiliar")
-    private Long idAuxiliar;
+    @OneToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "id_auxiliar")
+    private AuxiliarEntity idAuxiliar;
 
-    @Column(name = "id_farmaceutico")
-    private Long idFarmaceutico;
+    @OneToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "id_farmaceutico")
+    private FarmaceuticoEntity idFarmaceutico;
 
-    @Column(name = "id_rol", nullable = false)
-    private Long idRol;
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false)
+    private RolEntity idRol;
 
     @Column(name = "codigo_restablecimiento")
     private String codigoRestablecimiento;

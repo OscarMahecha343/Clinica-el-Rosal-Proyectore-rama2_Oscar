@@ -1,14 +1,12 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
-import java.util.List;
+import java.sql.Date;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,16 +19,28 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RolEntity {
+public class LogEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id") 
+    
     private Long id;
 
-    @Column(name = "nombre") 
-    private String nombre;
+    @Column(name = "referencia") 
+    private String referencia;
+    
+    @Column(name = "data") 
+    private String data;
 
-    @OneToMany(mappedBy = "idRol", cascade = CascadeType.ALL)
-    private List<UsuarioEntity> usuarios;
+    @Column(name = "fecha") 
+    private Date fecha;
+
+    @Column(name = "id_usuario") 
+    private Long idUsuario;
+
+    @Column(name = "estado") 
+    private String estado;   
+    
 }
+			

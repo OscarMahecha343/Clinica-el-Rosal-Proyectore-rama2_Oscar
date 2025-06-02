@@ -28,6 +28,7 @@ public class PacienteService {
         copyDtoToEntity(dto, entity);
         repository.save(entity);
     }
+    
 
     // PUT: Actualizar paciente
     public void update(Long id, PacienteDTO dto) {
