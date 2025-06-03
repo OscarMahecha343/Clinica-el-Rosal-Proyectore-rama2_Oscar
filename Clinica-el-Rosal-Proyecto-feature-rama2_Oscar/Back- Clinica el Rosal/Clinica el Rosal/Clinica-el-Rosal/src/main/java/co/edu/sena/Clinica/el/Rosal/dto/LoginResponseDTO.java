@@ -1,5 +1,7 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
+import java.sql.Date;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +20,20 @@ public class LoginResponseDTO {
     private Long id;
   
     private String nombre;
+    private String apellido;
+    private String genero;
+    private Date fechaNacimiento;
     private String tipoIdentificacion;
     private String identificacion;
+    private Long idSeguro;
+    private String telefono;
+    private String direccion;
+    private String grupoSanguineo;
+    private String alergias;
+    private String tipoDeAlergia;
+    private Long idMunicipio;
     private String username;
-    private String email;
-    private String rol; 
+    private String rol;
     private boolean isActive;
 
 }

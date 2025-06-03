@@ -1,5 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,36 +38,70 @@ public class UsuarioService {
         );
 
         return optResponse.map(entity -> {
-            String nombre = null;
-            String identificacion = null;
-            String tipoIdentificacion = null;
+        String nombre = null;
+        String apellido = null;
+        String genero = null;
+        Date fechaNacimiento = null;
+        String tipoIdentificacion = null;
+        String identificacion = null;
+        Long idSeguro = null;
+        String telefono = null;
+        String direccion = null;
+        String grupoSanguineo = null;
+        String alergias = null;
+        String tipoDeAlergia = null;
+        Long idMunicipio = null;
 
-            if (entity.getIdPaciente() != null) {
-                nombre = entity.getIdPaciente().getNombrePaci() + " " + entity.getIdPaciente().getApellidoPaci();
-                identificacion = entity.getIdPaciente().getIdentificacion();
-                tipoIdentificacion = entity.getIdPaciente().getTipoIdentificacion();
-            } else if (entity.getIdMedico() != null) {
-                nombre = entity.getIdMedico().getNombreMedico() + " " + entity.getIdMedico().getApellidosMedicos();
-                tipoIdentificacion = entity.getIdMedico().getLicenciaMedica();
-            } else if (entity.getIdAuxiliar() != null) {
-                nombre = entity.getIdAuxiliar().getNombreAuxiliar() + " " + entity.getIdAuxiliar().getApellidoAuxiliar();
-                tipoIdentificacion = entity.getIdAuxiliar().getIdentificacion();
-            } else if (entity.getIdFarmaceutico() != null) {
-                nombre = entity.getIdFarmaceutico().getNombreFarmaceuta() + " " + entity.getIdFarmaceutico().getApellidoFarmaceuta();
-                tipoIdentificacion = entity.getIdFarmaceutico().getNumeroLicencia();
-            }
+        if (entity.getIdPaciente() != null) {
+            PacienteEntity paciente = entity.getIdPaciente();
+            nombre = paciente.getNombrePaci();
+            apellido = paciente.getApellidoPaci();
+            genero = paciente.getGenero();
+            fechaNacimiento = paciente.getFechaNacimiento();
+            tipoIdentificacion = paciente.getTipoIdentificacion();
+            identificacion = paciente.getIdentificacion();
+            telefono = paciente.getTelefono();
+            direccion = paciente.getDireccion();
+            grupoSanguineo = paciente.getGrupoSangineo();
+            alergias = paciente.getAlergias();
+            tipoDeAlergia = paciente.getTipoAlergia();
+        } else if (entity.getIdMedico() != null) {
+            MedicoEntity medico = entity.getIdMedico();
+            nombre = medico.getNombreMedico();
+            apellido = medico.getApellidosMedicos();
+            tipoIdentificacion = medico.getLicenciaMedica();
+        } else if (entity.getIdAuxiliar() != null) {
+            AuxiliarEntity aux = entity.getIdAuxiliar();
+            nombre = aux.getNombreAuxiliar();
+            apellido = aux.getApellidoAuxiliar();
+            tipoIdentificacion = aux.getIdentificacion();
+        } else if (entity.getIdFarmaceutico() != null) {
+            FarmaceuticoEntity farm = entity.getIdFarmaceutico();
+            nombre = farm.getNombreFarmaceuta();
+            apellido = farm.getApellidoFarmaceuta();
+            tipoIdentificacion = farm.getNumeroLicencia();
+        }
 
-            return LoginResponseDTO.builder()
-                    .id(entity.getId())
-                    .username(entity.getLogin())
-                    .nombre(nombre)
-                    .identificacion(identificacion)
-                    .tipoIdentificacion(tipoIdentificacion)
-                    .rol(entity.getIdRol().getNombre())
-                    .isActive(true)
-                    .build();
-        }).orElse(LoginResponseDTO.builder().isActive(false).build());
-    }
+        return LoginResponseDTO.builder()
+            .id(entity.getId())
+            .username(entity.getLogin())
+            .nombre(nombre)
+            .apellido(apellido)
+            .genero(genero)
+            .fechaNacimiento(fechaNacimiento)
+            .tipoIdentificacion(tipoIdentificacion)
+            .identificacion(identificacion)
+            .idSeguro(idSeguro)
+            .telefono(telefono)
+            .direccion(direccion)
+            .grupoSanguineo(grupoSanguineo)
+            .alergias(alergias)
+            .tipoDeAlergia(tipoDeAlergia)
+            .idMunicipio(idMunicipio)
+            .rol(entity.getIdRol().getNombre())
+            .isActive(true)
+            .build();
+    }).orElse(LoginResponseDTO.builder().isActive(false).build()); }
 
     public List<UsuarioDTO> getAll() {
         return repository.findAll().stream()

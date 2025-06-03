@@ -56,7 +56,7 @@ $("#loginForm").submit(function (event) {
             window.setTimeout(function(){ 
                 var dataUser = JSON.stringify(apiResponse.data);
                 localStorage.setItem("data-user", dataUser);
-                window.location.replace("Admin.html")
+                loggedInRol();
         }, 2000);
         } else{
             $('loginForm') [0].reset();
@@ -73,15 +73,35 @@ $("#loginForm").submit(function (event) {
     openLoader();
     callApi(url, method, request, ifSuccessLogin, ifErrorLogin);
 
-    // Redirección según el perfil
-    //  switch (idRol) {
-    //      case "1": window.location.href = "perfil-usuario.html"; break;
-     //     case "2": window.location.href = "perfil-medico.html"; break;
-     //     case "3": window.location.href = "perfil-auxiliar.html"; break;
-     //     case "4": window.location.href = "perfil-farmaceutico.html"; break;
-     //     default: alert("Rol no reconocido."); break;
-     // }
 });
+
+function loggedInRol() {
+    const dataUser = localStorage.getItem("data-user");
+    if (dataUser) {
+        const rol = JSON.parse(dataUser).rol;
+        switch (String(rol)) {
+            case "Perfil Usuario":
+                window.location.href = "perfil-usuario.html";
+                break;
+            case "Perfil Medico":
+                window.location.href = "perfil-medico.html";
+                break;
+            case "Perfil Auxiliar":
+                window.location.href = "perfil-auxiliar.html";
+                break;
+            case "Perfil Farmaceutico":
+                window.location.href = "perfil-farmaceutico.html";
+                break;
+            default:
+                localStorage.clear();
+                alert("Rol no reconocido.");
+                window.location.href = "Login.html";
+                break;
+        }
+    } else {
+        window.location.href = "Login.html";
+    }
+}
 
 const validMethods = ["GET", "POST", "PUT", "DELETE"];
 
@@ -140,6 +160,14 @@ function closeLoader() {
     $("#loader-mask").removeClass("show");
 }
 
+function logout() {
+    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
+}
+
+
 function addAlert(msg, type, time = null){
 
     var id = "alert_" + getRandomInt(1000, 99999);
@@ -181,3 +209,6 @@ function redirectByLoginUser(logged){
         return;
     }
 }
+
+
+

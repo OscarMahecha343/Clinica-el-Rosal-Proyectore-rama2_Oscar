@@ -61,24 +61,36 @@
     <div class="container mx-auto mt-4" style="max-width: 500px;">
   <div class="card shadow rounded-4">
     <div class="card-header bg-primary text-white text-center rounded-top-4">
-      <h3 class="mb-0">Bienvenido, Usuario</h3>
+      <h3 class="mb-0">Bienvenido</h3>
     </div>
 
-    <div class="card-body p-4">
-      <div class="mb-4">
-        <label for="usuario" class="form-label fw-bold">Usuario</label>
-        <input type="text" id="usuario" class="form-control" value="Usuario 0001" readonly>
-      </div>
+    <div class="card">
+    <div class="card-header mx-auto">Perfil de Paciente</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Nombre:</strong> <span id="usuario"></span></li>
+            <li class="list-group-item"><strong>Identificación:</strong> <span id="identificacion"></span></li>
+            <li class="list-group-item"><strong>Correo:</strong> <span id="username"></span></li>
+            <li class="list-group-item"><strong>Perfil:</strong> <span id="rol"></span></li>
+            <li class="list-group-item"><strong>Género:</strong> <span id="genero"></span></li>
+            <li class="list-group-item"><strong>Fecha de nacimiento:</strong> <span id="fechaNacimiento"></span></li>
+            <li class="list-group-item"><strong>Teléfono:</strong> <span id="telefono"></span></li>
+            <li class="list-group-item"><strong>RH:</strong> <span id="grupoSanguineo"></span></li>
+            <li class="list-group-item"><strong>Alergias:</strong> <span id="tipoDeAlergia"></span></li>
+        </ul>
+    </div>
 
-      <div class="d-grid gap-3">
-        <a href="citas-medicas.html" class="btn btn-outline-primary btn-lg">Agendar / Cancelar Citas</a>
-        <a href="Examenes.html" class="btn btn-outline-success btn-lg">Diagnóstico / Resultados</a>
-        <a href="Afiliacion.html" class="btn btn-outline-info btn-lg">Datos de Usuario</a>
-        <a href="Estado_Afiliacion.html" class="btn btn-outline-warning btn-lg">Estado de Afiliación</a>
-      </div>
 
-      <div class="d-grid mt-4">
-        <a href="Login.html" class="btn btn-danger btn-lg">Cerrar Sesión</a>
+
+        <div class="d-grid gap-3">
+            <a href="citas-medicas.html" class="btn btn-outline-primary btn-lg">Agendar / Cancelar Citas</a>
+            <a href="Examenes.html" class="btn btn-outline-success btn-lg">Diagnóstico / Resultados</a>
+            <a href="Afiliacion.html" class="btn btn-outline-info btn-lg">Datos de Usuario</a>
+            <a href="Estado_Afiliacion.html" class="btn btn-outline-warning btn-lg">Estado de Afiliación</a>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="button" onclick="logout()" class="btn btn-danger btn-lg">Cerrar Sesión</button>
+
       </div>
     </div>
   </div>
