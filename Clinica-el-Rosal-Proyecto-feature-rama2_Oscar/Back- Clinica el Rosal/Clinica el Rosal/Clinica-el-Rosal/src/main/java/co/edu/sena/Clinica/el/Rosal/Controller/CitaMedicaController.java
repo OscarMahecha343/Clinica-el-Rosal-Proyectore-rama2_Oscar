@@ -17,9 +17,11 @@ public class CitaMedicaController {
     private CitaMedicaService service;
 
     // Obtener todas las citas médicas
-    @GetMapping
-    public List<CitaMedicaDTO> getAll() {
-        return service.getAll();
+    @GetMapping("/paciente/{id}")
+    public List<CitaMedicaDTO> getByPaciente(@PathVariable Long id) {
+        return service.getAll().stream()
+                .filter(cita -> cita.getIdPaciente().equals(id))
+                .toList();
     }
 
     // Guardar una nueva cita médica

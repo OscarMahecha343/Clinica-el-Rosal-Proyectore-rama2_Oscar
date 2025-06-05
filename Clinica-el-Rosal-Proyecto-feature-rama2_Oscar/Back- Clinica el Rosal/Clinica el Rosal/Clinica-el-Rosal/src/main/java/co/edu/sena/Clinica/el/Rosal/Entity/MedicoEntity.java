@@ -50,7 +50,7 @@ public class MedicoEntity {
     @Column(name = "id_consultorio", nullable = false)
     private Long consultorio;
 
-    @OneToOne
-    @JoinColumn(name = "id_paciente")
-    private UsuarioEntity usuario; 
+    //@OneToOne
+    //@JoinColumn(name = "id_paciente")
+    //private UsuarioEntity usuario; 
 }

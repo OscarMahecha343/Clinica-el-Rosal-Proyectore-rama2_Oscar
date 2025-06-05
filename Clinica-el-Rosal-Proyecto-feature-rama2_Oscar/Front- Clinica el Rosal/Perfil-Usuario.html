@@ -49,43 +49,66 @@
                     <img src="assets/Logo.JPG" alt="Clínica Santa Fe Integral" class="navbar-logo">
                 </a>
             </div>
-            <ul class="nav-links" >
-                <li><a href="index.html"><i class="bi bi-house-door"></i> Inicio</a></li>
-                <li><a href="mision.html"><i class="bi bi-bullseye"></i> Misión</a></li>
-                <li><a href="vision.html"><i class="bi bi-eye"></i> Visión</a></li>
-                <li><a href="atencion.html"><i class="bi bi-person-lines-fill"></i> Atención</a></li>
-            </ul>
+           
         </nav>
     </div>
 
     <div class="container mx-auto mt-4" style="max-width: 500px;">
-  <div class="card shadow rounded-4">
+    <div class="card shadow rounded-4">
     <div class="card-header bg-primary text-white text-center rounded-top-4">
-      <h3 class="mb-0">Bienvenido</h3>
+    <h3 class="mb-0">Bienvenido</h3>
     </div>
 
-    <div class="card">
-    <div class="card-header mx-auto">Perfil de Paciente</div>
+        <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-header text-center">
+        <h5 class="mb-0">Perfil de Paciente</h5>
+        </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Nombre:</strong> <span id="usuario"></span></li>
-            <li class="list-group-item"><strong>Identificación:</strong> <span id="identificacion"></span></li>
-            <li class="list-group-item"><strong>Correo:</strong> <span id="username"></span></li>
-            <li class="list-group-item"><strong>Perfil:</strong> <span id="rol"></span></li>
-            <li class="list-group-item"><strong>Género:</strong> <span id="genero"></span></li>
-            <li class="list-group-item"><strong>Fecha de nacimiento:</strong> <span id="fechaNacimiento"></span></li>
-            <li class="list-group-item"><strong>Teléfono:</strong> <span id="telefono"></span></li>
-            <li class="list-group-item"><strong>RH:</strong> <span id="grupoSanguineo"></span></li>
-            <li class="list-group-item"><strong>Alergias:</strong> <span id="tipoDeAlergia"></span></li>
+            <li class="list-group-item">
+            <i class="bi bi-person-fill me-2"></i>
+            <strong>Nombre:</strong> <span id="usuario"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-credit-card-2-front me-2"></i>
+            <strong>Identificación:</strong> <span id="identificacion"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-envelope-fill me-2"></i>
+            <strong>Correo:</strong> <span id="username"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-person-badge-fill me-2"></i>
+            <strong>Perfil:</strong> <span id="rol"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-gender-ambiguous me-2"></i>
+            <strong>Género:</strong> <span id="genero"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-calendar-fill me-2"></i>
+            <strong>Fecha de nacimiento:</strong> <span id="fechaNacimiento"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-telephone-fill me-2"></i>
+            <strong>Teléfono:</strong> <span id="telefono"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-droplet-half me-2"></i>
+            <strong>RH:</strong> <span id="grupoSanguineo"></span>
+            </li>
+            <li class="list-group-item">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Alergias:</strong> <span id="tipoDeAlergia"></span>
+            </li>
         </ul>
-    </div>
+        </div>
 
 
 
         <div class="d-grid gap-3">
-            <a href="citas-medicas.html" class="btn btn-outline-primary btn-lg">Agendar / Cancelar Citas</a>
-            <a href="Examenes.html" class="btn btn-outline-success btn-lg">Diagnóstico / Resultados</a>
-            <a href="Afiliacion.html" class="btn btn-outline-info btn-lg">Datos de Usuario</a>
-            <a href="Estado_Afiliacion.html" class="btn btn-outline-warning btn-lg">Estado de Afiliación</a>
+            <a id="btn-citas" href="citas-medicas.html" class="btn btn-outline-primary btn-lg">Citas Asignadas</a>
+            <a id="btn-diagnostico" href="Examenes.html" class="btn btn-outline-success btn-lg">Diagnóstico / Resultados</a>
+            <a id="btn-estado_afiliacion"  href="Estado_Afiliacion.html" class="btn btn-outline-warning btn-lg">Estado de Afiliación</a>
         </div>
 
         <div class="d-grid mt-4">
@@ -94,6 +117,25 @@
       </div>
     </div>
   </div>
+</div>
+<br>
+<br>
+<div class="container mt-4" style="max-width: 600px;">
+    <h5>Historial de Citas</h5>
+    <table class="table table-striped" id="historialCitas">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Médico</th>
+                <th>Especialidad</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
 </div>
 
 
