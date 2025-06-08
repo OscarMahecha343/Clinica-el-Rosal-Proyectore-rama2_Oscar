@@ -1,5 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
+import co.edu.sena.Clinica.el.Rosal.Entity.ConsultorioEntity.Estado;
 import lombok.*;
 
 @Data
@@ -14,7 +15,7 @@ public class ConsultorioDTO {
     private String capacidad;
     private String telefono;
     private String especialidad;
-    private String estado;
+    private Estado estado;
 }
 
 

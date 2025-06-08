@@ -1,5 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
+import co.edu.sena.Clinica.el.Rosal.Entity.EspecialidadEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class EspecialidadEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre_especialidad", nullable = false, length = 100) // Nombre de la especialidad médica
+    @Column(name = "nombre_especialidad", nullable = false) // Nombre de la especialidad médica
     private String nombreEspecialidad;
 }
 

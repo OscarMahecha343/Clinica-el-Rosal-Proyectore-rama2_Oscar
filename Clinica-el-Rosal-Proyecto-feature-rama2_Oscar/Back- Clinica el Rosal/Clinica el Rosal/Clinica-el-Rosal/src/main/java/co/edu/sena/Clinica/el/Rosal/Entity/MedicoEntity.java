@@ -6,12 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import co.edu.sena.Clinica.el.Rosal.Entity.MedicoEntity;
 
 @Entity
 @Table(name = "medico")
@@ -33,13 +34,10 @@ public class MedicoEntity {
     private String apellidosMedicos;
 
     @Column(name = "telefono", nullable = false)
-    private String telefonoDoc; // ← CAMBIADO A String para evitar errores con números grandes
+    private String telefonoDoc; 
 
     @Column(name = "licencia_medica", nullable = false)
     private String licenciaMedica; 
-
-    @Column(name = "id_especialidad", nullable = false)
-    private Long idEspecialidad;
 
     @Column(name = "correo", nullable = false)
     private String correo;
@@ -47,10 +45,11 @@ public class MedicoEntity {
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "id_consultorio", nullable = false)
-    private Long consultorio;
+   @ManyToOne
+    @JoinColumn(name = "id_especialidad")
+    private EspecialidadEntity idEspecialidad;
 
-    //@OneToOne
-    //@JoinColumn(name = "id_paciente")
-    //private UsuarioEntity usuario; 
+    @ManyToOne
+    @JoinColumn(name = "id_consultorio")
+    private ConsultorioEntity consultorio;
 }

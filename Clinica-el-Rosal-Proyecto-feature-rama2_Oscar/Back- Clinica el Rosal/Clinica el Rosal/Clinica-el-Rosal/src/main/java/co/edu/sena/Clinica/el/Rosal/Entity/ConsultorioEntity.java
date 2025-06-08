@@ -12,25 +12,29 @@ import lombok.*;
 public class ConsultorioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre") // Nombre del consultorio
+    @Column(name = "nombre") 
     private String nombreConsultorio;
 
-    @Column(name = "ubicacion") // Ubicación del consultorio (puede ser ID de sede o código)
+    @Column(name = "ubicacion")
     private String ubicacion;
 
-    @Column(name = "capacidad") // Capacidad del consultorio (cuántas personas puede atender)
+    @Column(name = "capacidad") 
     private String capacidad;
 
-    @Column(name = "telefono") // Teléfono de contacto del consultorio
+    @Column(name = "telefono") 
     private String telefono;
 
-    @Column(name = "especialidad") // Especialidad médica que se atiende en el consultorio
+    @Column(name = "especialidad") 
     private String especialidad;
 
-    @Column(name = "estado") // Estado del consultorio: Activo/Inactivo
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
+
+    public enum Estado {
+        ACTIVO, INACTIVO
+    }
 }

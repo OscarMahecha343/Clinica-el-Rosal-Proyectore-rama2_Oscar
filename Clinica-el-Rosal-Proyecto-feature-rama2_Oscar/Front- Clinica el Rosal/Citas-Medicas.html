@@ -72,7 +72,7 @@
                             <label class="form-label fw-bold mb-3">Seleccione una opción:</label>
                             <div class="row justify-content-center">
                                 <div class="col-4">
-                                    <input type="radio" class="btn-check" name="accion" id="agendarCita" value="agendar"
+                                    <input type="radio" class="btn-check" name="accion" id="agendarCita" value="AGENDAR"
                                         required>
                                     <label class="card p-3 shadow-sm border btn btn-outline-success" for="agendarCita">
                                         Agendar Cita
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="col-4">
                                     <input type="radio" class="btn-check" name="accion" id="reprogramarCita"
-                                        value="reprogramar">
+                                        value="REPROGRAMAR">
                                     <label class="card p-3 shadow-sm border btn btn-outline-warning"
                                         for="reprogramarCita">
                                         Reprogramar Cita
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-4">
                                     <input type="radio" class="btn-check" name="accion" id="cancelarCita"
-                                        value="cancelar">
+                                        value="CANCELAR">
                                     <label class="card p-3 shadow-sm border btn btn-outline-danger" for="cancelarCita">
                                         Cancelar Cita
                                     </label>
@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                          <!-- Especialidad -->
+                        <!-- Especialidad -->
                         <div class="mb-3">
                             <label for="especialidad" class="form-label">Seleccione la especialidad de la cita</label>
                             <select id="especialidad" name="idEspecialidad" class="form-select" required>
@@ -112,7 +112,7 @@
                         <!-- Médico -->
                         <div class="mb-3">
                             <label for="medico" class="form-label">Seleccione su médico de preferencia</label>
-                            <<select id="medico" name="idMedico" class="form-select" required>
+                            <select id="idMedico" name="medicoId" class="form-select" required>
                                 <option value="" selected disabled>Seleccione</option>
                                 <option value="1">Profesional: 0001</option>
                                 <option value="2">Profesional: 0002</option>
@@ -130,8 +130,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="hora" class="form-label">Seleccione la hora de la cita:</label>
-                            <input type="time" class="form-control" id="hora" name="hora" required>
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-clock"></i> Seleccione la hora de la cita:
+                            </label>
+                            <div id="horas-container" class="row g-2">
+                                <!-- Los botones se generarán dinámicamente aquí -->
+                            </div>
+                            <div class="form-text">Disponibilidad de 6:00 a.m. a 8:00 p.m. en franjas de 30 minutos.
+                            </div>
                         </div>
 
                         <!-- Botón de envío -->

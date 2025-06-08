@@ -78,6 +78,6 @@ public class PacienteEntity {
     @JoinColumn(name = "id")
     private UsuarioEntity usuario; 
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+     @OneToMany(mappedBy = "idPaciente", cascade = CascadeType.ALL)
     private List<UsuarioEntity> usuarios;
 }

@@ -1,5 +1,7 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
+import co.edu.sena.Clinica.el.Rosal.Entity.ConsultorioEntity;
+import co.edu.sena.Clinica.el.Rosal.Entity.EspecialidadEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +18,9 @@ public class MedicoDTO {
     private String apellidosMedicos;
     private String telefonoDoc;
     private String licenciaMedica;
-    private Long idEspecialidad;
+    private EspecialidadEntity especialidad;
     private String correo;
     private String direccion;
-    private Long consultorio;
+    private ConsultorioEntity consultorio;
+    private String nombreEspecialidad;
 }

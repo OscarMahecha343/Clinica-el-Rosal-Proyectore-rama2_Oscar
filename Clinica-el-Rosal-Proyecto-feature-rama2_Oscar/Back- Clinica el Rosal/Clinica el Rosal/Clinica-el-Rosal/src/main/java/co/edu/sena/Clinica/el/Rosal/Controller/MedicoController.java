@@ -1,7 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.Controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,19 +24,12 @@ public class MedicoController {
     @Autowired
     private MedicoService service;
 
-    // GET: Obtener todos los médicos
-    @GetMapping
-    public List<MedicoDTO> getAll() {
-        return service.getAll();
+    // GET: Obtener médicos por especialidad
+ @GetMapping("/especialidad/{id}")
+    public List<MedicoDTO> listarMedicosPorEspecialidad(@PathVariable("id") Long idEspecialidad) {
+        return service.listarMedicosPorEspecialidad(idEspecialidad);
     }
 
-    // GET: Obtener médicos por especialidad
-    @GetMapping("/especialidad/{id}")
-    public List<MedicoDTO> getByEspecialidad(@PathVariable Long id) {
-        return service.getAll().stream()
-                .filter(medico -> medico.getIdEspecialidad().equals(id))
-                .toList();
-    }
 
     // POST: Guardar nuevo médico
     @PostMapping

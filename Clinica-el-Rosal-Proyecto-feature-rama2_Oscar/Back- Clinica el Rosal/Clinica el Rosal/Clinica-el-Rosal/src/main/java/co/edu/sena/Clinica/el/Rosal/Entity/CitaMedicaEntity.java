@@ -11,28 +11,36 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CitaMedicaEntity { 
+public class CitaMedicaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id") // Clave primaria autogenerada
     private Long id;
 
-    @Column(name = "id_paciente") // ID del paciente que asiste a la cita
-    private Long idPaciente;
+    @ManyToOne
+    @JoinColumn(name = "id_paciente", nullable = false)
+    private PacienteEntity paciente;
 
-    @Column(name = "id_medico") // ID del médico asignado a la cita
-    private Long idMedico;
+    @ManyToOne
+    @JoinColumn(name = "id_medico", nullable = false)
+    private MedicoEntity medico;
 
     @Column(name = "fecha") // Fecha en que se realizará la cita
-    private Date fecha; 
+    private Date fecha;
 
     @Column(name = "hora") // Hora exacta de la cita
     private String hora;
 
-    @Column(name = "estado") // Estado de la cita: pendiente, realizada, cancelada, etc.
-    private String estado;
+    @ManyToOne
+    @JoinColumn(name = "id_especialidad", nullable = false)
+    private EspecialidadEntity especialidad;
 
-    @Column(name = "id_especialidad") // ID o código de la especialidad requerida
-    private String idEspecialidad;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Estado estado;
+
+    public enum Estado {
+        AGENDAR, REPROGRAMAR, CANCELAR
+    }
 }

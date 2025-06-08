@@ -1,38 +1,44 @@
 package co.edu.sena.Clinica.el.Rosal.Controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.sena.Clinica.el.Rosal.Service.CitaMedicaService;
 import co.edu.sena.Clinica.el.Rosal.dto.CitaMedicaDTO;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/cita")
-@CrossOrigin(origins = "*") // Habilita peticiones desde cualquier origen (ideal para frontend)
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class CitaMedicaController {
 
-    @Autowired
-    private CitaMedicaService service;
+    private final CitaMedicaService service;
 
-    // Obtener todas las citas médicas
-    @GetMapping("/paciente/{id}")
-    public List<CitaMedicaDTO> getByPaciente(@PathVariable Long id) {
-        return service.getAll().stream()
-                .filter(cita -> cita.getIdPaciente().equals(id))
-                .toList();
-    }
-
-    // Guardar una nueva cita médica
     @PostMapping
-    public void save(@RequestBody CitaMedicaDTO dto) {
+    public ResponseEntity<CitaMedicaDTO> crearCita(@RequestBody CitaMedicaDTO dto) {
         service.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    // Eliminar una cita médica por su ID
+    @GetMapping("/paciente/{id}")
+    public List<CitaMedicaDTO> obtenerCitas(@PathVariable("id") Long idPaciente) {
+        return service.obtenerCitasPorPaciente(idPaciente);
+    }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/fecha/{fecha}")
+    public List<CitaMedicaDTO> obtenerCitasPorFecha(@PathVariable String fecha) {
+        return service.obtenerCitasPorFecha(LocalDate.parse(fecha));
     }
 }
