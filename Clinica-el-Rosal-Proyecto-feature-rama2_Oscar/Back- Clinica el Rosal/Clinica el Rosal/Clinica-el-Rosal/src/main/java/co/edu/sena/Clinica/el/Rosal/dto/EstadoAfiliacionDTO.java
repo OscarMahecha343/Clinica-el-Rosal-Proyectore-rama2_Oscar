@@ -14,14 +14,11 @@ import lombok.NoArgsConstructor;
 public class EstadoAfiliacionDTO {
 
     private Long id;
-
-    private String idAfiliacion; 
-
+    private Long idAfiliacion; 
+    private String nombreAfiliado; 
+    private String apellidoAfiliado; 
     private String estadoAfiliacion;
-
     private Date fechaActivacion;
-
     private Date fechaCertificado;
-
     private String observaciones;
 }

@@ -17,8 +17,9 @@ public class DetalleExamenEntity {
     @Column(name = "id") // Clave primaria autoincremental
     private Long id;
 
-    @Column(name = "id_tipo_examen")
-    private Long idTipoExamen; // ID de tipo de examen (clave foránea si aplica)
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_examen", referencedColumnName = "id")
+    private TipoExamenEntity tipoExamen; // ID de tipo de examen (clave foránea si aplica)
 
     @Column(name = "fecha_examen")
     private String fechaExamen; // Fecha en que se realizó el examen
@@ -35,8 +36,3 @@ public class DetalleExamenEntity {
     @Column(name = "created_at")
     private String createdAt; // Fecha y hora de creación del registro
 }
-
-
-
-
-

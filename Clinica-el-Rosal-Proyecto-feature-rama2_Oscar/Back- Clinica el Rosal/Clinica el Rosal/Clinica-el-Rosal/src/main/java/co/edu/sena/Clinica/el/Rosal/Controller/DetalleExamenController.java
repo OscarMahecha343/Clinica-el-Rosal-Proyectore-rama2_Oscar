@@ -15,10 +15,10 @@ public class DetalleExamenController {
     @Autowired
     private DetalleExamenService service;
 
-    // GET /detalle_examenes
-    @GetMapping
-    public List<DetalleExamenDTO> getAll() {
-        return service.getAll();
+    // GET /detalle_examenes/paciente/{id}
+    @GetMapping("/paciente/{id}")
+    public List<DetalleExamenDTO> getByPacienteId(@PathVariable Long id) {
+        return service.getByPacienteId(id);
     }
 
     // GET /detalle_examenes/{id}

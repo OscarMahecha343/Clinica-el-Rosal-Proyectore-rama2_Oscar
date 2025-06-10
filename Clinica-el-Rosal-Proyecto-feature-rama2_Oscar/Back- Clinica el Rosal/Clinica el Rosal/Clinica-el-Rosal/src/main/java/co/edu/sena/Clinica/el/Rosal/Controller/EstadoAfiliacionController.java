@@ -15,34 +15,35 @@ public class EstadoAfiliacionController {
     @Autowired
     private EstadoAfiliacionService service;
 
-    // GET: Listar todos los estados de afiliación
     @GetMapping
     public List<EstadoAfiliacionDTO> getAll() {
         return service.getAll();
     }
 
-    // GET: Obtener un estado de afiliación por su ID
     @GetMapping("/{id}")
     public EstadoAfiliacionDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-    // POST: Crear un nuevo estado de afiliación
+    @GetMapping("/paciente/{id}")
+    public EstadoAfiliacionDTO getByPaciente(@PathVariable Long id) {
+        return service.getByAfiliacionId(id);
+    }
+
     @PostMapping
     public void save(@RequestBody EstadoAfiliacionDTO dto) {
         service.save(dto);
     }
 
-    // PUT: Actualizar estado de afiliación existente
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody EstadoAfiliacionDTO dto) {
-        dto.setId(id); // Asegura que el ID usado es el de la ruta
+        dto.setId(id);
         service.save(dto);
     }
 
-    // DELETE: Eliminar estado de afiliación por ID
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
+
 }

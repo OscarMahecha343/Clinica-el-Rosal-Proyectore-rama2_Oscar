@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Clinico</title>
-    <link rel="stylesheet" href="./css/Pmedico.css" media="screen">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Perfil Auxiliar</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
     <style>
         body {
             background-image: url('./assets/bg_2.jpg');
@@ -17,12 +16,8 @@
             background-attachment: fixed;
         }
 
-        .container-hidden {
-            display: none;
-        }
-
         #banner {
-            background-color: rgba(0, 0, 0, 0.125) !important;
+            background-color: rgba(0, 0, 0, 0.125);
             border-radius: 100px;
         }
 
@@ -31,293 +26,364 @@
             border-radius: 100px;
         }
 
-    
-
-        #navbarNav {
-            border-radius: 80px;
-            margin: 10px 0 10px 0;
-            background-color: rgba(0, 0, 0, 0.125) !important;
-        }
-
-        #Factura-card {
-            max-width: 80%;
-            margin: 0 auto;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        .container-hidden {
+            display: none !important;
         }
     </style>
 </head>
 
 <body>
+
+
     <div class="container  mx-auto mt-2" id="Link-container">
         nav class="glass-navbar">
-            <div class="logo-container">
-                <a href="index.html">
-                    <img src="assets/Logo.JPG" alt="Clínica Santa Fe Integral" class="navbar-logo">
-                </a>
-            </div>
-            <ul class="nav-links" >
-                <li><a href="index.html"><i class="bi bi-house-door"></i> Inicio</a></li>
-                <li><a href="mision.html"><i class="bi bi-bullseye"></i> Misión</a></li>
-                <li><a href="vision.html"><i class="bi bi-eye"></i> Visión</a></li>
-                <li><a href="atencion.html"><i class="bi bi-person-lines-fill"></i> Atención</a></li>
-            </ul>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="assets/Logo.JPG" alt="Clínica Santa Fe Integral" class="navbar-logo">
+            </a>
+        </div>
+
         </nav>
     </div>
 
-    <div class="container mx-auto mt-4">
-        <div class="card text-center mx-auto" style="max-width: 600px;">
-        <div class="card-header text-center">
-            <h4>Auxiliar_00001</h4>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <button id="btnGestiondeAgendamiento" class="btn btn-outline-primary">Gestion de
-                    Agendamiento</button>
-                    <button id="btnFacturacion" class="btn btn-outline-primary">Facturacion</button>
-                    <button id="btnGestion de Examenes / Resultados" class="btn btn-outline-primary">Gestion de
-                    Examenes / Resultados</button>
-                    </div>
+    <div class="container mx-auto mt-4" style="max-width: 500px;">
+        <div class="card shadow rounded-4">
+            <div class="card-header bg-primary text-white text-center rounded-top-4">
+                <h3 class="mb-0">Bienvenido</h3>
+            </div>
+            <div class="card mx-auto" style="max-width: 400px;">
+                <div class="card-header text-center">
+                    <h5 class="mb-0">Perfil de Auxiliar</h5>
                 </div>
-
-                <div class="d-grid gap-2 mt-3">
-                    <button onclick="logout()" class="btn btn-danger btn-lg">Cerrar Sesión</button>
-                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-person-fill me-2"></i><strong>Nombre:</strong> <span
+                            id="usuario"></span></li>
+                    <li class="list-group-item"><i
+                            class="bi bi-credit-card-2-front me-2"></i><strong>Identificación:</strong> <span
+                            id="identificacion"></span></li>
+                    <li class="list-group-item"><i class="bi bi-envelope-fill me-2"></i><strong>Correo:</strong> <span
+                            id="username"></span></li>
+                    <li class="list-group-item"><i class="bi bi-person-badge-fill me-2"></i><strong>Perfil:</strong>
+                        <span id="rol"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-grid gap-3 mt-3">
+                <button class="btn btn-outline-primary btn-lg"
+                    onclick="mostrarSeccion('containerGestiondeAgendamiento')">Gestión de Agendamiento</button>
+                <button class="btn btn-outline-success btn-lg"
+                    onclick="mostrarSeccion('containerAfiliacion')">Afiliación</button>
+                <button class="btn btn-outline-warning btn-lg"
+                    onclick="mostrarSeccion('containerGestionExamenes')">Exámenes / Resultados</button>
+            </div>
+            <div class="d-grid mt-4">
+                <button type="button" onclick="logout()" class="btn btn-danger btn-lg">Cerrar Sesión</button>
             </div>
         </div>
     </div>
 
-    <div id="containerGestiondeAgendamiento" class="container-hidden mx-auto" style="max-width: 600px;">
-        <div class="card text-center  mx-auto" style="max-width: 700px;">
-            <div class="card-header text-center">
-                <h4>Auxiliar_0001</h4>
-                <p>Estado: <span class="badge bg-success">Activo</span></p>
-            </div>
 
-            <div class="card-header">
-                <h4>Gestion de Agendamiento</h4>
-            </div>
-            <br>
-
-            <div class="row-mb-3">
-                <div class="col-6 mx-auto text-center">
-                    <label for="medico" class="form-label">Medico</label>
-                    <select id="medico" class="form-select" required>
-                        <option selected disabled>Seleccionar Medico</option>
-                        <option value="1">Profesional: 0001</option>
-                        <option value="2">Profesional: 0002</option>
-                        <option value="3">Profesional: 0003</option>
-                        <option value="4">Profesional: 0004</option>
-                        <option value="5">Profesional: 0005</option>
-                    </select>
-                </div>
-                <br>
-
-                <div class="col-md-6 mx-auto text-center">
-                    <label for="especialidad" class="form-label">Especialidad</label>
-                    <select id="especialidad" class="form-select" required>
-                        <option selected disabled>Seleccionar Especialidad</option>
-                        <option value="1">Medicina General</option>
-                        <option value="2">Medicina Interna</option>
-                        <option value="3">Pediatria</option>
-                        <option value="4">Ortopedia y Traumatologia</option>
-                        <option value="5">Odontologia</option>
-                    </select>
-                </div>
-            </div>
-            <br>
-
-            <div class="row-mb-3">
-                <div class="col-md-6 mx-auto text-center">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" id="fecha" class="form-control" required>
-                </div>
-                <br>
-
-                <div class="col-md-6 mx-auto text-center">
-                    <button id="consultarAgendamiento" class="btn btn-primary w-100" onclick="consultarAgendamiento()">Consultar Agendamiento</button>
-                </div>
-            </div>
-            <br>
-
-            <table id="tablaAgendamiento">
-                <thead>
-                    <tr>
-                        <th>Hora</th>
-                        <th>Estado</th>
-                        <th>Motivo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <!-- Las filas se generarán dinámicamente con JavaScript -->
-                </tbody>
-            </table>
-
-            <div class="mb-3">
-                <button id="guardarCambios" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
-                <button class="btn btn-secondary" onclick="cancelar()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <br>
-
-    <div id="containerFacturacion" class="container-hidden">
-        <div class="card text-center mx-auto" style="max-width: 700px;">
+    <div id="containerGestiondeAgendamiento" class="container container-hidden mt-5">
+        <div class="card">
             <div class="card-header bg-primary text-white">
-                <h4>Gestion De Facturacion</h4>
+                <h5>Gestión de Agendamiento</h5>
             </div>
-            <br>
-            
-            <form>
-                <div class="mb-3">
-                    <label for="IdPaciente" class="form-label">ID del Paciente</label>
-                    <input type="number" class="form-control" id="IdPaciente" placeholder="Ingresar ID del Paciente" required>
-                </div>
-                <br>
+            <div class="card-body">
+                <div class="mb-3 text-center">
+                    <label class="form-label fw-bold mb-3">Seleccione una opción:</label>
+                    <div class="row justify-content-center">
+                        <div class="mb-3">
+                            <label for="buscarIdentificacion" class="form-label">Buscar Paciente por
+                                Identificación</label>
+                            <input type="text" id="buscarIdentificacion" class="form-control"
+                                placeholder="Ingrese número de identificación">
+                            <button type="button" class="btn btn-primary mt-2"
+                                onclick="buscarPacientePorIdentificacion()">Buscar</button>
+                        </div>
+                        <div class="mb-3">
+                            <p><strong>Paciente:</strong> <span id="pacienteNombre"></span></p>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="Servicio" class="form-label">Tipo de Servicio</label>
-                    <select class="form-select" id="Servicio" required>
-                        <option value=""selected>Seleccionar el Tipo de Servicio</option>
-                        <option value="1">Pediatria</option>
-                        <option value="2">Medicina interna</option>
-                        <option value="3">Dietetica y nutricion</option>
-                        <option value="4">Fisioterapeuta</option>
-                        <option value="5">Psicologia</option>
-                        <option value="6">Ortopedia y Traumatologia</option>
-                        <option value="7">Odontologia</option>
-                        <option value="8">Medicina General</option>
-                        <option value="9">Oftamologia</option>
-                        <option value="10">Ginecologia</option>
-                        <option value="11">Radiografia</option>
-                        <option value="12">Hemograma</option>
-                        <option value="13">Tomografia computarizada (TC)</option>
-                        <option value="14">Radiografía periapical </option>
-                        <option value="15">Resonancia Magnetica (RMN)</option>
-                        <option value="16">Electrocardiograma</option>
-                        <option value="17">Insulina</option>
-                        <option value="18">Electromiografía (EMG)</option>
-                        <option value="19">Hemoglobina glicosilada</option>
-                        <option value="20">Ecografía musculoesquelética</option>
-                        <option value="21">Ecografía Abdominal</option>
-                        <option value="22">Evaluacion psicologica completa</option>
-                    </select>
-                </div>
-                <br>
+                        <div class="mb-3">
+                            <label for="nombrePaciente" class="form-label">Nombre del Paciente</label>
+                            <input type="text" id="nombrePaciente" class="form-control" readonly>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="Monto" class="form-label">Ingresar el Monto</label>
-                    <input type="number" class="form-control" id="Monto" name="Monto" step="0.01" placeholder="Ingresar el Monto del Servicio por Prestar" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="Fecha" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="Fecha" required>
-                </div>
-
-                <div class="d-flex justify-content-end">
-                    <button type="reset" class="btn btn-secondary me-2">Limpiar</button>
-                    <!--En el Boton de registrar factura tambien se le tiene que agregar el JavaScript para su funcionalidad correcta-->
-                    <button type="button" class="btn btn-primary" onclick="registrarFactura()">Registrar</button>
-                </div>
-            </form>
-        </div>
-
-        <!--Seccion que su funcion es para mostrar la Factura-->
-        <div class="container mt-4">
-            <div class="card shadow-lg w-100 mx-auto" id="Factura-card" style="display: none;">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0">Factura Generada</h4>
-                </div>
-
-                <div class="card-body">
-                    <div id="Factura-detalles">
-                        <!--Aqui se rellenaria los detalles de la Factura con la integracion de JavaScript-->
-                    </div>
-
-                    <!--A estos botones en particular tambien es necesario agregarles la integracion de JavaScript para que puedan funcionar -->
-                    <div class="d-flex justify-content-end mt-3">
-                        <button class="btn btn-secondary me-2" onclick="location.reload()">Registrar Otra Factura</button>
-                        <button class="btn btn-success" onclick="window.print()">Imprimir Factura</button>
+                        <input type="hidden" id="idPaciente">
+                        <div class="col-4">
+                            <input type="radio" class="btn-check" name="accion" id="agendarCita" value="AGENDAR"
+                                required>
+                            <label class="card p-3 shadow-sm border btn btn-outline-success" for="agendarCita">
+                                Agendar Cita
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="radio" class="btn-check" name="accion" id="reprogramarCita"
+                                value="REPROGRAMAR">
+                            <label class="card p-3 shadow-sm border btn btn-outline-warning" for="reprogramarCita">
+                                Reprogramar Cita
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="radio" class="btn-check" name="accion" id="cancelarCita" value="CANCELAR">
+                            <label class="card p-3 shadow-sm border btn btn-outline-danger" for="cancelarCita">
+                                Cancelar Cita
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <br>
 
-    <div id="containerGestion de Examenes / Resultados" class="container-hidden">
-        <div class="card mx-auto" style="max-width: 700px;">
-            <div class="card-header text-center">
-                <h4>Gestion de Examenes / Resultados</h4>
-            </div>
+                <!-- Especialidad -->
+                <form id="formCita">
+                    <div class="mb-3">
+                        <label for="especialidad" class="form-label">Seleccione la especialidad de la cita</label>
+                        <select id="especialidad" name="idEspecialidad" class="form-select" required>
+                            <option value="" selected disabled>Seleccione</option>
+                            <option value="Medicina General">Medicina General</option>
+                            <option value="Medicina Interna">Medicina Interna</option>
+                            <option value="Pediatria">Pediatría</option>
+                            <option value="Ortopedia y Traumatologia">Ortopedia y Traumatología</option>
+                            <option value="Odontologia">Odontología</option>
+                        </select>
+                    </div>
 
-            <form id="examenForm">
-                <label for="paciente" class="form-label">Buscar Paciente por ID</label>
-                <input type="text" class="form-control" id="paciente" placeholder="Ingrese el ID del paciente">
-                <br>
-                <button type="button" class="btn btn-primary btn-sm" onclick="buscarPaciente()">Buscar</button>
+                    <!-- Médico -->
+                    <div class="mb-3">
+                        <label for="medico" class="form-label">Seleccione su médico de preferencia</label>
+                        <select id="idMedico" name="medicoId" class="form-select" required>
+                            <option value="" selected disabled>Seleccione</option>
+                            <option value="1">Profesional: 0001</option>
+                            <option value="2">Profesional: 0002</option>
+                            <option value="3">Profesional: 0003</option>
+                            <option value="4">Profesional: 0004</option>
+                            <option value="5">Profesional: 0005</option>
+                        </select>
+                    </div>
 
-                <div id="infoPaciente">
-                    <!-- Información del paciente se mostrará aquí -->
-                </div>
-                <br>
 
-                <div class="mb-3">
-                    <label for="tipoExamen" class="form-label">Tipo Examen</label>
-                    <select class="form-select" id="tipoExamen" required>
-                        <option selected>Selecciona el Tipo de Examen</option>
-                        <option value="1">Radiografia</option>
-                        <option value="2">Hemograma</option>
-                        <option value="3">Tomografia computarizada (TC)</option>
-                        <option value="4">Radiografía periapical</option>
-                        <option value="5">Resonancia Magnetica (RM)</option>
-                        <option value="6">Electrocardiograma</option>
-                        <option value="7">Insulina</option>
-                        <option value="8">Electromiografía (EMG)</option>
-                        <option value="9">Hemoglobina glicosilada</option>
-                        <option value="10">Ecografía musculoesquelética</option>
-                        <option value="11">Ecografía Abdominal</option>
-                        <option value="12">Evaluacion psicologica completa</option>
-                    </select>
-                </div>
+                    <!-- Fecha y hora -->
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Seleccione una fecha:</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="fechaExamen" class="form-label">Fecha del Examen</label>
-                    <input type="date" class="form-control" id="fechaExamen" required>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-clock"></i> Seleccione la hora de la cita:
+                        </label>
+                        <div id="horas-container" class="row g-2">
+                            <!-- Los botones se generarán dinámicamente aquí -->
+                        </div>
+                        <div class="form-text">Disponibilidad de 6:00 a.m. a 8:00 p.m. en franjas de 30 minutos.
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="archivoExamen" class="form-label">Archivo del Examen</label>
-                    <input type="file" class="form-control" id="archivoExamen" accept=".pdf,.jpg,.png,.docx" required>
-                </div>
-
-                <button type="button" class="btn btn-primary" onclick="subirExamen()">Subir Examen</button>
-                <button type="button" class="btn-secondary" onclick="cancelar()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-<footer class="footer text-white">
-    <div class="container py-4">
-        <div class="row text-center text-md-start align-items-center">
-            <div class="col-md-6 mb-3 mb-md-0">
-                <h5 class="fw-bold">Clínica Santa Fe Integral</h5>
-                <p class="mb-1">Calle 95 #18-53, Bogotá, Colombia</p>
-                <p class="mb-0">Email: <a href="mailto:contacto@clinicasantafeintegral.com" class="footer-link">contacto@clinicasantafeintegral.com</a></p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <p class="mb-0">&copy; 2024 Clínica Santa Fe Integral. Todos los derechos reservados.</p>
-                <div class="social-icons mt-2">
+                    <!-- Botón de envío -->
+                    <div class="mb-4">
+                        <button type="button" class="btn btn-primary" onclick="agendarCita()">Aceptar</button>
+                    </div>
+                    <!--<div class="text-end mt-3">
+                        <a href="perfil-usuario.html" class="btn btn-outline-primary rounded-pill">
+                            <i class="bi bi-arrow-left-circle"></i> Volver al perfil
+                        </a>
+                    </div>-->
+                </form>
+                <hr>
+                <h5 class="mt-4">Citas Agendadas</h5>
+                <div id="tabla-citas">
+                    <p class="text-muted">No hay citas registradas.</p>
                 </div>
             </div>
         </div>
     </div>
-</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <div id="containerAfiliacion" class="container container-hidden mt-5">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Gestión de Estado_Afiliacion</h5>
+            </div>
+            <div class="card-body">
+                <div class="container mx-auto mt-5">
+                    <div class="card mx-auto" style="max-width: 600px;">
+                        <div class="card-header text-center">
+                            <h3>Afiliacion</h3>
+                        </div>
+                        <br>
+
+                        <div class="card-body">
+                            <form>
+                                <h5><strong>Diligenciar el Siguiente Formulario:</strong></h5>
+                                <br>
+
+                                <div class="mb-3">
+                                    <label for="nombres" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" id="nombres"
+                                        placeholder="Ingrese su Nombres">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="apellidos" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="apellidos"
+                                        placeholder="Ingrese su Apellidos">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tipoIdentificacion" class="form-label">Tipo de Identificacion</label>
+                                    <select class="form-select" id="tipoIdentificacion" name="tipoIdentificacion"
+                                        required>
+                                        <option value="">Seleccione</option>
+                                        <option value="1">TI</option>
+                                        <option value="2">CC</option>
+                                        <option value="3">Extranjería</option>
+                                        <option value="4">Registro Civil</option>
+                                        <option value="5">Pasaporte</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Identificacion" class="form-label">Identificacion</label>
+                                    <input type="text" class="form-control" id="Identificacion"
+                                        placeholder="Ingrese su Identificacion">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechaNacimiento">
+                                </div>
+
+                                <h5><strong>Información de Contacto</strong></h5>
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="telefono"
+                                        placeholder="Ingrese su Teléfono">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="correo"
+                                        placeholder="Ingrese su Correo Electrónico">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="direccion" class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="direccion"
+                                        placeholder="Ingrese su Dirección">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Municipio" class="form-label">Municipio</label>
+                                    <input type="text" class="form-control" id="Municipio"
+                                        placeholder="Ingrese su Municipio">
+                                </div>
+
+                                <h5><strong>Información de Afiliación</strong></h5>
+                                <div class="mb-3">
+                                    <label for="tipoAfiliacion" class="form-label">Tipo de Afiliación</label>
+                                    <select class="form-select" id="tipoAfiliacion">
+                                        <option selected>Seleccione</option>
+                                        <option value="1">Contributivo</option>
+                                        <option value="2">Subsidiado</option>
+                                        <option value="3">Particular</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Seguro" class="form-label">Seguro</label>
+                                    <select class="form-select" id="Seguro" name="Seguro" required>
+                                        <option value="">Seleccione</option>
+                                        <option value="1">colsanitas</option>
+                                        <option value="2">colmedica</option>
+                                        <option value="3">compensar</option>
+                                        <option value="4">medisanitas</option>
+                                        <option value="5">sura prepagada</option>
+                                        <option value="6">coomeva</option>
+                                        <option value="7">seguros volibar</option>
+                                        <option value="8">salud Total</option>
+                                        <option value="9">unisalud</option>
+                                        <option value="10">Mutual Ser</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-grid">
+                                    <a href="Login.html" class="btn btn-primary">Actualizar</a>
+                                </div>
+                                <div class="d-grid mx-auto mt-3">
+                                    <a href="Perfil-Usuario.html" class="btn btn-primary">Volver</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="containerGestionExamenes" class="container container-hidden mt-5">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5>Gestión de Exámenes / Resultados</h5>
+            </div>
+            <div class="card-body">
+                <div class="container mt-4">
+                    <div class="card shadow-lg border-0 rounded-4 p-4"
+                        style="background-color: rgba(255, 255, 255, 0.85);">
+                        <div class="mb-4 text-center">
+                            <h3 class="fw-bold text-primary">Resultados de Exámenes</h3>
+                            <p class="text-muted">Consulta aquí los exámenes disponibles para tu revisión</p>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <p><strong>👤 Usuario:</strong> <span id="nombreUsuario" class="text-dark"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>📧 Correo:</strong> <span id="correoUsuario" class="text-dark"></span></p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle text-center table-hover">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>🧪 ID Tipo Examen</th>
+                                        <th>📅 Fecha del Examen</th>
+                                        <th>📂 Archivo</th>
+                                        <th>📄 Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="examTableBody">
+                                    <!-- Contenido dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-end mt-3">
+                            <a href="perfil-usuario.html" class="btn btn-outline-primary rounded-pill">
+                                <i class="bi bi-arrow-left-circle"></i> Volver al perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer text-white mt-5">
+        <div class="container py-4">
+            <div class="row text-center text-md-start align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5 class="fw-bold">Clínica Santa Fe Integral</h5>
+                    <p class="mb-1">Calle 95 #18-53, Bogotá, Colombia</p>
+                    <p class="mb-0">Email: <a href="mailto:contacto@clinicasantafeintegral.com"
+                            class="footer-link">contacto@clinicasantafeintegral.com</a></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2024 Clínica Santa Fe Integral. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="JS/Perfil-Auxiliar.js"></script>
 </body>
 

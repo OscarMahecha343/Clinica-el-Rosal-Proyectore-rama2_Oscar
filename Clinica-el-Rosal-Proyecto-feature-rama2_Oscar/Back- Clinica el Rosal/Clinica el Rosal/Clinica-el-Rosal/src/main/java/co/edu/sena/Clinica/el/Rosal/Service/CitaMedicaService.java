@@ -47,47 +47,112 @@ public class CitaMedicaService {
     }
 
     // Obtener todas las citas médicas registradas por paciente
-  public List<CitaMedicaDTO> obtenerCitasPorPaciente(Long idPaciente) {
-    return repository.findByPaciente_Id(idPaciente).stream()
-        .map(cita -> {
-            String nombreMedico = "";
-            String nombreConsultorio = "";
-            String ubicacionConsultorio = "";
+    public List<CitaMedicaDTO> obtenerCitasPorPaciente(Long idPaciente) {
+        return repository.findByPaciente_Id(idPaciente).stream()
+                .map(cita -> {
+                    String nombreMedico = "";
+                    String nombreConsultorio = "";
+                    String ubicacionConsultorio = "";
 
-            if (cita.getMedico() != null) {
-                nombreMedico = cita.getMedico().getNombreMedico() + " " + cita.getMedico().getApellidosMedicos();
-                if (cita.getMedico().getConsultorio() != null) {
-                    nombreConsultorio = cita.getMedico().getConsultorio().getNombreConsultorio();
-                    ubicacionConsultorio = cita.getMedico().getConsultorio().getUbicacion();
-                }
-            }
+                    if (cita.getMedico() != null) {
+                        nombreMedico = cita.getMedico().getNombreMedico() + " "
+                                + cita.getMedico().getApellidosMedicos();
+                        if (cita.getMedico().getConsultorio() != null) {
+                            nombreConsultorio = cita.getMedico().getConsultorio().getNombreConsultorio();
+                            ubicacionConsultorio = cita.getMedico().getConsultorio().getUbicacion();
+                        }
+                    }
 
-            return CitaMedicaDTO.builder()
-                    .id(cita.getId())
-                    .idPaciente(cita.getPaciente() != null ? cita.getPaciente().getId() : null)
-                    .idMedico(cita.getMedico() != null ? cita.getMedico().getId() : null)
-                    .idEspecialidad(cita.getEspecialidad() != null ? cita.getEspecialidad().getId() : null)
-                    .fecha(cita.getFecha())
-                    .hora(cita.getHora())
-                    .estado(cita.getEstado())
-                    .nombreEspecialidad(cita.getEspecialidad() != null ? cita.getEspecialidad().getNombreEspecialidad() : "")
-                    .nombreMedico(nombreMedico)
-                    .consultorio(nombreConsultorio)
-                    .ubicacionConsultorio(ubicacionConsultorio)
-                    .build();
-        })
-        .collect(Collectors.toList());
-}
-public List<CitaMedicaDTO> obtenerCitasPorFecha(LocalDate fecha) {
-    return repository.findByFecha(Date.valueOf(fecha)).stream()
-        .map(cita -> CitaMedicaDTO.builder()
-            .hora(cita.getHora())
-            .build())
-        .collect(Collectors.toList());
-}
+                    return CitaMedicaDTO.builder()
+                            .id(cita.getId())
+                            .idPaciente(cita.getPaciente() != null ? cita.getPaciente().getId() : null)
+                            .idMedico(cita.getMedico() != null ? cita.getMedico().getId() : null)
+                            .idEspecialidad(cita.getEspecialidad() != null ? cita.getEspecialidad().getId() : null)
+                            .fecha(cita.getFecha())
+                            .hora(cita.getHora())
+                            .estado(cita.getEstado())
+                            .nombreEspecialidad(
+                                    cita.getEspecialidad() != null ? cita.getEspecialidad().getNombreEspecialidad()
+                                            : "")
+                            .nombreMedico(nombreMedico)
+                            .consultorio(nombreConsultorio)
+                            .ubicacionConsultorio(ubicacionConsultorio)
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<CitaMedicaDTO> obtenerCitasPorFecha(LocalDate fecha) {
+        return repository.findByFecha(Date.valueOf(fecha)).stream()
+                .map(cita -> CitaMedicaDTO.builder()
+                        .hora(cita.getHora())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
     // Eliminar una cita médica por su ID
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    public CitaMedicaDTO update(Long id, CitaMedicaDTO dto) {
+        CitaMedicaEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada con id: " + id));
+
+        copyDtoToEntity(dto, entity);
+        return convertToDto(repository.save(entity));
+    }
+
+    private void copyDtoToEntity(CitaMedicaDTO dto, CitaMedicaEntity entity) {
+        if (dto.getIdPaciente() != null) {
+            PacienteEntity paciente = new PacienteEntity();
+            paciente.setId(dto.getIdPaciente());
+            entity.setPaciente(paciente);
+        }
+
+        if (dto.getIdMedico() != null) {
+            MedicoEntity medico = new MedicoEntity();
+            medico.setId(dto.getIdMedico());
+            entity.setMedico(medico);
+        }
+
+        if (dto.getIdEspecialidad() != null) {
+            EspecialidadEntity especialidad = new EspecialidadEntity();
+            especialidad.setId(dto.getIdEspecialidad());
+            entity.setEspecialidad(especialidad);
+        }
+
+        entity.setFecha(dto.getFecha());
+        entity.setHora(dto.getHora());
+        entity.setEstado(dto.getEstado());
+    }
+
+    private CitaMedicaDTO convertToDto(CitaMedicaEntity cita) {
+        String nombreMedico = "";
+        String nombreConsultorio = "";
+        String ubicacionConsultorio = "";
+
+        if (cita.getMedico() != null) {
+            nombreMedico = cita.getMedico().getNombreMedico() + " " + cita.getMedico().getApellidosMedicos();
+            if (cita.getMedico().getConsultorio() != null) {
+                nombreConsultorio = cita.getMedico().getConsultorio().getNombreConsultorio();
+                ubicacionConsultorio = cita.getMedico().getConsultorio().getUbicacion();
+            }
+        }
+
+        return CitaMedicaDTO.builder()
+                .id(cita.getId())
+                .idPaciente(cita.getPaciente() != null ? cita.getPaciente().getId() : null)
+                .idMedico(cita.getMedico() != null ? cita.getMedico().getId() : null)
+                .idEspecialidad(cita.getEspecialidad() != null ? cita.getEspecialidad().getId() : null)
+                .fecha(cita.getFecha())
+                .hora(cita.getHora())
+                .estado(cita.getEstado())
+                .nombreEspecialidad(
+                        cita.getEspecialidad() != null ? cita.getEspecialidad().getNombreEspecialidad() : "")
+                .nombreMedico(nombreMedico)
+                .consultorio(nombreConsultorio)
+                .ubicacionConsultorio(ubicacionConsultorio)
+                .build();
     }
 }

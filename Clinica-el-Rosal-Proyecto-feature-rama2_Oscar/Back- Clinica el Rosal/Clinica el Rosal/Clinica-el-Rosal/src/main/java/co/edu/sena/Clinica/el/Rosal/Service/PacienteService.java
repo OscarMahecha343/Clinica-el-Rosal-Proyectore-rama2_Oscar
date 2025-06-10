@@ -10,7 +10,6 @@ import co.edu.sena.Clinica.el.Rosal.Entity.PacienteEntity;
 import co.edu.sena.Clinica.el.Rosal.Repository.PacienteRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.PacienteDTO;
 
-
 @Service
 public class PacienteService {
 
@@ -28,7 +27,6 @@ public class PacienteService {
         copyDtoToEntity(dto, entity);
         repository.save(entity);
     }
-    
 
     // PUT: Actualizar paciente
     public void update(Long id, PacienteDTO dto) {
@@ -80,5 +78,12 @@ public class PacienteService {
                 .tipoAlergia(entity.getTipoAlergia())
                 .idMunicipio(entity.getIdMunicipio())
                 .build();
+    }
+
+    public PacienteDTO getByIdentificacion(String identificacion) {
+        PacienteEntity entity = repository.findByIdentificacion(identificacion)
+                .orElseThrow(
+                        () -> new RuntimeException("Paciente no encontrado con la identificación: " + identificacion));
+        return convertToDto(entity);
     }
 }

@@ -41,4 +41,10 @@ public class CitaMedicaController {
     public List<CitaMedicaDTO> obtenerCitasPorFecha(@PathVariable String fecha) {
         return service.obtenerCitasPorFecha(LocalDate.parse(fecha));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CitaMedicaDTO> actualizar(@PathVariable Long id, @RequestBody CitaMedicaDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.update(id, dto));
+    }
 }

@@ -15,4 +15,6 @@ public class DetalleExamenDTO {
     private Long idPaciente;
     private Long idAuxiliar;
     private String createdAt;
+
+    private String nombreExamen;
 }

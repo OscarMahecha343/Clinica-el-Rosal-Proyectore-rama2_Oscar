@@ -3,6 +3,7 @@ package co.edu.sena.Clinica.el.Rosal.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,29 +23,35 @@ import co.edu.sena.Clinica.el.Rosal.dto.PacienteDTO;
 public class PacienteController {
 
     @Autowired
-    private PacienteService service;
+   
+    private PacienteService pacienteService;
 
     // GET: Obtener todos los pacientes
     @GetMapping
     public List<PacienteDTO> getAll() {
-        return service.getAll();
+        return pacienteService.getAll();
+    }
+
+    @GetMapping("/identificacion/{identificacion}")
+    public ResponseEntity<PacienteDTO> getByIdentificacion(@PathVariable String identificacion) {
+        return ResponseEntity.ok(pacienteService.getByIdentificacion(identificacion));
     }
 
     // POST: Crear nuevo paciente
     @PostMapping
     public void save(@RequestBody PacienteDTO dto) {
-        service.save(dto);
+        pacienteService.save(dto);
     }
 
     // PUT: Actualizar paciente por ID
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody PacienteDTO dto) {
-        service.update(id, dto);
+        pacienteService.update(id, dto);
     }
 
     // DELETE: Eliminar paciente por ID
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        pacienteService.delete(id);
     }
 }

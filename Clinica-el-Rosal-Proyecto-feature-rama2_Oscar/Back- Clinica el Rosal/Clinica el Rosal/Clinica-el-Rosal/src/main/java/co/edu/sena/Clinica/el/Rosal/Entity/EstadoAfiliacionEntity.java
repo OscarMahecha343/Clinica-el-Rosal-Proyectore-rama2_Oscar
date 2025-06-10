@@ -12,23 +12,24 @@ import lombok.*;
 @Builder
 public class EstadoAfiliacionEntity {
 
-    @Id
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // Clave primaria auto-incremental
     private Long id;
 
-    @Column(name = "id_afiliacion") // ID de la afiliación relacionada
-    private String idAfiliacion; 
+    @ManyToOne
+    @JoinColumn(name = "id_afiliacion", referencedColumnName = "id")
+    private PacienteEntity afiliacion;
 
-    @Column(name = "estado") // Estado de la afiliación (activo, inactivo, suspendido, etc.)
+    @Column(name = "estado")
     private String estadoAfiliacion;
 
-    @Column(name = "fecha_activacion") // Fecha de activación de la afiliación
+    @Column(name = "fecha_activacion")
     private Date fechaActivacion;
 
-    @Column(name = "fecha_certificado") // Fecha de expedición del certificado
+    @Column(name = "fecha_certificado")
     private Date fechaCertificado;
 
-    @Column(name = "observaciones") // Observaciones adicionales
+    @Column(name = "observaciones")
     private String observaciones;
+
 }
