@@ -25,9 +25,21 @@ public class CitaMedicaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CitaMedicaDTO> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
     @GetMapping("/paciente/{id}")
     public List<CitaMedicaDTO> obtenerCitas(@PathVariable("id") Long idPaciente) {
         return service.obtenerCitasPorPaciente(idPaciente);
+    }
+
+    @GetMapping("/medico/{idMedico}/fecha/{fecha}")
+    public List<CitaMedicaDTO> obtenerCitasPorMedicoYFecha(
+            @PathVariable Long idMedico,
+            @PathVariable String fecha) {
+        return service.obtenerPorMedicoYFecha(idMedico, fecha);
     }
 
     @DeleteMapping("/{id}")

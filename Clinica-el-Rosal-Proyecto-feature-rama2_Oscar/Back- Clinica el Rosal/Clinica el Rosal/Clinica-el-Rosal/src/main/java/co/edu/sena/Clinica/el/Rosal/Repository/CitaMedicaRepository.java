@@ -16,4 +16,7 @@ public interface CitaMedicaRepository extends
                 
                 List<CitaMedicaEntity> findByPaciente_Id(Long idPaciente);
                 List<CitaMedicaEntity> findByFecha(Date fecha);
+                List<CitaMedicaEntity> findByMedico_IdAndFecha(Long idMedico, Date fecha);
+
 }
+

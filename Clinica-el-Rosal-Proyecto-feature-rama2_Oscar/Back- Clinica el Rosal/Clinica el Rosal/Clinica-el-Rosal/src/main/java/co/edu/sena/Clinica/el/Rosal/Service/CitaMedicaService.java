@@ -104,28 +104,33 @@ public class CitaMedicaService {
     }
 
     private void copyDtoToEntity(CitaMedicaDTO dto, CitaMedicaEntity entity) {
-        if (dto.getIdPaciente() != null) {
-            PacienteEntity paciente = new PacienteEntity();
-            paciente.setId(dto.getIdPaciente());
-            entity.setPaciente(paciente);
-        }
-
-        if (dto.getIdMedico() != null) {
-            MedicoEntity medico = new MedicoEntity();
-            medico.setId(dto.getIdMedico());
-            entity.setMedico(medico);
-        }
-
-        if (dto.getIdEspecialidad() != null) {
-            EspecialidadEntity especialidad = new EspecialidadEntity();
-            especialidad.setId(dto.getIdEspecialidad());
-            entity.setEspecialidad(especialidad);
-        }
-
-        entity.setFecha(dto.getFecha());
-        entity.setHora(dto.getHora());
-        entity.setEstado(dto.getEstado());
+    if (dto.getIdPaciente() != null) {
+        PacienteEntity paciente = new PacienteEntity();
+        paciente.setId(dto.getIdPaciente());
+        entity.setPaciente(paciente);
     }
+
+    if (dto.getIdMedico() != null) {
+        MedicoEntity medico = new MedicoEntity();
+        medico.setId(dto.getIdMedico());
+        entity.setMedico(medico);
+    }
+
+    if (dto.getIdEspecialidad() != null) {
+        EspecialidadEntity especialidad = new EspecialidadEntity();
+        especialidad.setId(dto.getIdEspecialidad());
+        entity.setEspecialidad(especialidad);
+    }
+
+    entity.setFecha(dto.getFecha());
+    entity.setHora(dto.getHora());
+
+    if (dto.getEstado() != null) {
+        entity.setEstado(dto.getEstado()); // ✅ ya es del tipo correcto
+    }
+}
+
+
 
     private CitaMedicaDTO convertToDto(CitaMedicaEntity cita) {
         String nombreMedico = "";
@@ -155,4 +160,17 @@ public class CitaMedicaService {
                 .ubicacionConsultorio(ubicacionConsultorio)
                 .build();
     }
+
+    public List<CitaMedicaDTO> obtenerPorMedicoYFecha(Long idMedico, String fecha) {
+        return repository.findByMedico_IdAndFecha(idMedico, Date.valueOf(fecha))
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public CitaMedicaDTO findById(Long id) {
+    CitaMedicaEntity cita = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+    return convertToDto(cita);
+}
 }
