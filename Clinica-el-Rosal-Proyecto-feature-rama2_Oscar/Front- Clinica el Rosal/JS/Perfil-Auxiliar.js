@@ -683,81 +683,117 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarTiposDeExamen();
 });
 
+///////examenes//////
 
-/////// examenese //////
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("data-user"));
+  if (user && user.rol === "Perfil Auxiliar") {
+    const idAuxiliar = user.idAuxiliar || user.id;
+    document.getElementById("id_auxiliar").value = idAuxiliar;
+    document.getElementById("nombre_auxiliar").value = `${user.nombre} ${user.apellido}`;
+    console.log("👨‍⚕️ Auxiliar activo:", user.nombre + " " + user.apellido);
+  } else {
+    console.warn("⚠️ No se encontró un auxiliar activo en localStorage.");
+  }
 
-function buscarIdentificacionExamen() {
-    const input = document.getElementById("buscarIdentificacionExamen");
-    const identificacion = input.value.trim();
-
-    if (!identificacion) {
-        alert("Por favor ingrese una identificación válida.");
-        return;
-    }
-
-    console.log("🔎 Buscando exámenes del paciente con identificación:", identificacion);
-    buscarExamenesPorIdentificacionAuxiliar(identificacion);
-}
-
-// 📌 Función que hace el fetch y carga los datos en la tabla
-function buscarExamenesPorIdentificacionAuxiliar(identificacion) {
-    fetch(`http://localhost:8080/detalleExamen/paciente/${identificacion}`)
-        .then(res => {
-            if (!res.ok) throw new Error("Error al buscar exámenes del paciente.");
-            return res.json();
-        })
-        .then(data => {
-            console.log("✅ Exámenes encontrados:", data);
-            cargarTablaExamenes(data);
-        })
-        .catch(err => {
-            console.error("❌ Error al buscar exámenes:", err);
-            alert("No se encontraron exámenes para este paciente.");
-        });
-}
+  cargarTiposDeExamen();
+});
 
 function cargarTiposDeExamen() {
   fetch("http://localhost:8080/detalle_examenes/tipo")
     .then(res => res.json())
     .then(data => {
       const select = document.getElementById("idTipoExamen");
-      data.forEach(examen => {
+      select.innerHTML = '<option value="" disabled selected>Seleccione tipo</option>';
+      data.forEach(e => {
         const option = document.createElement("option");
-        option.value = examen.id;
-        option.textContent = examen.nombre; // Asegúrate que el campo sea `nombre`
+        option.value = e.id;
+        option.textContent = e.nombre;
         select.appendChild(option);
       });
     })
-    .catch(err => console.error("❌ Error al cargar tipos de examen:", err));
+    .catch(err => console.error("❌ Error tipos de examen:", err));
 }
 
-// 📌 Función para cargar los datos en la tabla HTML
-function cargarTablaExamenes(examenes) {
-    const tbody = document.getElementById("examTableBody");
-    tbody.innerHTML = "";
+function buscarIdentificacionExamen() {
+  const ced = document.getElementById("buscarIdentificacionExamen").value.trim();
+  if (!ced) return alert("Ingrese identificación válida");
 
-    if (examenes.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='7'>No hay exámenes registrados para esta identificación.</td></tr>";
-        return;
-    }
+  // Paso 1: obtener paciente
+  fetch(`http://localhost:8080/paciente/identificacion/${ced}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Paciente no encontrado");
+      return res.json();
+    })
+    .then(paciente => {
+      document.getElementById("id_paciente").value = paciente.id;
+      document.getElementById("nombre_paciente").value = `${paciente.nombrePaci} ${paciente.apellidoPaci}`;
 
-    examenes.forEach(examen => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${examen.nombreTipoExamen || "Sin tipo"}</td>
-            <td>${examen.fechaExamen}</td>
-            <td>${examen.archivoExamen}</td>
-            <td>${examen.nombrePaciente || "Paciente"}</td>
-            <td>${examen.nombreAuxiliar || "Auxiliar"}</td>
-            <td>${examen.createdAt}</td>
-            <td>
-                <a href="http://localhost:8080/uploads/${examen.archivoExamen}" download class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-download"></i> PDF
-                </a>
-            </td>
-        `;
-
-        tbody.appendChild(row);
+      // Paso 2: obtener exámenes por idPaciente
+      return fetch(`http://localhost:8080/detalle_examenes/paciente/${paciente.id}`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Error al obtener exámenes");
+      return res.json();
+    })
+    .then(examenes => {
+      console.log("✅ Exámenes encontrados:", examenes);
+      cargarTablaExamenes(examenes);
+    })
+    .catch(err => {
+      console.error("❌ Error:", err);
+      alert(err.message);
+      cargarTablaExamenes([]);  // limpia tabla en caso de error
     });
 }
+
+function cargarTablaExamenes(examenes) {
+  const tbody = document.getElementById("examTableBodyAuxiliar");
+  tbody.innerHTML = "";
+
+  if (!examenes || examenes.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='7'>No hay exámenes registrados.</td></tr>";
+    return;
+  }
+
+  examenes.forEach(e => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${e.nombreTipoExamen || "Sin tipo"}</td>
+      <td>${e.fechaExamen}</td>
+      <td>${e.archivoExamen}</td>
+      <td>${e.nombrePaciente || ""}</td>
+      <td>${e.nombreAuxiliar || ""}</td>
+      <td>${e.createdAt}</td>
+      <td>
+        <a href="http://localhost:8080/uploads/${e.archivoExamen}" download class="btn btn-sm btn-outline-primary">
+          PDF
+        </a>
+      </td>`;
+    tbody.appendChild(row);
+  });
+}
+
+document.getElementById("formularioExamenAuxiliar").addEventListener("submit", e => {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+
+  fetch("http://localhost:8080/detalle_examenes/upload", {
+    method: "POST",
+    body: formData
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Error al subir examen");
+      return res.text();
+    })
+    .then(msg => {
+      alert("✅ " + msg);
+      buscarIdentificacionExamen();
+      form.reset();
+    })
+    .catch(err => {
+      console.error("❌ Error subir examen:", err);
+      alert(err.message);
+    });
+});

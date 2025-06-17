@@ -12,5 +12,5 @@ public interface DetalleExamenRepository extends
         JpaRepository<DetalleExamenEntity, Long>,
         JpaSpecificationExecutor<DetalleExamenEntity> {
 
-                List<DetalleExamenEntity> findByIdPaciente(Long idPaciente);
+                List<DetalleExamenEntity> findByPaciente_Id(Long idPaciente);
 }

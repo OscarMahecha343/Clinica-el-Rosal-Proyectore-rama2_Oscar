@@ -1,6 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import co.edu.sena.Clinica.el.Rosal.Entity.CitaMedicaEntity;
 import lombok.*;
@@ -14,7 +14,7 @@ public class CitaMedicaDTO {
     private Long idPaciente;
     private Long idMedico;
     private Long idEspecialidad;
-    private Date fecha;
+    private LocalDate fecha;
     private String hora;
     private String nombreEspecialidad;
     private String nombreMedico;

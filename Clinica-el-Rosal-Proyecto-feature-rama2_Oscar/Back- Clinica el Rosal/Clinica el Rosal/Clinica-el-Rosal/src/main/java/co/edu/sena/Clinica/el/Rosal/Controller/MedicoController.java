@@ -1,8 +1,10 @@
 package co.edu.sena.Clinica.el.Rosal.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.sena.Clinica.el.Rosal.Entity.MedicoEntity;
+import co.edu.sena.Clinica.el.Rosal.Entity.UsuarioEntity;
+import co.edu.sena.Clinica.el.Rosal.Repository.UsuarioRepository;
 import co.edu.sena.Clinica.el.Rosal.Service.MedicoService;
 import co.edu.sena.Clinica.el.Rosal.dto.MedicoDTO;
 
@@ -22,14 +27,45 @@ import co.edu.sena.Clinica.el.Rosal.dto.MedicoDTO;
 public class MedicoController {
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+
     private MedicoService service;
 
+   @GetMapping("/usuario/{idUsuario}")
+public ResponseEntity<MedicoDTO> obtenerMedicoPorUsuario(@PathVariable Long idUsuario) {
+    Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findById(idUsuario);
+
+    if (usuarioOpt.isEmpty() || usuarioOpt.get().getIdMedico() == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    MedicoEntity medico = usuarioOpt.get().getIdMedico();
+
+    MedicoDTO dto = new MedicoDTO();
+    dto.setId(medico.getId());
+    dto.setNombreMedico(medico.getNombreMedico());
+    dto.setApellidosMedicos(medico.getApellidosMedicos());
+    dto.setTelefonoDoc(medico.getTelefonoDoc());
+    dto.setLicenciaMedica(medico.getLicenciaMedica());
+    dto.setEspecialidad(medico.getIdEspecialidad());
+    dto.setCorreo(medico.getCorreo());
+    dto.setDireccion(medico.getDireccion());
+    dto.setConsultorio(medico.getConsultorio());
+    dto.setEspecialidad(medico.getIdEspecialidad()); // Objeto completo (puede ser null)
+    dto.setNombreEspecialidad(
+    medico.getIdEspecialidad() != null ? medico.getIdEspecialidad().getNombreEspecialidad() : null
+);
+
+    return ResponseEntity.ok(dto);
+}
+
     // GET: Obtener médicos por especialidad
- @GetMapping("/especialidad/{id}")
+    @GetMapping("/especialidad/{id}")
     public List<MedicoDTO> listarMedicosPorEspecialidad(@PathVariable("id") Long idEspecialidad) {
         return service.listarMedicosPorEspecialidad(idEspecialidad);
     }
-
 
     // POST: Guardar nuevo médico
     @PostMapping

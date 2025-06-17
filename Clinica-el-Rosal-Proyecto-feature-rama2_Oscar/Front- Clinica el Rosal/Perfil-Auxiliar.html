@@ -335,11 +335,12 @@
 
 
   <div id="containerGestionExamenes" class="container container-hidden mt-5">
-    <div class="card">
+    <div class="card shadow">
       <div class="card-header bg-warning text-dark">
-        <h5>Gestión de Exámenes / Resultados</h5>
+        <h5 class="mb-0">Gestión de Exámenes / Resultados</h5>
       </div>
       <div class="card-body">
+  
         <!-- 🔍 Buscar por identificación -->
         <div class="row mb-3">
           <div class="col-md-6">
@@ -353,64 +354,79 @@
             </div>
           </div>
         </div>
-
-        <!-- 📥 Formulario de carga de examen -->
+  
         <form id="formularioExamenAuxiliar" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="idTipoExamen" class="form-label">🧪 Tipo de Examen</label>
-            <select id="idTipoExamen" name="idTipoExamen" class="form-select" required>
-              <option value="" disabled selected>Seleccione el tipo de examen</option>
-            </select>
+          <div class="row g-3">
+  
+            <!-- Paciente -->
+            <div class="col-md-4">
+              <label for="nombre_paciente" class="form-label">👤 Paciente</label>
+              <input type="text" id="nombre_paciente" class="form-control" readonly>
+              <input type="hidden" id="id_paciente" name="id_paciente">
+            </div>
+  
+            <!-- Auxiliar -->
+            <div class="col-md-4">
+              <label for="nombre_auxiliar" class="form-label">🧑‍⚕️ Auxiliar que registra</label>
+              <input type="text" id="nombre_auxiliar" class="form-control" readonly>
+              <input type="hidden" id="id_auxiliar" name="id_auxiliar">
+            </div>
+  
+            <!-- Tipo Examen -->
+            <div class="col-md-4">
+              <label for="idTipoExamen" class="form-label">🧪 Tipo de Examen</label>
+              <select id="idTipoExamen" name="idTipoExamen" class="form-select" required>
+                <option value="">Seleccione tipo</option>
+              </select>
+            </div>
+  
+            <!-- Fecha Examen -->
+            <div class="col-md-4">
+              <label for="fechaExamen" class="form-label">📅 Fecha del Examen</label>
+              <input type="date" id="fechaExamen" name="fechaExamen" class="form-control" required>
+            </div>
+  
+            <!-- Archivo -->
+            <div class="col-md-4">
+              <label for="archivoExamen" class="form-label">📁 Archivo</label>
+              <input type="file" id="archivoExamen" name="archivoExamen" accept="application/pdf" class="form-control"
+                required>
+            </div>
+  
+            <!-- Botón Enviar -->
+            <div class="col-md-4 align-self-end">
+              <button type="submit" class="btn btn-success w-100">
+                <i class="bi bi-upload"></i> Subir Examen
+              </button>
+            </div>
+  
           </div>
+        </form>
 
-          <div class="col-md-4">
-            <label for="fecha_examen" class="form-label">📅 Fecha del Examen</label>
-            <input type="date" id="fecha_examen" name="fecha_examen" class="form-control" required>
-          </div>
-          <div class="col-md-4">
-            <label for="archivo_examen" class="form-label">📂 Archivo PDF</label>
-            <input type="file" id="archivo_examen" name="archivo_examen" accept="application/pdf" class="form-control"
-              required>
-          </div>
-          <div class="col-md-4">
-            <label for="id_paciente" class="form-label">👤 ID Paciente</label>
-            <input type="number" id="id_paciente" name="id_paciente" class="form-control" readonly>
-          </div>
-          <div class="col-md-4">
-            <label for="id_auxiliar" class="form-label">🧑‍⚕️ ID Auxiliar</label>
-            <input type="number" id="id_auxiliar" name="id_auxiliar" class="form-control" readonly>
-          </div>
+        <hr class="my-4">
+
+        <!-- 📄 Tabla de resultados -->
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle text-center table-hover">
+            <thead class="table-primary">
+              <tr>
+                <th>🧪 Tipo Examen</th>
+                <th>📅 Fecha del Examen</th>
+                <th>📂 Archivo</th>
+                <th>👤 Paciente</th>
+                <th>🧑‍⚕️ Auxiliar</th>
+                <th>🕒 Fecha Registro</th>
+                <th>📄 Descargar</th>
+              </tr>
+            </thead>
+            <tbody id="examTableBodyAuxiliar">
+              <!-- Resultados dinámicos -->
+            </tbody>
+          </table>
+        </div>
+
       </div>
-
-      <div class="text-end mt-4">
-        <button type="submit" class="btn btn-success">Subir Examen</button>
-      </div>
-      </form>
-
-      <hr class="my-4">
-
-      <!-- 📄 Tabla de resultados -->
-      <div class="table-responsive">
-        <table class="table table-bordered align-middle text-center table-hover">
-          <thead class="table-primary">
-            <tr>
-              <th>🧪 Tipo Examen</th>
-              <th>📅 Fecha del Examen</th>
-              <th>📂 Archivo</th>
-              <th>👤 Paciente</th>
-              <th>🧑‍⚕️ Auxiliar</th>
-              <th>🕒 Fecha Registro</th>
-              <th>📄 Descargar</th>
-            </tr>
-          </thead>
-          <tbody id="examTableBodyAuxiliar">
-            <!-- Se insertan resultados desde JS -->
-          </tbody>
-        </table>
-      </div>
-
     </div>
-  </div>
   </div>
 
 

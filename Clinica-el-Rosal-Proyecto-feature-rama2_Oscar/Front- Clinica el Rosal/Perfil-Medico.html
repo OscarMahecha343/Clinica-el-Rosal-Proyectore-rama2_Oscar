@@ -54,7 +54,7 @@
 
 <body>
     <div class="container  mx-auto mt-2" id="Link-container">
-         <nav class="glass-navbar">
+        <nav class="glass-navbar">
             <div class="logo-container">
                 <a href="index.html">
                     <img src="assets/Logo.JPG" alt="Clínica Santa Fe Integral" class="navbar-logo">
@@ -62,111 +62,71 @@
             </div>
         </nav>
     </div>
-
-
+    
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-header text-center">
+            <h5 class="mb-0">Perfil de Medico</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="bi bi-person-fill me-2"></i><strong>Nombre:</strong> <span
+                    id="usuario"></span></li>
+            <li class="list-group-item">
+                <i class="bi bi-card-text me-2"></i>
+                <strong>Identificación:</strong>
+                <span id="tipoIdentificacion"></span>
+            </li>
+            <li class="list-group-item"><i class="bi bi-envelope-fill me-2"></i><strong>Correo:</strong> <span
+                    id="username"></span></li>
+            <li class="list-group-item"><i class="bi bi-person-badge-fill me-2"></i><strong>Perfil:</strong>
+                <span id="rol"></span>
+            </li>
+        </ul>
+    </div>
     <div class="container mx-auto mt-2">
         <div class="card text-center mx-auto" style="max-width: 400px;">
             <div class="card-header text-center">
-                <h4>Profesional: 0001</h4>
                 <div class="d-grid gap-2">
                     <button id="btnAgendamiento" class="btn btn-outline-primary">Agendamiento</button>
                     <button id="btnHistoriaClinica" class="btn btn-outline-primary">Historia Clínica /
                         Diagnóstico</button>
                     <button id="btnExamenes" class="btn btn-outline-primary">Exámenes</button>
                 </div>
-
+    
                 <div class="d-grid gap-2 mt-3">
                     <button onclick="logout()" class="btn btn-danger btn-lg">Cerrar Sesión</button>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div id="containerAgendamiento" class="container d-none mt-4">
-    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 850px;">
-        <div class="card-header bg-light text-center rounded-top-4">
-            <h4 class="mb-1"><i class="bi bi-calendar-check"></i> Agendamientos Para Hoy</h4>
-            <p class="text-muted">Profesional: <strong>0001</strong> | Estado: <span class="badge bg-success">Activo</span></p>
-        </div>
-
-        <div class="card-body">
-            <div class="mb-4 text-center">
-                <label for="calendario" class="form-label fw-semibold">Seleccione Fecha</label>
-                <input type="date" class="form-control w-50 mx-auto" id="calendario" value="2024-09-25">
+        <div class="card shadow-lg rounded-4 mx-auto mt-4" style="max-width: 900px;">
+            <div class="card-header bg-light text-center rounded-top-4">
+                <h4 class="mb-1"><i class="bi bi-calendar-check"></i> Citas Asignadas</h4>
+                <p class="text-muted">Fecha seleccionada:
+                    <input type="date" id="calendario" class="form-control d-inline-block w-auto ms-2" />
+                </p>
             </div>
+    
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tablaCitas" class="table table-bordered table-hover align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Especialidad</th>
+                                <th>Sede</th>
+                                <th>Asistencia</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Hora</th>
-                            <th>Paciente</th>
-                            <th>Especialidad</th>
-                            <th>Sede</th>
-                            <th>Asistencia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>7:30 A.M</td>
-                            <td>Usuario 0001</td>
-                            <td>Medicina General</td>
-                            <td>Principal</td>
-                            <td>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0001" value="si" id="asistencia_0001_si">
-                                    <label class="form-check-label" for="asistencia_0001_si">Sí</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0001" value="no" id="asistencia_0001_no">
-                                    <label class="form-check-label" for="asistencia_0001_no">No</label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>8:00 A.M</td>
-                            <td>Usuario 0002</td>
-                            <td>Medicina General</td>
-                            <td>Principal</td>
-                            <td>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0002" value="si" id="asistencia_0002_si">
-                                    <label class="form-check-label" for="asistencia_0002_si">Sí</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0002" value="no" id="asistencia_0002_no">
-                                    <label class="form-check-label" for="asistencia_0002_no">No</label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2:50 P.M</td>
-                            <td>Usuario 0003</td>
-                            <td>Medicina General</td>
-                            <td>Principal</td>
-                            <td>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0003" value="si" id="asistencia_0003_si">
-                                    <label class="form-check-label" for="asistencia_0003_si">Sí</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="asistencia_0003" value="no" id="asistencia_0003_no">
-                                    <label class="form-check-label" for="asistencia_0003_no">No</label>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="text-end mt-3">
-                <button class="btn btn-success px-4 py-2" onclick="guardarAsistencias()">
-                    <i class="bi bi-save"></i> Guardar Asistencias
-                </button>
             </div>
         </div>
     </div>
-</div>
 
     <div id="containerHistoriaClinica" class="container-hidden mt-4">
     <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 900px;">

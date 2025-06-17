@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +19,13 @@ public class DetalleExamenController {
 
     @Autowired
     private DetalleExamenService service;
+
+     @PostMapping("/detalle_examenes/upload")
+    public ResponseEntity<?> subirExamen(@ModelAttribute DetalleExamenDTO dto) {
+        service.save(dto);
+        return ResponseEntity.ok("Examen subido con éxito.");
+    }
+
 
     @GetMapping("/tipo")
     public List<TipoExamenDTO> getAllTiposExamen() {
@@ -34,11 +42,12 @@ public class DetalleExamenController {
         return service.getByPacienteId(idPaciente);
     }
 
-    @PostMapping
+    @PostMapping("/detalle_examenes")
     public void save(@RequestBody DetalleExamenDTO dto) {
         service.save(dto);
     }
 
+   
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody DetalleExamenDTO dto) {
         dto.setId(id);

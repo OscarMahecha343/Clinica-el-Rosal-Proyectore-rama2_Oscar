@@ -27,11 +27,13 @@ public class DetalleExamenEntity {
     @Column(name = "archivo_examen")
     private String archivoExamen; // Ruta o nombre del archivo PDF o imagen
 
-    @Column(name = "id_paciente")
-    private Long idPaciente; // ID del paciente (clave foránea si aplica)
+    @ManyToOne
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id")
+    private PacienteEntity paciente; // ID del paciente (clave foránea si aplica)
 
-    @Column(name = "id_auxiliar")
-    private Long idAuxiliar; // ID del auxiliar que subió el examen
+    @ManyToOne
+    @JoinColumn(name = "id_auxiliar", referencedColumnName = "id")
+    private AuxiliarEntity auxiliar; // ID del auxiliar que subió el examen
 
     @Column(name = "created_at")
     private String createdAt; // Fecha y hora de creación del registro

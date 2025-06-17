@@ -35,12 +35,13 @@ public class CitaMedicaController {
         return service.obtenerCitasPorPaciente(idPaciente);
     }
 
-    @GetMapping("/medico/{idMedico}/fecha/{fecha}")
-    public List<CitaMedicaDTO> obtenerCitasPorMedicoYFecha(
-            @PathVariable Long idMedico,
-            @PathVariable String fecha) {
-        return service.obtenerPorMedicoYFecha(idMedico, fecha);
-    }
+    @GetMapping("/medico/{id}/fecha/{fecha}")
+public ResponseEntity<List<CitaMedicaDTO>> getCitasPorMedicoYFecha(
+        @PathVariable Long id,
+        @PathVariable String fecha) {
+    List<CitaMedicaDTO> citas = service.obtenerPorMedicoYFecha(id, fecha);
+    return ResponseEntity.ok(citas);
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {

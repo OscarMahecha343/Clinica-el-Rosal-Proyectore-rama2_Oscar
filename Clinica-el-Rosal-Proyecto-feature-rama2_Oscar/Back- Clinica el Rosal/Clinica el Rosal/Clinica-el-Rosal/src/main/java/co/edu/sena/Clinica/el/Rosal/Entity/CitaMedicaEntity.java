@@ -1,6 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.Entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +27,7 @@ public class CitaMedicaEntity {
     private MedicoEntity medico;
 
     @Column(name = "fecha") // Fecha en que se realizará la cita
-    private Date fecha;
+    private LocalDate  fecha;
 
     @Column(name = "hora") // Hora exacta de la cita
     private String hora;
