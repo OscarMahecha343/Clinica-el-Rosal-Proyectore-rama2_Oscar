@@ -10,6 +10,7 @@ import co.edu.sena.Clinica.el.Rosal.Entity.TipoExamenEntity;
 import co.edu.sena.Clinica.el.Rosal.Repository.DetalleExamenRepository;
 import co.edu.sena.Clinica.el.Rosal.Repository.TipoExamenRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.DetalleExamenDTO;
+import co.edu.sena.Clinica.el.Rosal.dto.TipoExamenDTO;
 
 @Service
 public class DetalleExamenService {
@@ -20,13 +21,12 @@ public class DetalleExamenService {
     @Autowired
     private TipoExamenRepository tipoExamenRepository;
 
-    // Guardar o actualizar un examen
     public void save(DetalleExamenDTO dto) {
         TipoExamenEntity tipo = tipoExamenRepository.findById(dto.getIdTipoExamen()).orElse(null);
 
         DetalleExamenEntity entity = DetalleExamenEntity.builder()
-                .id(dto.getId()) // Solo si es actualización
-                .tipoExamen(tipo) // Relación ManyToOne
+                .id(dto.getId())
+                .tipoExamen(tipo)
                 .fechaExamen(dto.getFechaExamen())
                 .archivoExamen(dto.getArchivoExamen())
                 .idPaciente(dto.getIdPaciente())
@@ -37,11 +37,9 @@ public class DetalleExamenService {
         repository.save(entity);
     }
 
-    // Obtener todos los exámenes por paciente
     public List<DetalleExamenDTO> getByPacienteId(Long idPaciente) {
         return repository.findByIdPaciente(idPaciente).stream().map(entity -> {
             TipoExamenEntity tipo = entity.getTipoExamen();
-
             return DetalleExamenDTO.builder()
                     .id(entity.getId())
                     .idTipoExamen(tipo != null ? tipo.getId() : null)
@@ -55,7 +53,6 @@ public class DetalleExamenService {
         }).collect(Collectors.toList());
     }
 
-    // Obtener un examen por ID
     public DetalleExamenDTO getById(Long id) {
         return repository.findById(id).map(entity -> {
             TipoExamenEntity tipo = entity.getTipoExamen();
@@ -72,8 +69,20 @@ public class DetalleExamenService {
         }).orElse(null);
     }
 
-    // Eliminar un examen por ID
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<TipoExamenDTO> findAllTipoExamenes() {
+        return tipoExamenRepository.findAll().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private TipoExamenDTO toDTO(TipoExamenEntity entity) {
+        return TipoExamenDTO.builder()
+                .id(entity.getId())
+                .nombre(entity.getNombre())
+                .build();
     }
 }

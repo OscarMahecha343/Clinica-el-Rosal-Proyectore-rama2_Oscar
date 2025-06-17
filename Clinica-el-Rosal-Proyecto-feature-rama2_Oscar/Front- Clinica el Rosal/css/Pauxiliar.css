@@ -127,3 +127,8 @@ body {
 .footer .social-icons a:hover img {
     transform: scale(1.1);
 }
+
+select option {
+        color: black !important;
+        background-color: white;
+    }

@@ -144,8 +144,29 @@ public class UsuarioService {
             .intentosFallidos(dto.getIntentosFallidos())
             .build();
 
-    repository.save(entity);
+        repository.save(entity);
+    }
+
+    private UsuarioDTO convertToDto(UsuarioEntity usuario) {
+    return UsuarioDTO.builder()
+        .id(usuario.getId())
+        .login(usuario.getLogin())
+        .password(usuario.getPassword())
+        .idPaciente(usuario.getIdPaciente() != null ? usuario.getIdPaciente().getId() : null)
+        .idMedico(usuario.getIdMedico() != null ? usuario.getIdMedico().getId() : null)
+        .idAuxiliar(usuario.getIdAuxiliar() != null ? usuario.getIdAuxiliar().getId() : null)
+        .idFarmaceutico(usuario.getIdFarmaceutico() != null ? usuario.getIdFarmaceutico().getId() : null)
+        .idRol(usuario.getIdRol() != null ? usuario.getIdRol().getId() : null)
+        .build();
 }
+
+
+    public UsuarioDTO findByIdentificacion(String identificacion) {
+    UsuarioEntity usuario = repository.findByIdPaciente_Identificacion(identificacion)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado con identificación: " + identificacion));
+    return convertToDto(usuario);
+}
+
 
     public void delete(Long id) {
         repository.deleteById(id);

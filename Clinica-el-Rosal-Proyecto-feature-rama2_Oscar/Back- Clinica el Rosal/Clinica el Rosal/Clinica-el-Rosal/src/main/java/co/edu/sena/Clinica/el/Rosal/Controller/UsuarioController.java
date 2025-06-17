@@ -3,6 +3,7 @@ package co.edu.sena.Clinica.el.Rosal.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,11 @@ public class UsuarioController {
     @GetMapping
     public List<UsuarioDTO> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/identificacion/{identificacion}")
+    public ResponseEntity<UsuarioDTO> obtenerPorIdentificacion(@PathVariable String identificacion) {
+        return ResponseEntity.ok(service.findByIdentificacion(identificacion));
     }
 
     @PostMapping

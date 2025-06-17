@@ -1,3 +1,4 @@
+
 let citaEditandoId = null;
 let pacienteSeleccionado = null;
 document.getElementById("fecha").addEventListener("change", actualizarHorasDisponibles);
@@ -40,6 +41,34 @@ document.getElementById("especialidad").addEventListener("change", function () {
     cargarMedicosPorEspecialidad(especialidadId);
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const campo = document.getElementById("buscarIdentificacion");
+    if (!campo) {
+        console.error("❌ Campo #buscarIdentificacion no fue encontrado al cargar la página");
+    } else {
+        console.log("✅ Campo #buscarIdentificacion detectado correctamente al cargar");
+    }
+});
+
+function limpiarFormularioAfiliacion() {
+    const campos = [
+        "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
+        "telefono", "correo", "direccion", "id_municipio", "tipo_afiliacion", "id_seguro",
+        "grupo_sangineo", "alergias", "tipo_de_alergia"
+    ];
+
+    campos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo) {
+            if (campo.tagName === "SELECT" || campo.tagName === "INPUT") {
+                campo.value = "";
+            }
+        }
+    });
+
+    console.log("🧹 Formulario de afiliación limpiado correctamente");
+}
+
 function logout() {
     localStorage.removeItem("data-user");
     window.location.href = "index.html";
@@ -57,17 +86,32 @@ function mostrarSeccion(id) {
     const activa = document.getElementById(id);
     if (activa) {
         activa.classList.remove("container-hidden");
+
+        // Si es la sección de afiliación, conecta el botón
+        if (id === "containerAfiliacion") {
+            const btnCrear = document.getElementById("btnCrearUsuario");
+            if (btnCrear) {
+                btnCrear.removeEventListener("click", crearAfiliacion); 
+                btnCrear.addEventListener("click", crearAfiliacion);
+            }
+        }
     } else {
         console.warn("No se encontró la sección con id:", id);
     }
 }
 
-function buscarPacientePorIdentificacion() {
-    const identificacion = document.getElementById("buscarIdentificacion").value;
+
+
+function buscarPacientePorIdentificacionDesdeAfiliacion() {
+    const input = document.getElementById("buscarIdentificacionAfiliacion");
+    const identificacion = input.value.trim();
+
     if (!identificacion) {
         alert("Por favor ingrese una identificación válida.");
         return;
     }
+
+    console.log("🔎 Valor capturado desde afiliación:", identificacion);
 
     fetch(`http://localhost:8080/paciente/identificacion/${identificacion}`)
         .then(res => {
@@ -75,16 +119,43 @@ function buscarPacientePorIdentificacion() {
             return res.json();
         })
         .then(data => {
-            pacienteSeleccionado = data; // Guardamos el paciente encontrado
-            document.getElementById("pacienteNombre").textContent = `${data.nombrePaci} ${data.apellidoPaci}`;
-            cargarCitasDelPaciente(data.id); // Trae citas del paciente
+            console.log("✅ Paciente encontrado:", data);
+            llenarFormularioAfiliacionConDatos(data);
         })
         .catch(err => {
-            console.error(err);
+            console.error("❌ Error en la búsqueda desde afiliación:", err);
             alert("Paciente no encontrado.");
-            document.getElementById("pacienteNombre").textContent = "";
-            pacienteSeleccionado = null;
         });
+}
+
+function llenarFormularioAfiliacionConDatos(paciente) {
+    const mapeo = {
+        nombre: paciente.nombrePaci,
+        apellido: paciente.apellidoPaci,
+        tipo_identificacion: paciente.tipoIdentificacion,
+        identificacionPaciente: paciente.identificacion,
+        genero: paciente.genero,
+        fecha_nacimiento: paciente.fechaNacimiento,
+        telefono: paciente.telefono,
+        correo: paciente.correo,
+        direccion: paciente.direccion,
+        id_municipio: paciente.idMunicipio,
+        tipo_afiliacion: paciente.tipoAfiliacion || '', // si aplica
+        id_seguro: paciente.idSeguro,
+        grupo_sangineo: paciente.grupoSangineo,
+        alergias: paciente.alergias,
+        tipo_de_alergia: paciente.tipoAlergia
+    };
+
+    for (const id in mapeo) {
+        const campo = document.getElementById(id);
+        if (campo) {
+            campo.value = mapeo[id];
+            console.log(`✅ Campo ${id} cargado con valor: ${mapeo[id]}`);
+        } else {
+            console.warn(`⚠️ Campo ${id} no encontrado en el DOM`);
+        }
+    }
 }
 
 function agendarCita() {
@@ -202,7 +273,7 @@ function actualizarCita() {
         estado: accionRadio.value.toUpperCase()
     };
 
-    console.log("Datos a enviar al backend (PUT):", cita);  // 🔍 AQUÍ LO VES
+    console.log("Datos a enviar al backend (PUT):", cita);  
 
     fetch(`http://localhost:8080/cita/${cita.id}`, {
         method: "PUT",
@@ -339,10 +410,10 @@ function generarBotonesDeHoras(horasOcupadas = []) {
 function cargarEspecialidades() {
     fetch("http://localhost:8080/especialidad")
         .then(res => res.json())
-        .then(cita => {
+        .then(data => {
             const select = document.getElementById("especialidad");
             select.innerHTML = '<option disabled selected>Seleccione</option>';
-            cita.forEach(esp => {
+            data.forEach(esp => {
                 const option = document.createElement("option");
                 option.value = esp.id;
                 option.textContent = esp.nombreEspecialidad;
@@ -369,21 +440,21 @@ function cargarMedicosPorEspecialidad(especialidadId) {
         });
 }
 
-document.getElementById("formAfiliacion").addEventListener("submit", function (e) {
+/*document.getElementById("formAfiliacion").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const afiliacion = {
         nombre: document.getElementById("nombres").value,
         apellido: document.getElementById("apellidos").value,
         tipoIdentificacion: document.getElementById("tipoIdentificacion").value,
-        identificacion: document.getElementById("Identificacion").value,
+        identificacion: document.getElementById("identificacion").value,
         fechaNacimiento: document.getElementById("fechaNacimiento").value,
         telefono: document.getElementById("telefono").value,
         correo: document.getElementById("correo").value,
         direccion: document.getElementById("direccion").value,
-        municipio: document.getElementById("Municipio").value,
+        municipio: document.getElementById("municipio").value,
         tipoAfiliacion: document.getElementById("tipoAfiliacion").value,
-        seguro: document.getElementById("Seguro").value,
+        seguro: document.getElementById("seguro").value,
         rol: document.getElementById("rol").value
     };
 
@@ -404,211 +475,289 @@ document.getElementById("formAfiliacion").addEventListener("submit", function (e
             console.error("Error:", error);
             alert("Error al registrar afiliación.");
         });
+});*/
+
+
+///////////// seccion afiliacion /////////////
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarMunicipios();
+    cargarSeguros();
 });
 
+function safeValue(id) {
+    const el = document.getElementById(id);
+    if (!el) {
+        console.error(`Elemento con id '${id}' no encontrado`);
+        return "";
+    }
+    return el.value.trim();
+}
 
+  function construirObjetoPaciente() {
+    console.log("🩺 Validando campos para paciente...");
 
-// Acción del botón enviar del formulario de afiliación
-const formAfiliacion = document.getElementById("formAfiliacion");
+    const campos = [
+        "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
+        "telefono", "correo", "direccion", "id_municipio", "tipo_afiliacion", "id_seguro",
+        "grupo_sangineo", "alergias", "tipo_de_alergia"
+    ];
 
-formAfiliacion.addEventListener("submit", function (e) {
-    e.preventDefault();
+    for (let id of campos) {
+        const el = document.getElementById(id);
+        if (!el) {
+            console.error(`❌ Campo no encontrado en el DOM: ${id}`);
+            throw new Error(`Campo '${id}' no encontrado`);
+        }
+        const valor = el.value?.trim();
+        if (!valor && el.required !== false) {
+            console.warn(`⚠️ Campo '${id}' está vacío o solo contiene espacios`);
+        } else {
+            console.log(`✅ Campo ${id} cargado correctamente`);
+        }
+    }
 
-    const afiliacion = {
-        nombre: document.getElementById("nombres").value,
-        apellido: document.getElementById("apellidos").value,
-        tipoIdentificacion: document.getElementById("tipoIdentificacion").value,
-        identificacion: document.getElementById("Identificacion").value,
-        fechaNacimiento: document.getElementById("fechaNacimiento").value,
-        telefono: document.getElementById("telefono").value,
-        correo: document.getElementById("correo").value,
-        direccion: document.getElementById("direccion").value,
-        municipio: document.getElementById("Municipio").value,
-        tipoAfiliacion: document.getElementById("tipoAfiliacion").value,
-        seguro: document.getElementById("Seguro").value,
-        rol: document.getElementById("rol").value
+    const identificacionValue = document.getElementById("identificacionPaciente").value.trim();
+    if (!identificacionValue) {
+        console.error("❌ Campo identificacionPaciente está vacío");
+        alert("El campo de identificación es obligatorio.");
+        throw new Error("Campo identificacionPaciente vacío");
+    }
+
+    // Construcción del objeto
+    const paciente = {
+        nombrePaci: document.getElementById("nombre").value.trim(),
+        apellidoPaci: document.getElementById("apellido").value.trim(),
+        tipoIdentificacion: document.getElementById("tipo_identificacion").value.trim(),
+        identificacion: identificacionValue,
+        genero: document.getElementById("genero").value.trim(),
+        fechaNacimiento: document.getElementById("fecha_nacimiento").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        correo: document.getElementById("correo").value.trim(),
+        direccion: document.getElementById("direccion").value.trim(),
+        idMunicipio: parseInt(document.getElementById("id_municipio").value),
+        tipoAfiliacion: document.getElementById("tipo_afiliacion").value.trim(),
+        idSeguro: parseInt(document.getElementById("id_seguro").value),
+        grupoSangineo: document.getElementById("grupo_sangineo").value?.trim() || null,
+        alergias: document.getElementById("alergias").value?.trim() || null,
+        tipoAlergia: document.getElementById("tipo_de_alergia").value?.trim() || null
     };
 
-    // Primero crear afiliación
-    fetch("http://localhost:8080/afiliacion", {
+    console.log("📦 Objeto paciente preparado:", paciente);
+    return paciente;
+}
+
+
+
+function crearAfiliacion() {
+    console.log("🟢 Botón Crear Usuario presionado");
+
+    let paciente;
+    try {
+        paciente = construirObjetoPaciente();
+    } catch (err) {
+        console.error("❌ Error en validación de campos:", err.message);
+        alert("⚠️ Verifica los campos antes de continuar.");
+        return;
+    }
+
+    console.log("📦 Enviando al backend:", paciente);
+
+    fetch("http://localhost:8080/paciente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(afiliacion)
+        body: JSON.stringify(paciente)
     })
-        .then(response => {
-            if (!response.ok) throw new Error("No se pudo guardar la afiliación.");
-            return response.json();
-        })
-        .then(dataAfiliacion => {
-            alert("Afiliación registrada con éxito.");
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorText => {
+                console.group("❌ Error al guardar paciente:");
+                console.error("📍 Código de estado HTTP:", response.status);
+                console.warn("📝 Respuesta del backend:");
+                console.error("❌ Respuesta del backend:", errorText); // <- CORREGIDO
+                console.groupEnd();
+                throw new Error("No se pudo guardar el paciente. Verifica los detalles en consola.");
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (!data || !data.id) {
+            throw new Error("Respuesta inválida del servidor. El ID no fue retornado.");
+        }
 
-            ///////////// seccion afiliacion /////////////
-            let usuarioEditandoId = null;
+        alert("✅ Paciente registrado exitosamente con ID: " + data.id);
+        document.getElementById("formAfiliacion").reset();
+    })
+    .catch(error => {
+    if (error.message.includes("paciente")) {
+        alert("⚠️ Ya existe un paciente con esa identificación.");
+    } else {
+        console.warn("⚠️ Error capturado en catch:", error.message || error);
+        alert("❌ Error al guardar paciente. Revisa la consola o comunícate con soporte.");
+    }
+});
+}
 
-            function crearUsuarioDesdeAfiliacion() {
-                const usuario = construirObjetoUsuario();
+function actualizarAfiliacion() {
+    console.log("🔄 Botón Actualizar presionado");
 
-                if (!usuario) return;
+    let paciente;
+    try {
+        paciente = construirObjetoPaciente(); // Reutilizamos tu función existente
+    } catch (err) {
+        console.error("❌ Error al construir el objeto paciente:", err.message);
+        alert("⚠️ Verifica los campos antes de actualizar.");
+        return;
+    }
 
-                fetch("http://localhost:8080/usuario", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(usuario)
-                })
-                    .then(res => {
-                        if (!res.ok) throw new Error("No se pudo crear el usuario.");
-                        return res.json();
-                    })
-                    .then(() => {
-                        alert("Usuario creado exitosamente.");
-                        document.getElementById("formAfiliacion").reset();
-                    })
-                    .catch(error => {
-                        console.error("Error creando usuario:", error);
-                        alert("Error al crear usuario.");
-                    });
-            }
+    if (!paciente.identificacion) {
+        alert("⚠️ No se puede actualizar sin una identificación válida.");
+        return;
+    }
 
-            function buscarUsuarioPorCedula() {
-                const identificacion = document.getElementById("buscarUsuarioCedula").value;
+    console.log("📦 Objeto a actualizar:", paciente);
 
-                if (!identificacion) {
-                    alert("Por favor ingrese una cédula para buscar.");
-                    return;
-                }
+    fetch(`http://localhost:8080/paciente/identificacion/${paciente.identificacion}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paciente)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorText => {
+                console.error("❌ Error del backend:", errorText);
+                throw new Error("No se pudo actualizar el paciente.");
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("✅ Paciente actualizado exitosamente.");
+        limpiarFormularioAfiliacion();
+        console.log("🟢 Respuesta del servidor:", data);
+    })
+    .catch(error => {
+        console.warn("⚠️ Error al actualizar paciente:", error.message || error);
+        alert("❌ Falló la actualización del paciente.");
+    });
+}
 
-                fetch(`http://localhost:8080/usuario/identificacion/${identificacion}`)
-                    .then(res => {
-                        if (!res.ok) throw new Error("Usuario no encontrado.");
-                        return res.json();
-                    })
-                    .then(data => {
-                        usuarioEditandoId = data.id;
-                        llenarFormularioAfiliacion(data);
-                        alert("Usuario cargado para edición.");
-                    })
-                    .catch(error => {
-                        console.error("Error buscando usuario:", error);
-                        alert("Usuario no encontrado.");
-                    });
-            }
-
-            function editarUsuarioExistente() {
-                if (!usuarioEditandoId) {
-                    alert("Debe buscar un usuario antes de editar.");
-                    return;
-                }
-
-                const usuario = construirObjetoUsuario();
-                if (!usuario) return;
-
-                usuario.id = usuarioEditandoId;
-
-                fetch(`http://localhost:8080/usuario/${usuarioEditandoId}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(usuario)
-                })
-                    .then(res => {
-                        if (!res.ok) throw new Error("Error al actualizar el usuario.");
-                        return res.json();
-                    })
-                    .then(() => {
-                        alert("Usuario actualizado correctamente.");
-                        document.getElementById("formAfiliacion").reset();
-                        usuarioEditandoId = null;
-                    })
-                    .catch(error => {
-                        console.error("Error actualizando usuario:", error);
-                        alert("Error al actualizar.");
-                    });
-            }
-
-            function construirObjetoUsuario() {
-                const nombre = document.getElementById("nombres").value.trim();
-                const apellido = document.getElementById("apellidos").value.trim();
-                const tipoIdentificacion = document.getElementById("tipoIdentificacion").value;
-                const identificacion = document.getElementById("Identificacion").value.trim();
-                const fechaNacimiento = document.getElementById("fechaNacimiento").value;
-                const rol = document.getElementById("rol").value;
-                const telefono = document.getElementById("telefono").value.trim();
-                const correo = document.getElementById("correo").value.trim();
-                const direccion = document.getElementById("direccion").value.trim();
-                const municipio = document.getElementById("Municipio").value.trim();
-                const tipoAfiliacion = document.getElementById("tipoAfiliacion").value;
-                const seguro = document.getElementById("Seguro").value;
-
-                if (!nombre || !apellido || !identificacion || !correo) {
-                    alert("Por favor complete todos los campos obligatorios.");
-                    return null;
-                }
-
-                return {
-                    nombre: nombre,
-                    apellido: apellido,
-                    tipoIdentificacion: tipoIdentificacion,
-                    identificacion: identificacion,
-                    fechaNacimiento: fechaNacimiento,
-                    telefono: telefono,
-                    correo: correo,
-                    direccion: direccion,
-                    municipio: municipio,
-                    tipoAfiliacion: tipoAfiliacion,
-                    seguro: seguro,
-                    rol: rol,
-                    login: correo,
-                    password: identificacion
-                };
-            }
-
-            function llenarFormularioAfiliacion(usuario) {
-                document.getElementById("nombres").value = usuario.nombre || "";
-                document.getElementById("apellidos").value = usuario.apellido || "";
-                document.getElementById("tipoIdentificacion").value = usuario.tipoIdentificacion || "";
-                document.getElementById("Identificacion").value = usuario.identificacion || "";
-                document.getElementById("fechaNacimiento").value = usuario.fechaNacimiento || "";
-                document.getElementById("telefono").value = usuario.telefono || "";
-                document.getElementById("correo").value = usuario.correo || "";
-                document.getElementById("direccion").value = usuario.direccion || "";
-                document.getElementById("Municipio").value = usuario.municipio || "";
-                document.getElementById("tipoAfiliacion").value = usuario.tipoAfiliacion || "";
-                document.getElementById("Seguro").value = usuario.seguro || "";
-                document.getElementById("rol").value = usuario.rol || "";
-            }
-
-            const usuario = {
-                login: afiliacion.correo,
-                password: afiliacion.identificacion,
-                idRol: rolToId(afiliacion.rol),
-                idPaciente: afiliacion.rol === "PACIENTE" ? dataAfiliacion.id : null,
-                idAuxiliar: afiliacion.rol === "AUXILIAR" ? dataAfiliacion.id : null,
-                idMedico: afiliacion.rol === "MEDICO" ? dataAfiliacion.id : null,
-                idFarmaceutico: afiliacion.rol === "FARMACEUTICO" ? dataAfiliacion.id : null
-            };
-
-            return fetch("http://localhost:8080/usuario", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(usuario)
+function cargarMunicipios() {
+    fetch("http://localhost:8080/municipio")
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById("id_municipio");
+            select.innerHTML = '<option disabled selected>Seleccione un municipio</option>';
+            data.forEach(muni => {
+                const opt = document.createElement("option");
+                opt.value = muni.id;
+                opt.textContent = muni.nombreMunicipio;
+                select.appendChild(opt);
             });
         })
-        .then(response => {
-            if (!response.ok) throw new Error("No se pudo crear el usuario.");
-            alert("Usuario creado exitosamente.");
-            formAfiliacion.reset();
+        .catch(err => console.error("Error al cargar municipios:", err));
+}
+
+function cargarSeguros() {
+    fetch("http://localhost:8080/seguro")
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById("id_seguro");
+            select.innerHTML = '<option disabled selected>Seleccione un seguro</option>';
+            data.forEach(seguro => {
+                const opt = document.createElement("option");
+                opt.value = seguro.id;
+                opt.textContent = seguro.nombre;
+                select.appendChild(opt);
+            });
         })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Error en el proceso de afiliación y creación de usuario.");
-        });
+        .catch(err => console.error("Error al cargar seguros:", err));
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarMunicipios();
+    cargarSeguros();
+    cargarTiposDeExamen();
 });
 
-function rolToId(rol) {
-    switch (rol) {
-        case "PACIENTE": return 1;
-        case "AUXILIAR": return 2;
-        case "MEDICO": return 3;
-        case "FARMACEUTICO": return 4;
-        default: return 0;
+
+/////// examenese //////
+
+function buscarIdentificacionExamen() {
+    const input = document.getElementById("buscarIdentificacionExamen");
+    const identificacion = input.value.trim();
+
+    if (!identificacion) {
+        alert("Por favor ingrese una identificación válida.");
+        return;
     }
+
+    console.log("🔎 Buscando exámenes del paciente con identificación:", identificacion);
+    buscarExamenesPorIdentificacionAuxiliar(identificacion);
+}
+
+// 📌 Función que hace el fetch y carga los datos en la tabla
+function buscarExamenesPorIdentificacionAuxiliar(identificacion) {
+    fetch(`http://localhost:8080/detalleExamen/paciente/${identificacion}`)
+        .then(res => {
+            if (!res.ok) throw new Error("Error al buscar exámenes del paciente.");
+            return res.json();
+        })
+        .then(data => {
+            console.log("✅ Exámenes encontrados:", data);
+            cargarTablaExamenes(data);
+        })
+        .catch(err => {
+            console.error("❌ Error al buscar exámenes:", err);
+            alert("No se encontraron exámenes para este paciente.");
+        });
+}
+
+function cargarTiposDeExamen() {
+  fetch("http://localhost:8080/detalle_examenes/tipo")
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById("idTipoExamen");
+      data.forEach(examen => {
+        const option = document.createElement("option");
+        option.value = examen.id;
+        option.textContent = examen.nombre; // Asegúrate que el campo sea `nombre`
+        select.appendChild(option);
+      });
+    })
+    .catch(err => console.error("❌ Error al cargar tipos de examen:", err));
+}
+
+// 📌 Función para cargar los datos en la tabla HTML
+function cargarTablaExamenes(examenes) {
+    const tbody = document.getElementById("examTableBody");
+    tbody.innerHTML = "";
+
+    if (examenes.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='7'>No hay exámenes registrados para esta identificación.</td></tr>";
+        return;
+    }
+
+    examenes.forEach(examen => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${examen.nombreTipoExamen || "Sin tipo"}</td>
+            <td>${examen.fechaExamen}</td>
+            <td>${examen.archivoExamen}</td>
+            <td>${examen.nombrePaciente || "Paciente"}</td>
+            <td>${examen.nombreAuxiliar || "Auxiliar"}</td>
+            <td>${examen.createdAt}</td>
+            <td>
+                <a href="http://localhost:8080/uploads/${examen.archivoExamen}" download class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-download"></i> PDF
+                </a>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
 }

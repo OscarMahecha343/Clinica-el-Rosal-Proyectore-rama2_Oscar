@@ -3,6 +3,7 @@ package co.edu.sena.Clinica.el.Rosal.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +24,7 @@ import co.edu.sena.Clinica.el.Rosal.dto.PacienteDTO;
 public class PacienteController {
 
     @Autowired
-   
+
     private PacienteService pacienteService;
 
     // GET: Obtener todos los pacientes
@@ -39,15 +40,25 @@ public class PacienteController {
 
     // POST: Crear nuevo paciente
     @PostMapping
-    public void save(@RequestBody PacienteDTO dto) {
-        pacienteService.save(dto);
+    public ResponseEntity<?> save(@RequestBody PacienteDTO dto) {
+    try {
+        PacienteDTO saved = pacienteService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
     }
 
-    // PUT: Actualizar paciente por ID
-    @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody PacienteDTO dto) {
-        pacienteService.update(id, dto);
+
+    @PutMapping("/identificacion/{identificacion}")
+public ResponseEntity<?> updateByIdentificacion(@PathVariable String identificacion, @RequestBody PacienteDTO dto) {
+    try {
+        PacienteDTO actualizado = pacienteService.updateByIdentificacion(identificacion, dto);
+        return ResponseEntity.ok(actualizado);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+}
 
     // DELETE: Eliminar paciente por ID
     @DeleteMapping("/{id}")

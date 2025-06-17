@@ -1,6 +1,7 @@
 package co.edu.sena.Clinica.el.Rosal.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +23,43 @@ public class PacienteService {
     }
 
     // POST: Guardar paciente
-    public void save(PacienteDTO dto) {
-        PacienteEntity entity = new PacienteEntity();
-        copyDtoToEntity(dto, entity);
-        repository.save(entity);
+    public PacienteDTO save(PacienteDTO dto) {
+    // Validar si ya existe la identificación
+    Optional<PacienteEntity> existente = repository.findByIdentificacion(dto.getIdentificacion());
+    if (existente.isPresent()) {
+        throw new RuntimeException("Ya existe un paciente con esa identificación.");
     }
 
+    PacienteEntity entity = new PacienteEntity();
+    copyDtoToEntity(dto, entity);
+    PacienteEntity saved = repository.save(entity);
+    return convertToDto(saved);
+}
+
     // PUT: Actualizar paciente
-    public void update(Long id, PacienteDTO dto) {
-        PacienteEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con id: " + id));
-        copyDtoToEntity(dto, entity);
-        repository.save(entity);
-    }
+    public PacienteDTO updateByIdentificacion(String identificacion, PacienteDTO dto) {
+    PacienteEntity existente = repository.findByIdentificacion(identificacion)
+        .orElseThrow(() -> new RuntimeException("Paciente no encontrado."));
+
+    // Actualiza los campos necesarios
+    existente.setNombrePaci(dto.getNombrePaci());
+    existente.setApellidoPaci(dto.getApellidoPaci());
+    existente.setTipoIdentificacion(dto.getTipoIdentificacion());
+    existente.setGenero(dto.getGenero());
+    existente.setFechaNacimiento(dto.getFechaNacimiento());
+    existente.setTelefono(dto.getTelefono());
+    existente.setCorreo(dto.getCorreo());
+    existente.setDireccion(dto.getDireccion());
+    existente.setIdMunicipio(dto.getIdMunicipio());
+    existente.setIdSeguro(dto.getIdSeguro());
+    existente.setGrupoSangineo(dto.getGrupoSangineo());
+    existente.setAlergias(dto.getAlergias());
+    existente.setTipoAlergia(dto.getTipoAlergia());
+
+    repository.save(existente);
+
+    return convertToDto(existente);
+}
 
     // DELETE: Eliminar paciente
     public void delete(Long id) {
@@ -79,6 +104,7 @@ public class PacienteService {
                 .idMunicipio(entity.getIdMunicipio())
                 .build();
     }
+    
 
     public PacienteDTO getByIdentificacion(String identificacion) {
         PacienteEntity entity = repository.findByIdentificacion(identificacion)

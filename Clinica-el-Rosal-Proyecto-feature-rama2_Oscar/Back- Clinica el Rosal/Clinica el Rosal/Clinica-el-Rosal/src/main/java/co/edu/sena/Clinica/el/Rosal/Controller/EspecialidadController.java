@@ -15,12 +15,15 @@ public class EspecialidadController {
 
     @Autowired
     private EspecialidadService service;
+    
 
     // GET: Obtener todas las especialidades
+
     @GetMapping
-    public List<EspecialidadDTO> getAll() {
+    public List<EspecialidadDTO> findAll() {
         return service.getAll();
     }
+
 
     // GET: Obtener especialidad por ID
     @GetMapping("/{id}")

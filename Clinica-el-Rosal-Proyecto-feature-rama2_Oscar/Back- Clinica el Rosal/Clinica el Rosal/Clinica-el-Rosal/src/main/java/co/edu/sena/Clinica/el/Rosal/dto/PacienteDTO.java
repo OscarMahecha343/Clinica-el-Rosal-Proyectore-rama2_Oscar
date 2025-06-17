@@ -24,7 +24,7 @@ public class PacienteDTO {
     private String telefono;
     private String correo;
     private String direccion;
-    private String grupoSangineo;
+    private String grupoSangineo; 
     private String alergias;
     private String tipoAlergia;
     private Long idMunicipio;
