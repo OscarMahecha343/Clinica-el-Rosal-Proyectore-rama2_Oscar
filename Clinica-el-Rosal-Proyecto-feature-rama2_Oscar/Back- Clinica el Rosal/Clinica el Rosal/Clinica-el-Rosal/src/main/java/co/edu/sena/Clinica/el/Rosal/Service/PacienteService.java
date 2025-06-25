@@ -22,6 +22,11 @@ public class PacienteService {
         return repository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    public PacienteEntity findById(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Paciente no encontrado con ID: " + id));
+    }
+    
     // POST: Guardar paciente
     public PacienteDTO save(PacienteDTO dto) {
     // Validar si ya existe la identificación

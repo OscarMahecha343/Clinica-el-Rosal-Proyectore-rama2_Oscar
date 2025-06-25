@@ -25,6 +25,11 @@ public class EspecialidadService {
         repository.save(entity);
     }
 
+    public EspecialidadEntity findById(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Especialidad no encontrada con ID: " + id));
+    }
+
     // Obtener lista de todas las especialidades
     public List<EspecialidadDTO> getAll() {
         return repository.findAll().stream().map(entity ->

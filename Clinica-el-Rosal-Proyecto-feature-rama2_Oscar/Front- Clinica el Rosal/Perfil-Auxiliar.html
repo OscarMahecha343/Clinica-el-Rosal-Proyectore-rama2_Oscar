@@ -91,15 +91,15 @@
           <label class="form-label fw-bold mb-3">Seleccione una opción:</label>
           <div class="row justify-content-center">
             <div class="mb-3">
-              <label for="buscarIdentificacion" class="form-label">Buscar Paciente por
-                Identificación</label>
+              <label for="buscarIdentificacion" class="form-label">Identificación del paciente</label>
               <input type="text" id="buscarIdentificacion" class="form-control"
                 placeholder="Ingrese número de identificación">
               <button type="button" class="btn btn-primary mt-2"
-                onclick="buscarPacientePorIdentificacion()">Buscar</button>
+                onclick="buscarPacientePorIdentificacionDesdeAfiliacion()">Buscar</button>
             </div>
+
             <div class="mb-3">
-              <p><strong>Paciente:</strong> <span id="pacienteNombre"></span></p>
+              <p><strong>Nombre del paciente:</strong> <span id="nombrePacienteMostrar"></span></p>
             </div>
 
             <input type="hidden" id="idPaciente">
@@ -170,11 +170,6 @@
           <div class="mb-4">
             <button type="button" class="btn btn-primary" id="btn-agendar">Aceptar</button>
           </div>
-          <!--<div class="text-end mt-3">
-                            <a href="perfil-usuario.html" class="btn btn-outline-primary rounded-pill">
-                                <i class="bi bi-arrow-left-circle"></i> Volver al perfil
-                            </a>
-                        </div>-->
         </form>
         <hr>
         <h5 class="mt-4">Citas Agendadas</h5>
@@ -340,7 +335,7 @@
         <h5 class="mb-0">Gestión de Exámenes / Resultados</h5>
       </div>
       <div class="card-body">
-  
+
         <!-- 🔍 Buscar por identificación -->
         <div class="row mb-3">
           <div class="col-md-6">
@@ -354,24 +349,24 @@
             </div>
           </div>
         </div>
-  
+
         <form id="formularioExamenAuxiliar" enctype="multipart/form-data">
           <div class="row g-3">
-  
+
             <!-- Paciente -->
             <div class="col-md-4">
               <label for="nombre_paciente" class="form-label">👤 Paciente</label>
               <input type="text" id="nombre_paciente" class="form-control" readonly>
               <input type="hidden" id="id_paciente" name="id_paciente">
             </div>
-  
+
             <!-- Auxiliar -->
             <div class="col-md-4">
               <label for="nombre_auxiliar" class="form-label">🧑‍⚕️ Auxiliar que registra</label>
               <input type="text" id="nombre_auxiliar" class="form-control" readonly>
               <input type="hidden" id="id_auxiliar" name="id_auxiliar">
             </div>
-  
+
             <!-- Tipo Examen -->
             <div class="col-md-4">
               <label for="idTipoExamen" class="form-label">🧪 Tipo de Examen</label>
@@ -379,27 +374,27 @@
                 <option value="">Seleccione tipo</option>
               </select>
             </div>
-  
+
             <!-- Fecha Examen -->
             <div class="col-md-4">
               <label for="fechaExamen" class="form-label">📅 Fecha del Examen</label>
               <input type="date" id="fechaExamen" name="fechaExamen" class="form-control" required>
             </div>
-  
+
             <!-- Archivo -->
             <div class="col-md-4">
               <label for="archivoExamen" class="form-label">📁 Archivo</label>
               <input type="file" id="archivoExamen" name="archivoExamen" accept="application/pdf" class="form-control"
                 required>
             </div>
-  
+
             <!-- Botón Enviar -->
             <div class="col-md-4 align-self-end">
               <button type="submit" class="btn btn-success w-100">
                 <i class="bi bi-upload"></i> Subir Examen
               </button>
             </div>
-  
+
           </div>
         </form>
 

@@ -50,7 +50,7 @@ public class MedicoService {
             .consultorio(entity.getConsultorio())
             .build())
         .collect(Collectors.toList());
-}
+    }
 
     // Actualizar médico
     public void update(Long id, MedicoDTO dto) {
@@ -69,8 +69,13 @@ public class MedicoService {
         }
     }
 
+    public MedicoEntity findById(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + id));
+}
+
     @Transactional
-public List<MedicoDTO> listarMedicosPorEspecialidad(Long idEspecialidad) {
+    public List<MedicoDTO> listarMedicosPorEspecialidad(Long idEspecialidad) {
     List<MedicoEntity> medicos = repository.findByIdEspecialidad_Id(idEspecialidad);
 
     List<MedicoDTO> resultado = new ArrayList<>();
@@ -83,10 +88,13 @@ public List<MedicoDTO> listarMedicosPorEspecialidad(Long idEspecialidad) {
         resultado.add(dto);
     }
     return resultado;
-}
+    }
 
     // Eliminar médico
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    
+    
 }

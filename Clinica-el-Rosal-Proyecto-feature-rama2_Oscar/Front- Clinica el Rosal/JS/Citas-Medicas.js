@@ -26,12 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        const horaSeleccionada = document.querySelector('input[name="hora"]:checked');
+        if (!horaSeleccionada) {
+            alert("Por favor seleccione una hora para la cita.");
+            return;
+        }
+
         const cita = {
             idPaciente: userData.id,
             idMedico: parseInt(document.getElementById("idMedico").value),
             idEspecialidad: parseInt(document.getElementById("especialidad").value),
             fecha: document.getElementById("fecha").value,
-            hora: document.getElementById("hora").value,
+            hora: horaSeleccionada.value,
             estado: document.querySelector('input[name="accion"]:checked').value.toUpperCase()
         };
 
@@ -50,6 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("¡Cita agendada exitosamente!");
                 form.reset();
                 cargarCitasDelPaciente(); // Refrescar tabla
+                const fechaActual = document.getElementById("fecha").value;
+                if (fechaActual) {
+                    cargarHorasOcupadas(fechaActual); // Refrescar disponibilidad
+                }
             })
             .catch(err => {
                 console.error("Error al enviar cita:", err);
@@ -90,41 +100,6 @@ function cargarMedicosPorEspecialidad(especialidadId) {
             console.error("Error cargando médicos:", err);
         });
 }
-
-document.getElementById("fecha").addEventListener("change", function () {
-    const fechaSeleccionada = this.value;
-    const horaSelect = document.getElementById("hora");
-    horaSelect.innerHTML = '<option value="">Cargando...</option>';
-
-    fetch(`http://localhost:8080/cita/fecha/${fechaSeleccionada}`)
-        .then(res => res.json())
-        .then(citas => {
-            const horasOcupadas = citas.map(c => c.hora);
-            horaSelect.innerHTML = '<option value="">Seleccione una hora</option>';
-
-            const inicio = 6;
-            const fin = 20;
-            for (let h = inicio; h <= fin; h++) {
-                for (let m of [0, 30]) {
-                    const hora = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-                    if (!horasOcupadas.includes(hora)) {
-                        const option = document.createElement("option");
-                        option.value = hora;
-                        option.textContent = hora;
-                        horaSelect.appendChild(option);
-                    }
-                }
-            }
-
-            if (horaSelect.options.length === 1) {
-                horaSelect.innerHTML = '<option value="">No hay horarios disponibles</option>';
-            }
-        })
-        .catch(err => {
-            console.error("Error al consultar franjas:", err);
-            horaSelect.innerHTML = '<option value="">Error al cargar horarios</option>';
-        });
-});
 
 function cargarCitasDelPaciente() {
     const userData = JSON.parse(localStorage.getItem("data-user"));
@@ -174,6 +149,7 @@ function cargarCitasDelPaciente() {
 }
 
 function generarBotonesDeHoras(horasOcupadas = []) {
+     console.log("Generando botones, horas ocupadas:", horasOcupadas);
     const container = document.getElementById("horas-container");
     container.innerHTML = "";
 
@@ -203,14 +179,26 @@ function generarBotonesDeHoras(horasOcupadas = []) {
 
 document.getElementById("fecha").addEventListener("change", function () {
     const fechaSeleccionada = this.value;
-
-    fetch(`http://localhost:8080/cita/fecha/${fechaSeleccionada}`)
-        .then(res => res.json())
-        .then(data => {
-            const horasOcupadas = data.map(cita => cita.hora);
-            generarBotonesDeHoras(horasOcupadas);
-        })
-        .catch(err => {
-            console.error("Error al consultar franjas:", err);
-        });
+    if (fechaSeleccionada) {
+        cargarHorasOcupadas(fechaSeleccionada);
+    }
 });
+
+
+async function cargarHorasOcupadas() {
+    const fechaSeleccionada = document.getElementById("fecha").value;
+    if (!fechaSeleccionada) return;
+
+    try {
+        const response = await fetch(`http://localhost:8080/cita/fecha/${fechaSeleccionada}`);
+        if (!response.ok) throw new Error("No se pudieron cargar las citas.");
+
+        const citas = await response.json();
+        const horasOcupadas = citas.map(c => c.hora.slice(0, 5));
+
+        generarBotonesDeHoras(horasOcupadas);
+
+    } catch (error) {
+        console.error("Error al consultar franjas:", error);
+    }
+}

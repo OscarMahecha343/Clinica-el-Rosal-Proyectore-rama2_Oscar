@@ -1,6 +1,8 @@
 
 let citaEditandoId = null;
 let pacienteSeleccionado = null;
+
+
 document.getElementById("fecha").addEventListener("change", actualizarHorasDisponibles);
 document.getElementById("idMedico").addEventListener("change", actualizarHorasDisponibles);
 
@@ -103,7 +105,7 @@ function mostrarSeccion(id) {
 
 
 function buscarPacientePorIdentificacionDesdeAfiliacion() {
-    const input = document.getElementById("buscarIdentificacionAfiliacion");
+    const input = document.getElementById("buscarIdentificacion");
     const identificacion = input.value.trim();
 
     if (!identificacion) {
@@ -111,22 +113,28 @@ function buscarPacientePorIdentificacionDesdeAfiliacion() {
         return;
     }
 
-    console.log("🔎 Valor capturado desde afiliación:", identificacion);
-
     fetch(`http://localhost:8080/paciente/identificacion/${identificacion}`)
         .then(res => {
             if (!res.ok) throw new Error("Paciente no encontrado");
             return res.json();
         })
         .then(data => {
-            console.log("✅ Paciente encontrado:", data);
-            llenarFormularioAfiliacionConDatos(data);
+            const nombreCompleto = data.nombrePaci + " " + data.apellidoPaci;
+            document.getElementById("nombrePacienteMostrar").textContent = nombreCompleto;
+
+            pacienteSeleccionado = data;
+            cargarCitasDelPaciente(data.id);
         })
         .catch(err => {
-            console.error("❌ Error en la búsqueda desde afiliación:", err);
+            console.error("❌ Error en la búsqueda:", err);
             alert("Paciente no encontrado.");
+            document.getElementById("nombrePacienteMostrar").textContent = "";
+
+            // 🧹 Limpiar paciente seleccionado
+            pacienteSeleccionado = null;
         });
 }
+
 
 function llenarFormularioAfiliacionConDatos(paciente) {
     const mapeo = {
@@ -407,6 +415,24 @@ function generarBotonesDeHoras(horasOcupadas = []) {
     }
 }
 
+async function cargarHorasOcupadas() {
+    const fechaSeleccionada = document.getElementById("fecha").value;
+    if (!fechaSeleccionada) return;
+
+    try {
+        const response = await fetch(`http://localhost:8080/cita/fecha/${fechaSeleccionada}`);
+        if (!response.ok) throw new Error("No se pudieron cargar las citas.");
+
+        const citas = await response.json();
+        const horasOcupadas = citas.map(c => c.hora.slice(0, 5));
+
+        generarBotonesDeHoras(horasOcupadas);
+
+    } catch (error) {
+        console.error("Error al consultar franjas:", error);
+    }
+}
+
 function cargarEspecialidades() {
     fetch("http://localhost:8080/especialidad")
         .then(res => res.json())
@@ -440,42 +466,6 @@ function cargarMedicosPorEspecialidad(especialidadId) {
         });
 }
 
-/*document.getElementById("formAfiliacion").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const afiliacion = {
-        nombre: document.getElementById("nombres").value,
-        apellido: document.getElementById("apellidos").value,
-        tipoIdentificacion: document.getElementById("tipoIdentificacion").value,
-        identificacion: document.getElementById("identificacion").value,
-        fechaNacimiento: document.getElementById("fechaNacimiento").value,
-        telefono: document.getElementById("telefono").value,
-        correo: document.getElementById("correo").value,
-        direccion: document.getElementById("direccion").value,
-        municipio: document.getElementById("municipio").value,
-        tipoAfiliacion: document.getElementById("tipoAfiliacion").value,
-        seguro: document.getElementById("seguro").value,
-        rol: document.getElementById("rol").value
-    };
-
-    fetch("http://localhost:8080/afiliacion", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(afiliacion)
-    })
-        .then(response => {
-            if (!response.ok) throw new Error("No se pudo guardar la afiliación.");
-            return response.json();
-        })
-        .then(data => {
-            alert("Afiliación registrada con éxito.");
-            document.getElementById("formAfiliacion").reset();
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Error al registrar afiliación.");
-        });
-});*/
 
 
 ///////////// seccion afiliacion /////////////
@@ -498,7 +488,7 @@ function safeValue(id) {
     console.log("🩺 Validando campos para paciente...");
 
     const campos = [
-        "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
+       "id", "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
         "telefono", "correo", "direccion", "id_municipio", "tipo_afiliacion", "id_seguro",
         "grupo_sangineo", "alergias", "tipo_de_alergia"
     ];
@@ -526,6 +516,7 @@ function safeValue(id) {
 
     // Construcción del objeto
     const paciente = {
+        id: pacienteSeleccionado?.id,
         nombrePaci: document.getElementById("nombre").value.trim(),
         apellidoPaci: document.getElementById("apellido").value.trim(),
         tipoIdentificacion: document.getElementById("tipo_identificacion").value.trim(),
@@ -604,7 +595,7 @@ function actualizarAfiliacion() {
 
     let paciente;
     try {
-        paciente = construirObjetoPaciente(); // Reutilizamos tu función existente
+        paciente = construirObjetoPaciente(); 
     } catch (err) {
         console.error("❌ Error al construir el objeto paciente:", err.message);
         alert("⚠️ Verifica los campos antes de actualizar.");

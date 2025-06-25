@@ -20,27 +20,32 @@ public class CitaMedicaService {
     @Autowired
     private CitaMedicaRepository repository;
 
-    public void save(CitaMedicaDTO dto) {
-        PacienteEntity paciente = new PacienteEntity();
-        paciente.setId(dto.getIdPaciente());
+    @Autowired
+private PacienteService pacienteService;
 
-        MedicoEntity medico = new MedicoEntity();
-        medico.setId(dto.getIdMedico());
+@Autowired
+private MedicoService medicoService;
 
-        EspecialidadEntity especialidad = new EspecialidadEntity();
-        especialidad.setId(dto.getIdEspecialidad());
+@Autowired
+private EspecialidadService especialidadService;
 
-        CitaMedicaEntity entity = CitaMedicaEntity.builder()
-                .paciente(paciente)
-                .medico(medico)
-                .especialidad(especialidad)
-                .fecha(dto.getFecha()) // ahora es LocalDate
-                .hora(dto.getHora())
-                .estado(dto.getEstado())
-                .build();
+public CitaMedicaDTO save(CitaMedicaDTO dto) {
+    PacienteEntity paciente = pacienteService.findById(dto.getIdPaciente());
+    MedicoEntity medico = medicoService.findById(dto.getIdMedico());
+    EspecialidadEntity especialidad = especialidadService.findById(dto.getIdEspecialidad());
 
-        repository.save(entity);
-    }
+    CitaMedicaEntity entity = CitaMedicaEntity.builder()
+            .paciente(paciente)
+            .medico(medico)
+            .especialidad(especialidad)
+            .fecha(dto.getFecha())
+            .hora(dto.getHora())
+            .estado(dto.getEstado())
+            .build();
+
+    CitaMedicaEntity saved = repository.save(entity);
+    return convertToDto(saved);
+}
 
     public List<CitaMedicaDTO> obtenerCitasPorPaciente(Long idPaciente) {
         return repository.findByPaciente_Id(idPaciente).stream()
@@ -135,5 +140,11 @@ public class CitaMedicaService {
         CitaMedicaEntity cita = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
         return convertToDto(cita);
+    }
+    
+
+    public boolean existeCitaEnHorario(Long idMedico, LocalDate fecha, String hora) {
+    return repository.findByMedico_IdAndFecha(idMedico, fecha).stream()
+            .anyMatch(cita -> cita.getHora().equals(hora));
     }
 }
