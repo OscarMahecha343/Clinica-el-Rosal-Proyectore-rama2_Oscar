@@ -44,11 +44,17 @@ public class DetalleExamenService {
         // Guardar archivo en una carpeta local (ajústalo si usas otra ubicación)
         if (dto.getArchivo() != null && !dto.getArchivo().isEmpty()) {
             String nombreArchivo = UUID.randomUUID().toString() + "_" + dto.getArchivo().getOriginalFilename();
-            Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo);
+            Path rutaArchivo = Paths.get("archivo").resolve(nombreArchivo);
             Files.createDirectories(rutaArchivo.getParent()); // crea carpeta si no existe
             Files.copy(dto.getArchivo().getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
             dto.setArchivoExamen(nombreArchivo);
         }
+
+
+
+        System.out.println("🩺 dto.getIdPaciente(): " + dto.getIdPaciente());
+        System.out.println("🩺 dto.getIdAuxiliar(): " + dto.getIdAuxiliar());
+        System.out.println("🩺 dto.getIdTipoExamen(): " + dto.getIdTipoExamen());
 
         // Buscar relaciones
         TipoExamenEntity tipo = tipoExamenRepository.findById(dto.getIdTipoExamen()).orElse(null);

@@ -35,5 +35,6 @@ public class LoginResponseDTO {
     private String username;
     private String rol;
     private boolean isActive;
+    private Long idAuxiliar; 
 
 }

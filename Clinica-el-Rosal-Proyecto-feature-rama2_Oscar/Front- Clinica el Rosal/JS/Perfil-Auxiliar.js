@@ -44,7 +44,7 @@ document.getElementById("especialidad").addEventListener("change", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const campo = document.getElementById("buscarIdentificacion");
+    const campo = document.getElementById("buscarIdentificacionAfiliacion");
     if (!campo) {
         console.error("❌ Campo #buscarIdentificacion no fue encontrado al cargar la página");
     } else {
@@ -104,10 +104,9 @@ function mostrarSeccion(id) {
 
 
 
-function buscarPacientePorIdentificacionDesdeAfiliacion() {
-    const input = document.getElementById("buscarIdentificacion");
+function buscarPacientePorIdentificacion(idCampo) {
+    const input = document.getElementById(idCampo);
     const identificacion = input.value.trim();
-
     if (!identificacion) {
         alert("Por favor ingrese una identificación válida.");
         return;
@@ -119,24 +118,38 @@ function buscarPacientePorIdentificacionDesdeAfiliacion() {
             return res.json();
         })
         .then(data => {
-            const nombreCompleto = data.nombrePaci + " " + data.apellidoPaci;
-            document.getElementById("nombrePacienteMostrar").textContent = nombreCompleto;
-
+            console.log("🔍 Paciente encontrado:", data);
             pacienteSeleccionado = data;
-            cargarCitasDelPaciente(data.id);
+
+            
+            const nombreLabel = document.getElementById("nombrePacienteMostrar");
+            if (nombreLabel) {
+                nombreLabel.textContent = data.nombrePaci + " " + data.apellidoPaci;
+            }
+
+            if (idCampo === "buscarIdentificacionAfiliacion") {
+                llenarFormularioAfiliacionConDatos(data);
+            }
+
+            if (typeof cargarCitasDelPaciente === "function") {
+                cargarCitasDelPaciente(data.id);
+            }
         })
         .catch(err => {
             console.error("❌ Error en la búsqueda:", err);
             alert("Paciente no encontrado.");
-            document.getElementById("nombrePacienteMostrar").textContent = "";
 
-            // 🧹 Limpiar paciente seleccionado
+            const nombreLabel = document.getElementById("nombrePacienteMostrar");
+            if (nombreLabel) nombreLabel.textContent = "";
+
             pacienteSeleccionado = null;
         });
 }
 
 
 function llenarFormularioAfiliacionConDatos(paciente) {
+    document.getElementById("pacienteId").value = paciente.id || ''
+
     const mapeo = {
         nombre: paciente.nombrePaci,
         apellido: paciente.apellidoPaci,
@@ -148,7 +161,7 @@ function llenarFormularioAfiliacionConDatos(paciente) {
         correo: paciente.correo,
         direccion: paciente.direccion,
         id_municipio: paciente.idMunicipio,
-        tipo_afiliacion: paciente.tipoAfiliacion || '', // si aplica
+        tipo_afiliacion: paciente.tipoAfiliacion || '',
         id_seguro: paciente.idSeguro,
         grupo_sangineo: paciente.grupoSangineo,
         alergias: paciente.alergias,
@@ -163,6 +176,13 @@ function llenarFormularioAfiliacionConDatos(paciente) {
         } else {
             console.warn(`⚠️ Campo ${id} no encontrado en el DOM`);
         }
+    }
+
+    const hiddenId = document.getElementById("pacienteId");
+    if (hiddenId) {
+        hiddenId.value = paciente.id;
+    } else {
+        console.log("ℹ️ Campo oculto 'pacienteId' no está presente, se recomienda agregarlo si usarás actualización.");
     }
 }
 
@@ -488,7 +508,7 @@ function safeValue(id) {
     console.log("🩺 Validando campos para paciente...");
 
     const campos = [
-       "id", "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
+       "pacienteId", "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
         "telefono", "correo", "direccion", "id_municipio", "tipo_afiliacion", "id_seguro",
         "grupo_sangineo", "alergias", "tipo_de_alergia"
     ];
@@ -516,7 +536,7 @@ function safeValue(id) {
 
     // Construcción del objeto
     const paciente = {
-        id: pacienteSeleccionado?.id,
+         id: parseInt(document.getElementById("pacienteId")?.value) || null,
         nombrePaci: document.getElementById("nombre").value.trim(),
         apellidoPaci: document.getElementById("apellido").value.trim(),
         tipoIdentificacion: document.getElementById("tipo_identificacion").value.trim(),
@@ -709,6 +729,7 @@ function cargarTiposDeExamen() {
 function buscarIdentificacionExamen() {
   const ced = document.getElementById("buscarIdentificacionExamen").value.trim();
   if (!ced) return alert("Ingrese identificación válida");
+  console.log("🩺 idPaciente en el form:", document.getElementById("id_paciente").value);
 
   // Paso 1: obtener paciente
   fetch(`http://localhost:8080/paciente/identificacion/${ced}`)
@@ -757,10 +778,10 @@ function cargarTablaExamenes(examenes) {
       <td>${e.nombreAuxiliar || ""}</td>
       <td>${e.createdAt}</td>
       <td>
-        <a href="http://localhost:8080/uploads/${e.archivoExamen}" download class="btn btn-sm btn-outline-primary">
-          PDF
-        </a>
-      </td>`;
+        <a href="http://localhost:8080/archivo/${e.archivoExamen}
+        " download class="btn btn-sm btn-outline-primary">PDF</a>
+
+    </td>`;
     tbody.appendChild(row);
   });
 }
@@ -769,6 +790,13 @@ document.getElementById("formularioExamenAuxiliar").addEventListener("submit", e
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
+
+  const idPaciente = document.getElementById("id_paciente").value;
+console.log("🩺 Validación previa submit idPaciente:", idPaciente);
+if (!idPaciente) {
+    alert("⚠️ Por favor primero busque el paciente antes de subir el examen.");
+    return;
+}
 
   fetch("http://localhost:8080/detalle_examenes/upload", {
     method: "POST",

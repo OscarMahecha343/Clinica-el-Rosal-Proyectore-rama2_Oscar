@@ -92,10 +92,9 @@
           <div class="row justify-content-center">
             <div class="mb-3">
               <label for="buscarIdentificacion" class="form-label">Identificación del paciente</label>
-              <input type="text" id="buscarIdentificacion" class="form-control"
+              <input type="text" id="buscarIdentificacionAgendamiento" class="form-control"
                 placeholder="Ingrese número de identificación">
-              <button type="button" class="btn btn-primary mt-2"
-                onclick="buscarPacientePorIdentificacionDesdeAfiliacion()">Buscar</button>
+              <button onclick="buscarPacientePorIdentificacion('buscarIdentificacionAgendamiento')">Buscar</button>
             </div>
 
             <div class="mb-3">
@@ -190,6 +189,7 @@
 
       <div class="card-body p-4">
         <form id="formAfiliacion">
+           <input type="hidden" id="pacienteId">
           <!-- Fila de acciones -->
           <div class="row g-3 mb-4 align-items-end">
             <div class="col-md-3">
@@ -208,9 +208,7 @@
                 <input type="text" class="form-control" id="buscarIdentificacionAfiliacion" name="buscarIdentificacion"
                   placeholder="Ingrese número de identificación" />
 
-                <button type="button" class="btn btn-outline-info"
-                  onclick="buscarPacientePorIdentificacionDesdeAfiliacion()">
-                  <i class="bi bi-search"></i>
+                <button onclick="buscarPacientePorIdentificacion('buscarIdentificacionAfiliacion')">Buscar</button>
                 </button>
               </div>
             </div>
@@ -235,7 +233,7 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label for="nombre" class="form-label">Nombres</label>
-              <input type="text" class="form-control" id="nombre" required>
+              <input type="text" class="form-control" id="nombre" required>             
             </div>
             <div class="col-md-6">
               <label for="apellido" class="form-label">Apellidos</label>
@@ -357,14 +355,14 @@
             <div class="col-md-4">
               <label for="nombre_paciente" class="form-label">👤 Paciente</label>
               <input type="text" id="nombre_paciente" class="form-control" readonly>
-              <input type="hidden" id="id_paciente" name="id_paciente">
+              <input type="hidden" id="id_paciente" name="idPaciente">
             </div>
 
             <!-- Auxiliar -->
             <div class="col-md-4">
               <label for="nombre_auxiliar" class="form-label">🧑‍⚕️ Auxiliar que registra</label>
               <input type="text" id="nombre_auxiliar" class="form-control" readonly>
-              <input type="hidden" id="id_auxiliar" name="id_auxiliar">
+              <input type="hidden" id="id_auxiliar" name="idAuxiliar">
             </div>
 
             <!-- Tipo Examen -->
@@ -384,7 +382,7 @@
             <!-- Archivo -->
             <div class="col-md-4">
               <label for="archivoExamen" class="form-label">📁 Archivo</label>
-              <input type="file" id="archivoExamen" name="archivoExamen" accept="application/pdf" class="form-control"
+              <input type="file" id="archivoExamen" name="archivo" accept="application/pdf" class="form-control"
                 required>
             </div>
 
