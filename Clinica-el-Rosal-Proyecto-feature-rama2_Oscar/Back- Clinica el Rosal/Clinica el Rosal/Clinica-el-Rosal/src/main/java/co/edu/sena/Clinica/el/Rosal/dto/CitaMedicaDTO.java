@@ -24,5 +24,6 @@ public class CitaMedicaDTO {
     private String ubicacionConsultorio;
 
     private CitaMedicaEntity.Estado estado;
+    private String nombrePaciente;
 
 }

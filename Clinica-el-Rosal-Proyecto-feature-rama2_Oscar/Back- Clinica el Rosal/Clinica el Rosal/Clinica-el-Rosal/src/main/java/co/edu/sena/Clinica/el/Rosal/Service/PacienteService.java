@@ -26,6 +26,12 @@ public class PacienteService {
     return repository.findById(id)
         .orElseThrow(() -> new RuntimeException("Paciente no encontrado con ID: " + id));
     }
+
+    public PacienteDTO findDtoById(Long id) {
+    PacienteEntity entity = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Paciente no encontrado con ID: " + id));
+    return convertToDto(entity);
+}
     
     // POST: Guardar paciente
     public PacienteDTO save(PacienteDTO dto) {
@@ -117,4 +123,6 @@ public class PacienteService {
                         () -> new RuntimeException("Paciente no encontrado con la identificación: " + identificacion));
         return convertToDto(entity);
     }
+
+    
 }

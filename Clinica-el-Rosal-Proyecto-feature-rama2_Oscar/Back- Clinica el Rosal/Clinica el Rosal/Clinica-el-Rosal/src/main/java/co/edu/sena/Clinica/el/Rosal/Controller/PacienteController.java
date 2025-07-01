@@ -38,6 +38,11 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.getByIdentificacion(identificacion));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PacienteDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(pacienteService.findDtoById(id));
+    }
+
     // POST: Crear nuevo paciente
     @PostMapping
     public ResponseEntity<?> save(@RequestBody PacienteDTO dto) {

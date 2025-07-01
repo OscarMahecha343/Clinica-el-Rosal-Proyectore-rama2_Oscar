@@ -69,11 +69,6 @@ public class MedicoService {
         }
     }
 
-    public MedicoEntity findById(Long id) {
-    return repository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + id));
-}
-
     @Transactional
     public List<MedicoDTO> listarMedicosPorEspecialidad(Long idEspecialidad) {
     List<MedicoEntity> medicos = repository.findByIdEspecialidad_Id(idEspecialidad);
@@ -95,6 +90,9 @@ public class MedicoService {
         repository.deleteById(id);
     }
 
-    
+    public MedicoEntity findById(Long id) {
+    return repository.findById(id)
+           .orElseThrow(() -> new RuntimeException("Médico no encontrado con id: " + id));
+}
     
 }

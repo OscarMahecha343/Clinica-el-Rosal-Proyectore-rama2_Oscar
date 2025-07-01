@@ -101,6 +101,7 @@ public class UsuarioService {
             .rol(entity.getIdRol().getNombre())
             .isActive(true)
             .idAuxiliar(entity.getIdAuxiliar() != null ? entity.getIdAuxiliar().getId() : null)
+            
             .build();
             
     }).orElse(LoginResponseDTO.builder().isActive(false).build()); }

@@ -105,6 +105,11 @@ public CitaMedicaDTO save(CitaMedicaDTO dto) {
         String nombreConsultorio = "";
         String ubicacionConsultorio = "";
 
+            String nombrePaciente = "";
+    if (cita.getPaciente() != null) {
+        nombrePaciente = cita.getPaciente().getNombrePaci() + " " + cita.getPaciente().getApellidoPaci();
+    }
+
         if (cita.getMedico() != null) {
             nombreMedico = cita.getMedico().getNombreMedico() + " " + cita.getMedico().getApellidosMedicos();
             if (cita.getMedico().getConsultorio() != null) {
@@ -126,6 +131,7 @@ public CitaMedicaDTO save(CitaMedicaDTO dto) {
                 .nombreMedico(nombreMedico)
                 .consultorio(nombreConsultorio)
                 .ubicacionConsultorio(ubicacionConsultorio)
+                .nombrePaciente(nombrePaciente)
                 .build();
     }
 
@@ -141,10 +147,10 @@ public CitaMedicaDTO save(CitaMedicaDTO dto) {
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
         return convertToDto(cita);
     }
-    
+
 
     public boolean existeCitaEnHorario(Long idMedico, LocalDate fecha, String hora) {
-    return repository.findByMedico_IdAndFecha(idMedico, fecha).stream()
-            .anyMatch(cita -> cita.getHora().equals(hora));
-    }
+    List<CitaMedicaEntity> citas = repository.findByMedico_IdAndFecha(idMedico, fecha);
+    return citas.stream().anyMatch(c -> c.getHora().equals(hora));
+}
 }
