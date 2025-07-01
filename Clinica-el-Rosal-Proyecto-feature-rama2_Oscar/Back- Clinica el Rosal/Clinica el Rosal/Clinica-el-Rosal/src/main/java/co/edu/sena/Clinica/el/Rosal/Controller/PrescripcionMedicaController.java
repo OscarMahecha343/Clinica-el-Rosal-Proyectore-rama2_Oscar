@@ -17,7 +17,7 @@ import co.edu.sena.Clinica.el.Rosal.Service.PrescripcionMedicaService;
 import co.edu.sena.Clinica.el.Rosal.dto.PrescripcionMedicaDTO;
 
 @RestController
-@RequestMapping("/prescripción medica")
+@RequestMapping("/prescripcion")
 @CrossOrigin(origins = "*")
 public class PrescripcionMedicaController {
 
@@ -29,6 +29,11 @@ public class PrescripcionMedicaController {
     public List<PrescripcionMedicaDTO> getAll() {
         return service.getAll();
     }
+
+  @GetMapping("/historia/{idHistoria}")
+public List<PrescripcionMedicaDTO> getByHistoria(@PathVariable Long idHistoria) {
+    return service.findByHistoria(idHistoria);
+}
 
     // Crear nueva prescripción
     @PostMapping

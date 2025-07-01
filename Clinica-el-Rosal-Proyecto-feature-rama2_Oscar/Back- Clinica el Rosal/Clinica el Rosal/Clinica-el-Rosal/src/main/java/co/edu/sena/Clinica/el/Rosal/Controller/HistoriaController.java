@@ -36,6 +36,11 @@ public class HistoriaController {
         return service.getById(id);
     }
 
+    @GetMapping("/paciente/{idPaciente}")
+    public List<HistoriaDTO> getByPaciente(@PathVariable Long idPaciente) {
+    return service.getByPaciente(idPaciente);
+}
+
     // Crear nueva historia
     @PostMapping
     public HistoriaDTO save(@RequestBody HistoriaDTO dto) {

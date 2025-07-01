@@ -78,6 +78,26 @@ public class HistoriaService {
                 .build();
     }
 
+    public List<HistoriaDTO> getByPaciente(Long idPaciente) {
+    return repository.findByIdPaciente(idPaciente)
+        .stream()
+        .map(entity -> HistoriaDTO.builder()
+                .id(entity.getId())
+                .idPaciente(entity.getIdPaciente())
+                .idMedico(entity.getIdMedico())
+                .fechaConsulta(entity.getFechaConsulta())
+                .motivoConsulta(entity.getMotivoConsulta())
+                .historialClinico(entity.getHistorialClinico())
+                .diagnostico(entity.getDiagnostico())
+                .tratamiento(entity.getTratamiento())
+                .alergias(entity.getAlergias())
+                .antecedentes(entity.getAntecedentes())
+                .signosVitales(entity.getSignosVitales())
+                .examenesSolicitados(entity.getExamenesSolicitados())
+                .build())
+        .collect(Collectors.toList());
+}
+
     // Eliminar una historia clínica por ID
     public void delete(Long id) {
         repository.deleteById(id);

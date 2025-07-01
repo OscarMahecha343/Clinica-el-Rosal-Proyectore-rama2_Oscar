@@ -23,6 +23,13 @@ public class PrescripcionMedicaService {
                 .collect(Collectors.toList());
     }
 
+   public List<PrescripcionMedicaDTO> findByHistoria(Long idHistoria) {
+    return repository.findByIdHistoria(idHistoria)
+           .stream()
+           .map(this::convertToDto)
+           .collect(Collectors.toList());
+}
+
     // Guardar nueva prescripción médica
     public void save(PrescripcionMedicaDTO dto) {
         PrescripcionMedicaEntity entity = new PrescripcionMedicaEntity();
