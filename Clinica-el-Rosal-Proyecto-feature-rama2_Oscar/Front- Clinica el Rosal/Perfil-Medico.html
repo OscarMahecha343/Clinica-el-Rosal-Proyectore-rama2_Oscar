@@ -88,8 +88,7 @@
             <div class="card-header text-center">
                 <div class="d-grid gap-2">
                     <button id="btnAgendamiento" class="btn btn-outline-primary">Agendamiento</button>
-                    <button id="btnHistoriaClinica" class="btn btn-outline-primary">Historia Clínica /
-                        Diagnóstico</button>
+                    <button id="btnHistoriaClinica" class="btn btn-outline-primary">Historia Clínica / Diagnóstico</button>
                     <button id="btnExamenes" class="btn btn-outline-primary">Exámenes</button>
                 </div>
 
@@ -129,7 +128,7 @@
         </div>
     </div>
 
-    <div id="containerHistoriaClinica" class="container-hidden mt-4">
+    <div id="containerHistoriaClinica" class="container d-none mt-4">
         <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 900px;">
             <div class="card-header bg-info text-white text-center rounded-top-4">
                 <h4><i class="bi bi-journal-medical"></i> Historia Clínica</h4>
@@ -363,54 +362,58 @@
                                 </button>
                             </div>
                         </form>
+
+                         <div class="card shadow">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Exámenes del Paciente</h5>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle text-center table-hover">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>🧪 Tipo Examen</th>
+                                            <th>📅 Fecha del Examen</th>
+                                            <th>📂 Archivo</th>
+                                            <th>📄 Descargar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="examTableBody">
+                                        <!-- dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
                     </div>
                 </div>
 
 
-                <div id="containerExamenes" class="container-hidden mt-4 mx-auto">
-                    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 800px;">
-                        <div class="card-header bg-primary text-white text-center rounded-top-4">
-                            <h4><i class="bi bi-file-earmark-medical"></i> Exámenes</h4>
+                <div id="containerExamenes" class="container d-none mt-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Exámenes del Paciente</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="tipoIdentificacion" class="form-label">Tipo de Identificación</label>
-                                    <select id="tipoIdentificacion" class="form-select" required>
-                                        <option selected disabled>Seleccionar Tipo de Identificación</option>
-                                        <option value="CC">CC</option>
-                                        <option value="TI">TI</option>
-                                        <option value="Registro Civil">Registro Civil</option>
-                                        <option value="Cedula de Extranjeria">Cédula de Extranjería</option>
-                                        <option value="Pasaporte">Pasaporte</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="Identificacion" class="form-label">Identificación</label>
-                                    <input type="text" class="form-control" id="Identificacion"
-                                        placeholder="Ingresar el ID del paciente">
-                                </div>
-                            </div>
-                            <div class="mb-3 text-end">
-                                <button type="button" class="btn btn-outline-primary"
-                                    onclick="buscarPorIdentificacion()">
-                                    <i class="bi bi-search"></i> Buscar
-                                </button>
-                            </div>
+
                             <div class="table-responsive">
-                                <table id="tablaExamenes" class="table table-bordered table-hover">
-                                    <thead class="table-light text-center">
+                                <table class="table table-bordered align-middle text-center table-hover">
+                                    <thead class="table-primary">
                                         <tr>
-                                            <th>Exámenes</th>
-                                            <th>Fecha</th>
-                                            <th>Descarga</th>
+                                            <th>🧪 Tipo Examen</th>
+                                            <th>📅 Fecha del Examen</th>
+                                            <th>📂 Archivo</th>
+                                            <th>📄 Descargar</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!--Se Agregaran las Filas de Manera Dinamicas Por JS-->
+                                    <tbody id="examTableBody">
+                                        <!-- dinámico -->
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>

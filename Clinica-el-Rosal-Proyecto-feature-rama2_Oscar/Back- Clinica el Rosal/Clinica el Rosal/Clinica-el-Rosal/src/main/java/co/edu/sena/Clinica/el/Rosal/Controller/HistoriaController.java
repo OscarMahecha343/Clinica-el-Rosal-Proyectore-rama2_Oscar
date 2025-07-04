@@ -38,8 +38,15 @@ public class HistoriaController {
 
     @GetMapping("/paciente/{idPaciente}")
     public List<HistoriaDTO> getByPaciente(@PathVariable Long idPaciente) {
-    return service.getByPaciente(idPaciente);
-}
+        return service.getByPaciente(idPaciente);
+    }
+
+    @GetMapping("/paciente/{idPaciente}/fecha/{fecha}")
+    public HistoriaDTO getByPacienteAndFecha(
+            @PathVariable Long idPaciente,
+            @PathVariable String fecha) {
+        return service.getByPacienteAndFecha(idPaciente, fecha);
+    }
 
     // Crear nueva historia
     @PostMapping

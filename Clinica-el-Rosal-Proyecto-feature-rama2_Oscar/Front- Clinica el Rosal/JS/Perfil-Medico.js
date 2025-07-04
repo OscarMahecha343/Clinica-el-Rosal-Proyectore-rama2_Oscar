@@ -1,23 +1,17 @@
-// ================================
-// PERFIL-MEDICO.JS
-// ================================
-
-// 1. SECCIONES
 const secciones = {
   containerAgendamiento: document.getElementById("containerAgendamiento"),
   containerHistoriaClinica: document.getElementById("containerHistoriaClinica"),
   containerExamenes: document.getElementById("containerExamenes"),
 };
 
-// variable global para identificar historia clínica activa
 window.idHistoriaSeleccionada = null;
 
-// 2. OCULTAR TODAS LAS SECCIONES
+
 function ocultarTodo() {
   Object.values(secciones).forEach((sec) => sec.classList.add("d-none"));
 }
 
-// 3. MOSTRAR UNA SECCIÓN
+
 function mostrar(id) {
   ocultarTodo();
   const section = secciones[id];
@@ -27,7 +21,7 @@ function mostrar(id) {
   }
 }
 
-// 4. INICIO
+
 document.addEventListener("DOMContentLoaded", async () => {
   const userData = JSON.parse(localStorage.getItem("data-user"));
   console.log("🧠 Datos del usuario logueado:", userData);
@@ -43,21 +37,51 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("username").textContent = userData.username;
   document.getElementById("rol").textContent = userData.rol;
 
+  // recuperar paciente guardado
+  const idPacienteGuardado = localStorage.getItem("paciente-seleccionado");
+  if (idPacienteGuardado) {
+    window.idPacienteSeleccionado = parseInt(idPacienteGuardado);
+    console.log("🧩 idPaciente restaurado desde localStorage:", window.idPacienteSeleccionado);
+  }
+
   document.getElementById("calendario").addEventListener("change", cargarCitasMedico);
   document.getElementById("btnAgendamiento").addEventListener("click", () => mostrar("containerAgendamiento"));
   document.getElementById("btnHistoriaClinica").addEventListener("click", () => mostrar("containerHistoriaClinica"));
-  document.getElementById("btnExamenes").addEventListener("click", () => mostrar("containerExamenes"));
+  document.getElementById("btnExamenes").addEventListener("click", () => {
+    console.log("👉 Click en botón Exámenes, mostrando containerExamenes");
+    if (!window.idPacienteSeleccionado) {
+      alert("⚠️ Primero seleccione un paciente con asistencia 'Sí'");
+      return;
+    }
+    cargarExamenesDePaciente(window.idPacienteSeleccionado);
+    mostrar("containerExamenes");
+  });
 
   cargarCitasMedico();
 });
 
-// 5. LOGOUT
+
+function ocultarTodo() {
+  Object.values(secciones).forEach((sec) => sec.classList.add("d-none"));
+}
+
+
+function mostrar(id) {
+  ocultarTodo();
+  const section = secciones[id];
+  if (section) {
+    section.classList.remove("d-none");
+    section.classList.add("d-block");
+  }
+}
+
 function logout() {
   localStorage.removeItem("data-user");
+  localStorage.removeItem("paciente-seleccionado");
   window.location.href = "index.html";
 }
 
-// 6. CITAS
+
 async function cargarCitasMedico() {
   try {
     const userData = JSON.parse(localStorage.getItem("data-user"));
@@ -108,7 +132,7 @@ function convertirHoraAMPM(hora) {
   return `${h12}:${m} ${suf}`;
 }
 
-// 7. DATOS MÉDICO
+
 async function obtenerIdMedicoDesdeUsuario(idUsuario) {
   const response = await fetch(`http://localhost:8080/medico/usuario/${idUsuario}`);
   if (!response.ok) throw new Error("❌ Error obteniendo médico");
@@ -116,23 +140,22 @@ async function obtenerIdMedicoDesdeUsuario(idUsuario) {
   return medico.id;
 }
 
-// 8. MOSTRAR HISTORIA
+
 async function mostrarHistoriaClinicaDesdeCita(idCita) {
   try {
-    mostrar("containerHistoriaClinica");
+    mostrar("containerHistoriaClinica"); // ya lo hace
 
     const resCita = await fetch(`http://localhost:8080/cita/${idCita}`);
-    if (!resCita.ok) throw new Error("❌ Error obteniendo cita");
+    if (!resCita.ok) throw new Error("Error obteniendo cita");
 
     const cita = await resCita.json();
-    window.idHistoriaSeleccionada = cita.idHistoria;
 
     document.getElementById("paciente").textContent = cita.nombrePaciente ?? "-";
     document.getElementById("fechaConsulta").textContent = cita.fecha ?? "-";
     document.getElementById("medicoTratante").textContent = cita.nombreMedico ?? "-";
 
     const resPaciente = await fetch(`http://localhost:8080/paciente/${cita.idPaciente}`);
-    if (!resPaciente.ok) throw new Error("❌ Error obteniendo paciente");
+    if (!resPaciente.ok) throw new Error("Error obteniendo paciente");
 
     const paciente = await resPaciente.json();
     document.getElementById("telefono").textContent = paciente.telefono ?? "-";
@@ -144,11 +167,28 @@ async function mostrarHistoriaClinicaDesdeCita(idCita) {
     document.getElementById("afiliacion").textContent = paciente.idSeguro?.nombreSeguro ?? "-";
 
     window.idPacienteSeleccionado = paciente.id;
+    localStorage.setItem("paciente-seleccionado", paciente.id);
 
+   
+    const resHistoria = await fetch(
+      `http://localhost:8080/historia/paciente/${cita.idPaciente}/fecha/${cita.fecha}`
+    );
+    if (!resHistoria.ok) {
+      console.warn("⚠️ No se encontró historia clínica para esta cita");
+      window.idHistoriaSeleccionada = null;
+    } else {
+      const historia = await resHistoria.json();
+      window.idHistoriaSeleccionada = historia.id;
+      console.log("✅ Historia asociada:", historia.id);
+      await cargarPrescripcionesGuardadas(historia.id);
+    }
+
+
+    await cargarExamenesDePaciente(paciente.id);
+
+    
     const btnVerHistorial = document.getElementById("btnVerHistorial");
     btnVerHistorial.onclick = () => abrirModalHistoriales(paciente.id);
-
-    await cargarPrescripcionesGuardadas(window.idHistoriaSeleccionada);
 
   } catch (error) {
     console.error("❌ Error mostrando historia clínica:", error);
@@ -156,7 +196,7 @@ async function mostrarHistoriaClinicaDesdeCita(idCita) {
   }
 }
 
-// 9. CALCULAR EDAD
+
 function calcularEdad(fechaNacimiento) {
   if (!fechaNacimiento) return "";
   const nac = new Date(fechaNacimiento);
@@ -168,7 +208,7 @@ function calcularEdad(fechaNacimiento) {
   return `${edad} años`;
 }
 
-// 10. MODAL HISTORIAL
+
 async function abrirModalHistoriales(idPaciente) {
   try {
     const modal = new bootstrap.Modal(document.getElementById("modalHistoriales"));
@@ -201,7 +241,7 @@ async function abrirModalHistoriales(idPaciente) {
   }
 }
 
-// 11. GUARDAR HISTORIA
+
 async function guardarHistoriaClinica() {
   try {
     const idPaciente = window.idPacienteSeleccionado;
@@ -231,8 +271,11 @@ async function guardarHistoriaClinica() {
     });
     if (!res.ok) throw new Error("Error guardando historia clínica");
 
-    alert("✅ Historia clínica guardada correctamente");
+    alert("✅ Historia clínica guardada correctamente");    
     document.getElementById("formHistoriaClinica").reset();
+
+    const historiaCreada = await res.json();
+    window.idHistoriaSeleccionada = historiaCreada.id; 
 
   } catch (error) {
     console.error("❌ Error guardando historia clínica:", error);
@@ -240,7 +283,6 @@ async function guardarHistoriaClinica() {
   }
 }
 
-// 12. PRESCRIPCIÓN
 function agregarPrescripcionFila() {
   const medicamento = document.getElementById("medicamento").value.trim();
   const cantidad = document.getElementById("cantidad").value.trim();
@@ -334,6 +376,60 @@ async function cargarPrescripcionesGuardadas(idHistoria) {
   }
 }
 
-// ================================
-// FIN
-// ================================
+
+//TRAER EXAMENES//
+
+document.getElementById("btnExamenes").addEventListener("click", () => {
+    console.log("👉 Click en botón Exámenes");
+    if (!window.idPacienteSeleccionado) {
+      alert("⚠️ Primero seleccione un paciente con asistencia 'Sí'");
+      return;
+    }
+    cargarExamenesDePaciente(window.idPacienteSeleccionado);
+    mostrar("containerExamenes");
+});
+
+
+async function cargarExamenesDePaciente(idPaciente) {
+  try {
+    console.log("🔎 idPaciente recibido para exámenes:", idPaciente);
+
+    const res = await fetch(`http://localhost:8080/detalle_examenes/paciente/${idPaciente}`);
+    if (!res.ok) throw new Error("Error consultando exámenes del paciente");
+    const examenes = await res.json();
+
+    console.log("🧪 Exámenes de paciente:", examenes);
+
+    const tbody = document.getElementById("examTableBody");
+    tbody.innerHTML = "";
+
+    if (examenes.length === 0) {
+      tbody.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td colspan="4">No hay exámenes registrados para este paciente.</td>
+        </tr>
+      `);
+      return;
+    }
+
+    examenes.forEach((ex) => {
+      tbody.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${ex.nombreTipoExamen || "-"}</td>
+          <td>${ex.fechaExamen || "-"}</td>
+          <td>${ex.archivoExamen || "-"}</td>
+          <td>
+  <a href="http://localhost:8080/archivo/${ex.archivoExamen.trim()}" target="_blank" class="btn btn-primary btn-sm">
+    <i class="bi bi-download"></i> Descargar
+  </a>
+</td>
+        </tr>
+      `);
+    });
+    
+  } catch (error) {
+    console.error("❌ Error cargando exámenes del paciente:", error);
+    alert("No se pudieron cargar los exámenes. Verifica la conexión o revisa la base de datos.");
+  }
+}
+

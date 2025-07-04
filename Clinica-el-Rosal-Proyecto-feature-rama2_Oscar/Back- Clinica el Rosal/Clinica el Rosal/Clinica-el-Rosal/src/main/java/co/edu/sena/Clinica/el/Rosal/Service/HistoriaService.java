@@ -1,5 +1,6 @@
 package co.edu.sena.Clinica.el.Rosal.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,8 +54,7 @@ public class HistoriaService {
                 .antecedentes(entity.getAntecedentes())
                 .signosVitales(entity.getSignosVitales())
                 .examenesSolicitados(entity.getExamenesSolicitados())
-                .build()
-        ).collect(Collectors.toList());
+                .build()).collect(Collectors.toList());
     }
 
     // Obtener una historia por ID
@@ -79,9 +79,32 @@ public class HistoriaService {
     }
 
     public List<HistoriaDTO> getByPaciente(Long idPaciente) {
-    return repository.findByIdPaciente(idPaciente)
-        .stream()
-        .map(entity -> HistoriaDTO.builder()
+        return repository.findByIdPaciente(idPaciente)
+                .stream()
+                .map(entity -> HistoriaDTO.builder()
+                        .id(entity.getId())
+                        .idPaciente(entity.getIdPaciente())
+                        .idMedico(entity.getIdMedico())
+                        .fechaConsulta(entity.getFechaConsulta())
+                        .motivoConsulta(entity.getMotivoConsulta())
+                        .historialClinico(entity.getHistorialClinico())
+                        .diagnostico(entity.getDiagnostico())
+                        .tratamiento(entity.getTratamiento())
+                        .alergias(entity.getAlergias())
+                        .antecedentes(entity.getAntecedentes())
+                        .signosVitales(entity.getSignosVitales())
+                        .examenesSolicitados(entity.getExamenesSolicitados())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public HistoriaDTO getByPacienteAndFecha(Long idPaciente, String fechaStr) {
+        LocalDate fecha = LocalDate.parse(fechaStr);
+        HistoriaEntity entity = repository.findByIdPacienteAndFechaConsulta(idPaciente, fecha)
+                .orElseThrow(
+                        () -> new RuntimeException("Historia no encontrada para el paciente en la fecha indicada"));
+
+        return HistoriaDTO.builder()
                 .id(entity.getId())
                 .idPaciente(entity.getIdPaciente())
                 .idMedico(entity.getIdMedico())
@@ -94,9 +117,8 @@ public class HistoriaService {
                 .antecedentes(entity.getAntecedentes())
                 .signosVitales(entity.getSignosVitales())
                 .examenesSolicitados(entity.getExamenesSolicitados())
-                .build())
-        .collect(Collectors.toList());
-}
+                .build();
+    }
 
     // Eliminar una historia clínica por ID
     public void delete(Long id) {
