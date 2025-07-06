@@ -4,7 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import co.edu.sena.Clinica.el.Rosal.Entity.InventarioMedicamentosEntity;
 import co.edu.sena.Clinica.el.Rosal.Repository.InventarioMedicamentosRepository;
 import co.edu.sena.Clinica.el.Rosal.dto.InventarioMedicamentosDTO;
@@ -14,6 +19,16 @@ public class InventarioMedicamentosService {
 
     @Autowired
     private InventarioMedicamentosRepository repository;
+
+    @RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handle(Exception ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
+}
 
     /**
      * Obtener todos los registros del inventario.
@@ -57,8 +72,16 @@ public class InventarioMedicamentosService {
      * Eliminar un medicamento por su ID.
      */
     public void delete(Long id) {
-        repository.deleteById(id);
+    System.out.println("🩺 eliminando medicamento con id: " + id);
+
+    if (!repository.existsById(id)) {
+        throw new RuntimeException("No existe el medicamento con id: " + id);
     }
+    repository.deleteById(id);
+
+    System.out.println("✅ medicamento eliminado con id: " + id);
+}
+
 
     /**
      * Actualizar un medicamento existente.
@@ -80,4 +103,12 @@ public class InventarioMedicamentosService {
             repository.save(entity);
         }
     }
+
+    public void inactivar(Long id) {
+    var medicamento = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("No existe el medicamento con id: " + id));
+    medicamento.setEstado("Inactivo");
+    repository.save(medicamento);
+}
+
 }

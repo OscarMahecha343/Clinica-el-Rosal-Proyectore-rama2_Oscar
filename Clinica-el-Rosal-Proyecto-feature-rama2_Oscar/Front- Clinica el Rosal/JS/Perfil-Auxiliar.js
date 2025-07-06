@@ -6,6 +6,19 @@ let pacienteSeleccionado = null;
 document.getElementById("fecha").addEventListener("change", actualizarHorasDisponibles);
 document.getElementById("idMedico").addEventListener("change", actualizarHorasDisponibles);
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const userData = JSON.parse(localStorage.getItem("data-user"));
+    if (userData) {
+        document.getElementById("usuario").textContent = `${userData.nombre} ${userData.apellido}`;
+        document.getElementById("identificacion").textContent = userData.tipoIdentificacion;
+        document.getElementById("username").textContent = userData.username;
+        document.getElementById("rol").textContent = userData.rol;
+    } else {
+        alert("Datos del usuario no encontrados. Inicie sesión.");
+    }
+});
+
 function actualizarHorasDisponibles() {
     const fecha = document.getElementById("fecha").value;
     const idMedico = document.getElementById("idMedico").value;
@@ -19,17 +32,7 @@ function actualizarHorasDisponibles() {
         })
         .catch(err => console.error("Error al obtener horas ocupadas:", err));
 }
-document.addEventListener("DOMContentLoaded", function () {
-    const userData = JSON.parse(localStorage.getItem("data-user"));
-    if (userData) {
-        document.getElementById("usuario").textContent = `${userData.nombre} ${userData.apellido}`;
-        document.getElementById("identificacion").textContent = userData.tipoIdentificacion;
-        document.getElementById("username").textContent = userData.username;
-        document.getElementById("rol").textContent = userData.rol;
-    } else {
-        alert("Datos del usuario no encontrados. Inicie sesión.");
-    }
-});
+
 
 document.addEventListener("DOMContentLoaded", () => {
     cargarEspecialidades();
@@ -93,7 +96,7 @@ function mostrarSeccion(id) {
         if (id === "containerAfiliacion") {
             const btnCrear = document.getElementById("btnCrearUsuario");
             if (btnCrear) {
-                btnCrear.removeEventListener("click", crearAfiliacion); 
+                btnCrear.removeEventListener("click", crearAfiliacion);
                 btnCrear.addEventListener("click", crearAfiliacion);
             }
         }
@@ -121,7 +124,7 @@ function buscarPacientePorIdentificacion(idCampo) {
             console.log("🔍 Paciente encontrado:", data);
             pacienteSeleccionado = data;
 
-            
+
             const nombreLabel = document.getElementById("nombrePacienteMostrar");
             if (nombreLabel) {
                 nombreLabel.textContent = data.nombrePaci + " " + data.apellidoPaci;
@@ -261,9 +264,13 @@ function editarCita(idCita) {
             const btn = document.getElementById("btn-agendar");
             btn.textContent = "Actualizar";
 
-            const nuevoBoton = btn.cloneNode(true);
-            btn.parentNode.replaceChild(nuevoBoton, btn);
-            nuevoBoton.addEventListener("click", actualizarCita);
+            const btn = document.getElementById("btn-agendar");
+            btn.textContent = "Actualizar";
+
+            btn.replaceWith(btn.cloneNode(true));
+            const nuevoBtn = document.getElementById("btn-agendar");
+            nuevoBtn.textContent = "Actualizar";
+            nuevoBtn.addEventListener("click", actualizarCita);
         })
         .catch(err => {
             console.error("Error cargando cita:", err);
@@ -301,7 +308,7 @@ function actualizarCita() {
         estado: accionRadio.value.toUpperCase()
     };
 
-    console.log("Datos a enviar al backend (PUT):", cita);  
+    console.log("Datos a enviar al backend (PUT):", cita);
 
     fetch(`http://localhost:8080/cita/${cita.id}`, {
         method: "PUT",
@@ -504,11 +511,11 @@ function safeValue(id) {
     return el.value.trim();
 }
 
-  function construirObjetoPaciente() {
+function construirObjetoPaciente() {
     console.log("🩺 Validando campos para paciente...");
 
     const campos = [
-       "pacienteId", "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
+        "pacienteId", "nombre", "apellido", "tipo_identificacion", "identificacionPaciente", "genero", "fecha_nacimiento",
         "telefono", "correo", "direccion", "id_municipio", "tipo_afiliacion", "id_seguro",
         "grupo_sangineo", "alergias", "tipo_de_alergia"
     ];
@@ -536,7 +543,7 @@ function safeValue(id) {
 
     // Construcción del objeto
     const paciente = {
-         id: parseInt(document.getElementById("pacienteId")?.value) || null,
+        id: parseInt(document.getElementById("pacienteId")?.value) || null,
         nombrePaci: document.getElementById("nombre").value.trim(),
         apellidoPaci: document.getElementById("apellido").value.trim(),
         tipoIdentificacion: document.getElementById("tipo_identificacion").value.trim(),
@@ -579,35 +586,35 @@ function crearAfiliacion() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paciente)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(errorText => {
-                console.group("❌ Error al guardar paciente:");
-                console.error("📍 Código de estado HTTP:", response.status);
-                console.warn("📝 Respuesta del backend:");
-                console.error("❌ Respuesta del backend:", errorText); // <- CORREGIDO
-                console.groupEnd();
-                throw new Error("No se pudo guardar el paciente. Verifica los detalles en consola.");
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (!data || !data.id) {
-            throw new Error("Respuesta inválida del servidor. El ID no fue retornado.");
-        }
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(errorText => {
+                    console.group("❌ Error al guardar paciente:");
+                    console.error("📍 Código de estado HTTP:", response.status);
+                    console.warn("📝 Respuesta del backend:");
+                    console.error("❌ Respuesta del backend:", errorText); // <- CORREGIDO
+                    console.groupEnd();
+                    throw new Error("No se pudo guardar el paciente. Verifica los detalles en consola.");
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data || !data.id) {
+                throw new Error("Respuesta inválida del servidor. El ID no fue retornado.");
+            }
 
-        alert("✅ Paciente registrado exitosamente con ID: " + data.id);
-        document.getElementById("formAfiliacion").reset();
-    })
-    .catch(error => {
-    if (error.message.includes("paciente")) {
-        alert("⚠️ Ya existe un paciente con esa identificación.");
-    } else {
-        console.warn("⚠️ Error capturado en catch:", error.message || error);
-        alert("❌ Error al guardar paciente. Revisa la consola o comunícate con soporte.");
-    }
-});
+            alert("✅ Paciente registrado exitosamente con ID: " + data.id);
+            document.getElementById("formAfiliacion").reset();
+        })
+        .catch(error => {
+            if (error.message.includes("paciente")) {
+                alert("⚠️ Ya existe un paciente con esa identificación.");
+            } else {
+                console.warn("⚠️ Error capturado en catch:", error.message || error);
+                alert("❌ Error al guardar paciente. Revisa la consola o comunícate con soporte.");
+            }
+        });
 }
 
 function actualizarAfiliacion() {
@@ -615,7 +622,7 @@ function actualizarAfiliacion() {
 
     let paciente;
     try {
-        paciente = construirObjetoPaciente(); 
+        paciente = construirObjetoPaciente();
     } catch (err) {
         console.error("❌ Error al construir el objeto paciente:", err.message);
         alert("⚠️ Verifica los campos antes de actualizar.");
@@ -636,24 +643,24 @@ function actualizarAfiliacion() {
         },
         body: JSON.stringify(paciente)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(errorText => {
-                console.error("❌ Error del backend:", errorText);
-                throw new Error("No se pudo actualizar el paciente.");
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert("✅ Paciente actualizado exitosamente.");
-        limpiarFormularioAfiliacion();
-        console.log("🟢 Respuesta del servidor:", data);
-    })
-    .catch(error => {
-        console.warn("⚠️ Error al actualizar paciente:", error.message || error);
-        alert("❌ Falló la actualización del paciente.");
-    });
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(errorText => {
+                    console.error("❌ Error del backend:", errorText);
+                    throw new Error("No se pudo actualizar el paciente.");
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("✅ Paciente actualizado exitosamente.");
+            limpiarFormularioAfiliacion();
+            console.log("🟢 Respuesta del servidor:", data);
+        })
+        .catch(error => {
+            console.warn("⚠️ Error al actualizar paciente:", error.message || error);
+            alert("❌ Falló la actualización del paciente.");
+        });
 }
 
 function cargarMunicipios() {
@@ -697,80 +704,80 @@ document.addEventListener("DOMContentLoaded", function () {
 ///////examenes//////
 
 document.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("data-user"));
-  if (user && user.rol === "Perfil Auxiliar") {
-    const idAuxiliar = user.idAuxiliar || user.id;
-    document.getElementById("id_auxiliar").value = idAuxiliar;
-    document.getElementById("nombre_auxiliar").value = `${user.nombre} ${user.apellido}`;
-    console.log("👨‍⚕️ Auxiliar activo:", user.nombre + " " + user.apellido);
-  } else {
-    console.warn("⚠️ No se encontró un auxiliar activo en localStorage.");
-  }
+    const user = JSON.parse(localStorage.getItem("data-user"));
+    if (user && user.rol === "Perfil Auxiliar") {
+        const idAuxiliar = user.idAuxiliar || user.id;
+        document.getElementById("id_auxiliar").value = idAuxiliar;
+        document.getElementById("nombre_auxiliar").value = `${user.nombre} ${user.apellido}`;
+        console.log("👨‍⚕️ Auxiliar activo:", user.nombre + " " + user.apellido);
+    } else {
+        console.warn("⚠️ No se encontró un auxiliar activo en localStorage.");
+    }
 
-  cargarTiposDeExamen();
+    cargarTiposDeExamen();
 });
 
 function cargarTiposDeExamen() {
-  fetch("http://localhost:8080/detalle_examenes/tipo")
-    .then(res => res.json())
-    .then(data => {
-      const select = document.getElementById("idTipoExamen");
-      select.innerHTML = '<option value="" disabled selected>Seleccione tipo</option>';
-      data.forEach(e => {
-        const option = document.createElement("option");
-        option.value = e.id;
-        option.textContent = e.nombre;
-        select.appendChild(option);
-      });
-    })
-    .catch(err => console.error("❌ Error tipos de examen:", err));
+    fetch("http://localhost:8080/detalle_examenes/tipo")
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById("idTipoExamen");
+            select.innerHTML = '<option value="" disabled selected>Seleccione tipo</option>';
+            data.forEach(e => {
+                const option = document.createElement("option");
+                option.value = e.id;
+                option.textContent = e.nombre;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("❌ Error tipos de examen:", err));
 }
 
 function buscarIdentificacionExamen() {
-  const ced = document.getElementById("buscarIdentificacionExamen").value.trim();
-  if (!ced) return alert("Ingrese identificación válida");
-  console.log("🩺 idPaciente en el form:", document.getElementById("id_paciente").value);
+    const ced = document.getElementById("buscarIdentificacionExamen").value.trim();
+    if (!ced) return alert("Ingrese identificación válida");
+    console.log("🩺 idPaciente en el form:", document.getElementById("id_paciente").value);
 
-  // Paso 1: obtener paciente
-  fetch(`http://localhost:8080/paciente/identificacion/${ced}`)
-    .then(res => {
-      if (!res.ok) throw new Error("Paciente no encontrado");
-      return res.json();
-    })
-    .then(paciente => {
-      document.getElementById("id_paciente").value = paciente.id;
-      document.getElementById("nombre_paciente").value = `${paciente.nombrePaci} ${paciente.apellidoPaci}`;
+    // Paso 1: obtener paciente
+    fetch(`http://localhost:8080/paciente/identificacion/${ced}`)
+        .then(res => {
+            if (!res.ok) throw new Error("Paciente no encontrado");
+            return res.json();
+        })
+        .then(paciente => {
+            document.getElementById("id_paciente").value = paciente.id;
+            document.getElementById("nombre_paciente").value = `${paciente.nombrePaci} ${paciente.apellidoPaci}`;
 
-      // Paso 2: obtener exámenes por idPaciente
-      return fetch(`http://localhost:8080/detalle_examenes/paciente/${paciente.id}`);
-    })
-    .then(res => {
-      if (!res.ok) throw new Error("Error al obtener exámenes");
-      return res.json();
-    })
-    .then(examenes => {
-      console.log("✅ Exámenes encontrados:", examenes);
-      cargarTablaExamenes(examenes);
-    })
-    .catch(err => {
-      console.error("❌ Error:", err);
-      alert(err.message);
-      cargarTablaExamenes([]);  // limpia tabla en caso de error
-    });
+            // Paso 2: obtener exámenes por idPaciente
+            return fetch(`http://localhost:8080/detalle_examenes/paciente/${paciente.id}`);
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Error al obtener exámenes");
+            return res.json();
+        })
+        .then(examenes => {
+            console.log("✅ Exámenes encontrados:", examenes);
+            cargarTablaExamenes(examenes);
+        })
+        .catch(err => {
+            console.error("❌ Error:", err);
+            alert(err.message);
+            cargarTablaExamenes([]);  // limpia tabla en caso de error
+        });
 }
 
 function cargarTablaExamenes(examenes) {
-  const tbody = document.getElementById("examTableBodyAuxiliar");
-  tbody.innerHTML = "";
+    const tbody = document.getElementById("examTableBodyAuxiliar");
+    tbody.innerHTML = "";
 
-  if (!examenes || examenes.length === 0) {
-    tbody.innerHTML = "<tr><td colspan='7'>No hay exámenes registrados.</td></tr>";
-    return;
-  }
+    if (!examenes || examenes.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='7'>No hay exámenes registrados.</td></tr>";
+        return;
+    }
 
-  examenes.forEach(e => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
+    examenes.forEach(e => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
       <td>${e.nombreTipoExamen || "Sin tipo"}</td>
       <td>${e.fechaExamen}</td>
       <td>${e.archivoExamen}</td>
@@ -782,37 +789,37 @@ function cargarTablaExamenes(examenes) {
         " download class="btn btn-sm btn-outline-primary">PDF</a>
 
     </td>`;
-    tbody.appendChild(row);
-  });
+        tbody.appendChild(row);
+    });
 }
 
 document.getElementById("formularioExamenAuxiliar").addEventListener("submit", e => {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
 
-  const idPaciente = document.getElementById("id_paciente").value;
-console.log("🩺 Validación previa submit idPaciente:", idPaciente);
-if (!idPaciente) {
-    alert("⚠️ Por favor primero busque el paciente antes de subir el examen.");
-    return;
-}
+    const idPaciente = document.getElementById("id_paciente").value;
+    console.log("🩺 Validación previa submit idPaciente:", idPaciente);
+    if (!idPaciente) {
+        alert("⚠️ Por favor primero busque el paciente antes de subir el examen.");
+        return;
+    }
 
-  fetch("http://localhost:8080/detalle_examenes/upload", {
-    method: "POST",
-    body: formData
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Error al subir examen");
-      return res.text();
+    fetch("http://localhost:8080/detalle_examenes/upload", {
+        method: "POST",
+        body: formData
     })
-    .then(msg => {
-      alert("✅ " + msg);
-      buscarIdentificacionExamen();
-      form.reset();
-    })
-    .catch(err => {
-      console.error("❌ Error subir examen:", err);
-      alert(err.message);
-    });
+        .then(res => {
+            if (!res.ok) throw new Error("Error al subir examen");
+            return res.text();
+        })
+        .then(msg => {
+            alert("✅ " + msg);
+            buscarIdentificacionExamen();
+            form.reset();
+        })
+        .catch(err => {
+            console.error("❌ Error subir examen:", err);
+            alert(err.message);
+        });
 });
